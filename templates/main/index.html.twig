@@ -1,0 +1,142 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Live Event
+{% endblock %}
+
+{% block body %}
+	<header id="headerAccueil">
+		<section class="container">
+			<div class="row">
+				<div class="col-12">
+					<h1 class='text-center mt-3' id='titleAccueil'>Live event</h1>
+				</div>
+			</div>
+		</section>
+	</header>
+	<main id='mainAccueil'>
+		<section class='container rounded' id='section1Accueil'>
+			<div class='row'>
+				<div class='col text-white'>
+					<h2 class='text-center fw-bold pt-5'>Retrouvez tous nos evenement</h2>
+					{% if events is not empty %}
+						<div id="slider-container" class="slider">
+							<div onclick="prev()" class="control-prev-btn">
+								<i class="fas fa-arrow-left"></i>
+							</div>
+							{% for event in events %}
+								<div class="slide mx-xl-4 eventHover rounded-top text-center pt-4 d-flex flex-column justify-content-end" id='imageArticleDetails' style="background-image:url('{{asset('assets/uploads/evenements/')}}{{event.featuredImage}}')">
+									<p class='h3 fw-bold text-white text-center pb-3'>{{event.name}}</p>
+								</div>
+							{% endfor %}
+							<div onclick="next()" class="control-next-btn">
+								<i class="fas fa-arrow-right"></i>
+							</div>
+						</div>
+						<div class="overlay"></div>
+					{% else %}
+						<article class='text-center pt-4'>
+							<h3>Auncun Evenement pour le moment</h3>
+							<h4>Retrouvez tres prochainement tous nos evenements</h4>
+						</article>
+					{% endif %}
+				</div>
+			</div>
+		</section>
+		<section class='container text-white'>
+			<h2 class='text-center fw-bold text-white'>Qui sommes nous</h2>
+			<p class='fs-5 text-center'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi vel voluptatibus facilis, accusantium assumenda unde! Impedit ea reprehenderit itaque asperiores maxime praesentium veritatis eius odio. Incidunt in vel doloribus quo, obcaecati voluptatem deleniti blanditiis doloremque dolor, illum vero nobis voluptates saepe corporis error, aliquam molestias aspernatur quisquam quam ad labore!</p>
+			<div class='video-responsive'>
+				<iframe width="560" height="315" src="https://www.youtube.com/embed/mugXiHdvFO4?si=6H_XjOBq0qElw9Ub?rel=0&autoplay=1&mute=1" title="YouTube video player" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+			</div>
+		</section>
+
+		{% if sponsors is not empty %}
+			<section class='sectionAccueil container-fluid text-white'>
+				<div class='container-fluid'>
+					<div
+						class='row'>
+						{# col gauche #}
+						<div class="col-md-6 col-12">
+							<div id="carouselArticle" class="carousel slide carousel-fade" data-bs-ride="carousel">
+								<div class="carousel-inner">
+									{% for sponsor in sponsors %}
+										{% for images in sponsor.imageSponsors %}
+											<div class=" carousel-item {{ (loop.first ) ? 'active' : '' }}">
+												<img src="{{asset('assets/uploads/sponsors/diapo/' ~ images.name)}}" class="d-block w-100 " alt="...">
+											</div>
+										{% endfor %}
+									{% endfor %}
+								</div>
+								<button class="carousel-control-prev" type="button" data-bs-target="#carouselArticle" data-bs-slide="prev">
+									<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+									<span class="visually-hidden">Previous</span>
+								</button>
+								<button class="carousel-control-next" type="button" data-bs-target="#carouselArticle" data-bs-slide="next">
+									<span class="carousel-control-next-icon" aria-hidden="true"></span>
+									<span class="visually-hidden">Next</span>
+								</button>
+							</div>
+						</div>
+						{# col droite #}
+						<div class="col-md-6 col-12">
+							<h2 class='h1 fw-bolder p-3 mt-4'>Tous nos partenaires</h2>
+							<p class='px-3 fs-5'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus aliquid, odio porro sint provident nam. Dolorem culpa reiciendis minus consequatur, expedita dignissimos, incidunt blanditiis distinctio aliquam provident modi esse, repudiandae et in explicabo nostrum pariatur voluptates voluptatem! Voluptatibus, blanditiis corrupti. Ipsum quo magnam explicabo sunt enim dolor nobis nesciunt sapiente.</p>
+							<div class='text-end pt-3 pe-5'>
+								<a href="" class='px-3'>
+									<button class='btn btn-lg btn-danger'>C'est parti</button>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+		{% endif %}
+
+		{% if lastEvent is not empty %}
+			<section class='sectionAccueil'>
+				<article class='text-center text-white p-5' style="background-image:url('{{asset('assets/uploads/evenements/')}}{{lastEvent.featuredImage}}');" id='imageArticle'>
+					<p class='mt-5 h2'>{{lastEvent.date|date("d/m/Y")}}</p>
+					<h3 class='my-4 display-4'>La grande première</h3>
+					<h2 class='my-3 display-1 fw-bolder'>{{lastEvent.name}}</h2>
+					<ul class='d-flex list-unstyled justify-content-center mt-4 mb-5'>
+						<li class='mx-5 px-4'>
+							<a class='btn btn-lg btn-danger' href="">Découvrir l'évènement</a>
+						</li>
+						<li class='mx-5 px-4'>
+							<a class='btn btn-lg btn-danger' href="">Réserver vos places</a>
+						</li>
+					</ul>
+				</article>
+			</section>
+		{% endif %}
+
+		<section class='container-fluid p-5' id='newsLetterAccueil'>
+			<article class='mt-5 text-white row d-flex'>
+				<div class='col-12 col-lg-6 px-5'>
+					<h3 class='px-5 display-4'>Suivez-nous</h3>
+					<h2 class='px-5 display-3'>#LiveEvent</h2>
+					<ul class='px-5 d-flex list-unstyled '>
+						<li class='me-4'><img src="{{asset('assets/image/facebook_logo.png')}}" alt="reseausociauximage" width='50'></li>
+						<li class='me-4'><img src="{{asset('assets/image/instagram_logo.png')}}" alt="reseausociauximage" width='50'></li>
+						<li class='me-4'><img src="{{asset('assets/image/snapchat_logo.png')}}" alt="reseausociauximage" width='50'></li>
+						<li class='me-4'><img src="{{asset('assets/image/youtube_logo.png')}}" alt="reseausociauximage" width='50'></li>
+					</ul>
+				</div>
+				<div class='col-12 col-lg-6 px-5 text-center'>
+					<h4 class='display-4'>Newsletter</h4>
+					<p class='h5'>En vous inscrivont à la newsletter, vous recevrez toutes les actualitées sur nos évènements</p>
+					{{ form_start(formNewsletter) }}
+					<div class='d-flex justify-content-center'>
+						{{ form_row(formNewsletter.email) }}
+						{{ form_row(formNewsletter.go) }}
+					</div>
+					{{ form_end(formNewsletter) }}
+
+				</div>
+			</article>
+		</section>
+
+
+	</main>
+
+{% endblock %}

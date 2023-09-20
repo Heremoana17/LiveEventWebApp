@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{sponsor.name}}
+{% endblock %}
+
+{% block body %}
+	{% if sponsor.imageSponsors is not empty %}
+		<div style="background-image:url('{{asset('assets/uploads/sponsors/')}}{{sponsor.imageSponsors[0].name}}')" id='imageArticleDetails'></div>
+	{% endif %}
+	<section class="container mt-4">
+		<div class="row">
+			<div class="col">
+				<h1>{{sponsor.name}}</h1>
+				<hr>
+				<p>{{sponsor.description}}</p>
+			</div>
+		</div>
+	</section>
+	{% if sponsor.imageSponsors is not empty %}
+		<div id="carouselArticle" class="carousel slide" data-bs-ride="carousel">
+			<div class="carousel-inner">
+				{% for image in sponsor.imageSponsors %}
+					<div class=" carousel-item {{ (loop.first ) ? 'active' : '' }}">
+						<img src="{{asset('assets/uploads/sponsors/' ~ image.name)}}" class="d-block w-100 " alt="...">
+					</div>
+				{% endfor %}
+			</div>
+			<button class="carousel-control-prev" type="button" data-bs-target="#carouselArticle" data-bs-slide="prev">
+				<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+				<span class="visually-hidden">Previous</span>
+			</button>
+			<button class="carousel-control-next" type="button" data-bs-target="#carouselArticle" data-bs-slide="next">
+				<span class="carousel-control-next-icon" aria-hidden="true"></span>
+				<span class="visually-hidden">Next</span>
+			</button>
+		</div>
+	{% endif %}
+{% endblock %}

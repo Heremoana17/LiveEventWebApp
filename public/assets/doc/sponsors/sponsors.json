@@ -1,0 +1,28 @@
+{
+    "sponsors" : [
+        {
+            "nom" : "Instagram",
+            "description" : "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nisi, iusto? Tenetur odio, fuga quod ullam ad hic eos voluptatibus, aspernatur ratione consequuntur accusamus porro repellat quasi et repudiandae suscipit corrupti!"
+        },
+        {
+            "nom" : "Desperados",
+            "description" : "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nisi, iusto? Tenetur odio, fuga quod ullam ad hic eos voluptatibus, aspernatur ratione consequuntur accusamus porro repellat quasi et repudiandae suscipit corrupti!"
+        },
+        {
+            "nom" : "NationSound",
+            "description" : "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nisi, iusto? Tenetur odio, fuga quod ullam ad hic eos voluptatibus, aspernatur ratione consequuntur accusamus porro repellat quasi et repudiandae suscipit corrupti!"
+        },
+        {
+            "nom" : "Ville de Paris",
+            "description" : "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nisi, iusto? Tenetur odio, fuga quod ullam ad hic eos voluptatibus, aspernatur ratione consequuntur accusamus porro repellat quasi et repudiandae suscipit corrupti!"
+        },
+        {
+            "nom" : "Symfony",
+            "description" : "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nisi, iusto? Tenetur odio, fuga quod ullam ad hic eos voluptatibus, aspernatur ratione consequuntur accusamus porro repellat quasi et repudiandae suscipit corrupti!"
+        },
+        {
+            "nom" : "React",
+            "description" : "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nisi, iusto? Tenetur odio, fuga quod ullam ad hic eos voluptatibus, aspernatur ratione consequuntur accusamus porro repellat quasi et repudiandae suscipit corrupti!"
+        }
+    ]
+}

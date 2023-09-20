@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edition d'un evenement
+{% endblock %}
+
+{% block body %}
+	<section class="container mt-4">
+		<div class="row">
+			<div class="col">
+				<h1>Edition d'un evenement</h1>
+				<hr>
+				{{ form_start(form) }}
+				{{ form_row(form.name) }}
+				{{ form_row(form.introduction) }}
+				{{ form_row(form.content) }}
+				{{ form_row(form.date) }}
+				{{ form_row(form.category) }}
+				{{ form_row(form.featuredImage) }}
+				{{ form_row(form.images) }}
+				{% if new is same as(false) %}
+					<h2>Images :</h2>
+					<section class='d-flex border rounded mb-3'>
+						{% for image in event.imageEvents %}
+							<div class='m-3 row'>
+								<img src="{{asset('assets/uploads/evenements/diapo/' ~ image.name)}}" alt="image.name" width="150" class='p-0'>
+								<a href="{{path('app_delete_event_image', {id : image.id})}}" data-delete data-token="{{ csrf_token('delete' ~ image.id) }}" class=' rounded-bottom bg-danger text-decoration-none text-white p-1 text-center'>Supprimer</a>
+							</div>
+						{% endfor %}
+					</section>
+				{% endif %}
+				{{ form_end(form) }}
+			</div>
+		</div>
+	</section>
+{% endblock %}
+{% block javascripts %}
+	<script src='{{asset('assets/js/images.js')}}' defer></script>
+{% endblock %}

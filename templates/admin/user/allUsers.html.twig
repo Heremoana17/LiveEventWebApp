@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Utilisateurs
+{% endblock %}
+
+{% block body %}
+	<header class='container pt-5 pb-4'>
+		<article class='row'>
+			<h1 class='fw-bold col ps-0'>Liste de tous les categories</h1>
+			<hr>
+		</article>
+		<a class='btn btn-primary row' href="{{path('app_adminEditUser')}}">Cree un nouveau utilisateur</a>
+	</header>
+	<main class="container">
+		<section class='row d-flex justify-content-between'>
+			{% for user in users %}
+				<article class="col-4 card border-3 border-primary my-3 px-0 h-100" style="max-width: 18rem;">
+					<section class="card-header ">
+						<h3>{{user.firstName}}</h3>
+						<h3>{{user.lastName}}</h3>
+					</section>
+					<section class="card-body text-primary">
+						<p class="card-text">Cree le :
+							{{user.createdAt|date("d/m/Y")}}</p>
+					</section>
+					<div class="card-footer d-flex flex-column">
+						<a href="{{path('app_userDetails', {id : user.id})}}" class="btn btn-primary my-1">Voir plus de details</a>
+						<a href="{{path('app_editUser', {id: user.id})}}" class="btn btn-secondary my-1">Modifier</a>
+						<!-- Button trigger modal -->
+						<button type="button" class="btn btn-danger my-1" data-bs-toggle="modal" data-bs-target="#exampleModal{{user.id}}">
+							Supprimer
+						</button>
+						<!-- Modal -->
+						<div class="modal fade" id="exampleModal{{user.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+							<div class="modal-dialog modal-dialog-centered">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h1 class="modal-title fs-5" id="exampleModalLabel">Confirmation</h1>
+										<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+									</div>
+									<div class="modal-body">
+										Etes-vous sur de vouloir supprimer cet utilisateur ?
+									</div>
+									<div class="modal-footer">
+										<a href="{{path('app_deletUser', {id : user.id})}}" class="btn btn-danger my-1">Supprimer</a>
+										<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Non</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</article>
+			{% endfor %}
+		</section>
+		<div class="d-flex justify-content-center">{{knp_pagination_render(users)}}</div>
+	</main>
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{event.name}}
+{% endblock %}
+
+{% block body %}
+	{% if event.imageEvents is not empty %}
+		<div style="background-image:url('{{asset('assets/uploads/evenements/')}}{{event.imageEvents[0].name}}')" id='imageArticle'></div>
+	{% endif %}
+	<section class="container mt-4">
+		<div class="row">
+			<div class="col">
+				<h1>{{event.name}}</h1>
+				<hr>
+				<p>{{event.introduction}}</p>
+				<p>{{event.content}}</p>
+				<hr>
+				<p>Publié le :
+					{{event.createdAt|date("d/m/Y")}}</p>
+			</div>
+		</div>
+	</section>
+	{% if event.imageEvents is not empty %}
+		<div id="carouselArticle" class="carousel slide" data-bs-ride="carousel">
+			<div class="carousel-inner">
+				{% for image in event.imageEvents %}
+					<div class=" carousel-item {{ (loop.first ) ? 'active' : '' }}">
+						<img src="{{asset('assets/uploads/evenements/diapo/' ~ image.name)}}" class="d-block w-100 " alt="...">
+					</div>
+				{% endfor %}
+			</div>
+			<button class="carousel-control-prev" type="button" data-bs-target="#carouselArticle" data-bs-slide="prev">
+				<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+				<span class="visually-hidden">Previous</span>
+			</button>
+			<button class="carousel-control-next" type="button" data-bs-target="#carouselArticle" data-bs-slide="next">
+				<span class="carousel-control-next-icon" aria-hidden="true"></span>
+				<span class="visually-hidden">Next</span>
+			</button>
+		</div>
+	{% endif %}
+{% endblock %}

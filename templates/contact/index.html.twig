@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Contact
+{% endblock %}
+
+{% block body %}
+	<main class='container-fluid'>
+		<section class="row d-flex">
+			<div class='col p-5'>
+				<h2 class='h1 fw-bold px-5 pt-4'>Contact</h2>
+				<br>
+				<h4 class='px-5'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint provident officiis veniam, corporis repellendus corrupti voluptatibus sequi distinctio!
+				</h4>
+				<br>
+				<p class='px-5'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae possimus veritatis esse, voluptate doloribus laboriosam optio reiciendis ipsa nulla molestiae.</p>
+				<br>
+				<h4 class='px-5'>Vous pouvez aussi nous contacter sur :</h4>
+				<ul class='px-5 pt-2 d-flex list-unstyled '>
+					<li class='me-4'><img src="{{asset('assets/image/facebook_logo.png')}}" alt="" width='50'></li>
+					<li class='me-4'><img src="{{asset('assets/image/instagram_logo.png')}}" alt="" width='50'></li>
+					<li class='me-4'><img src="{{asset('assets/image/youtube_logo.png')}}" alt="" width='50'></li>
+				</ul>
+			</div>
+			<div class='col p-0'>
+				<div class='p-5' id="bg-image"></div>
+				<div class="col text-white p-5" id='bg-text'>
+					<h2 class='h1 fw-bold'>Message</h2>
+					<p>Envoyer nous un message</p>
+					{{ form_start(form) }}
+					{{ form_end(form) }}
+				</div>
+			</div>
+		</section>
+		<section>
+			<h2></h2>
+		</section>
+	</main>
+{% endblock %}

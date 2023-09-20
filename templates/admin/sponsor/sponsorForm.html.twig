@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edition d'un sponsor
+{% endblock %}
+
+{% block body %}
+	<section class="container mt-4">
+		<div class="row">
+			<div class="col">
+				<h1>Edition d'un sponsor</h1>
+				<hr>
+				{{ form_start(form) }}
+				{{ form_row(form.name) }}
+				{{ form_row(form.description) }}
+				{% if sponsor.logo is empty %}
+					{{ form_row(form.logo)}}
+				{% else %}
+					{{ form_row(form.logo, {'attr' : {'disabled' : 'diasabled'}})}}
+				{% endif %}
+				{% if new is same as(false) %}
+					<h2>Logo :</h2>
+					<section class='mb-3'>
+						<div class='m-3 '>
+							<img src="{{asset('assets/uploads/sponsors/' ~ sponsor.logo)}}" alt="image.name" width="150" class='p-0'>
+						</div>
+					</section>
+				{% endif %}
+				{{ form_row(form.images) }}
+				{% if new is same as(false) %}
+					<h2>Images :</h2>
+					<section class='d-flex border rounded mb-3'>
+						{% for image in sponsor.imageSponsors %}
+							<div class='m-3 row'>
+								<img src="{{asset('assets/uploads/sponsors/diapo/' ~ image.name)}}" alt="image.name" width="150" class='p-0'>
+								<a href="{{path('app_delete_sponsor_image', {id : image.id})}}" data-delete data-token="{{ csrf_token('delete' ~ image.id) }}" class=' rounded-bottom bg-danger text-decoration-none text-white p-2 text-center'>Supprimer</a>
+							</div>
+						{% endfor %}
+					</section>
+				{% endif %}
+				{{ form_end(form) }}
+			</div>
+		</div>
+	</section>
+{% endblock %}
+{% block javascripts %}
+	<script src='{{asset('assets/js/images.js')}}' defer></script>
+{% endblock %}

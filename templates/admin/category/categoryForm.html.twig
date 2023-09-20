@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edition category
+{% endblock %}
+
+{% block body %}
+	<header class='container pt-5 pb-4'>
+		<article class='row'>
+			<h1 class='fw-bold col ps-0'>Edition d'une category</h1>
+			<hr>
+		</article>
+	</header>
+	<section class="container">
+		<div class="row">
+			<div class="col-12">
+				{{ form_start(form) }}
+				{{ form_end(form) }}
+			</div>
+		</div>
+	</section>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription
+{% endblock %}
+
+{% block body %}
+	<section class="container mt-4">
+		<div class="row">
+			<div class="col-12">
+				<h1>Creation d'un nouveau utilisateur</h1>
+				<hr>
+				{{ form_start(form) }}
+				<div class="d-flex">
+					<fieldset class='col-5 px-2'>
+						<legend>Identité</legend>
+						{{ form_row(form.lastname) }}
+						{{ form_row(form.firstname) }}
+						{{ form_row(form.email) }}
+					</fieldset>
+					<fieldset class='col-5 px-2'>
+						<legend>Coordonnées</legend>
+						{{ form_row(form.address) }}
+						{{ form_row(form.zipcode) }}
+						{{ form_row(form.city) }}
+					</fieldset>
+				</div>
+				{{ form_end(form) }}
+			</div>
+		</div>
+	</section>
+{% endblock %}

@@ -1,0 +1,137 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edition article
+{% endblock %}
+
+{% block body %}
+	<header class='container pt-5 pb-4'>
+		<article class='row'>
+			<h1 class='fw-bold col ps-0'>Edition d'un article</h1>
+			<hr>
+		</article>
+	</header>
+	<main class="container">
+		<section class="row">
+			<article class="col-12 px-0">
+				{{ form_start(articleForm) }}
+				{{ form_row(articleForm.title) }}
+				{{ form_row(articleForm.introduction) }}
+				{{ form_row(articleForm.content) }}
+
+				<section>
+					{{ form_label(articleForm.featuredImage, 'Image en avant' ) }}
+					<span>
+						<i class="fa-solid fa-info ms-2 mb-2 btn btn-sm border" type="button" data-bs-toggle="modal" data-bs-target="#imagesPrincipalModal"></i>
+						<section class="modal fade" id="imagesPrincipalModal" tabindex="-1" aria-labelledby="imagesPrincipalModal" aria-hidden="true">
+							<div class="modal-dialog modal-dialog-centered modal-xl">
+								<div class="modal-content">
+									<article class="modal-header ">
+										<h3 class="modal-title fs-3 fw-bold" id="imagesPrincipalModal">Information</h3>
+										<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+									</article>
+									<article class="modal-body">
+										<h4 class='fw-bold'>Ce champ permet d'ajouter une image principale de votre article</h4>
+									</article>
+									<section class="modal-footer">
+										<button type="button" class="btn btn-primary" data-bs-dismiss="modal">Ok</button>
+									</section>
+								</div>
+							</div>
+						</section>
+					</span>
+					{{ form_row(articleForm.featuredImage) }}
+				</section>
+				{% if new is same as(false) %}
+					<h2>Image en avant :</h2>
+					<section class='border rounded mb-3 d-inline-flex'>
+						<div class='m-3 row'>
+							<img src="{{asset('assets/uploads/articles/' ~ article.featuredImage) }}" alt="image.name" class='p-0 rounded' style="width:300px">
+						</div>
+					</section>
+				{% endif %}
+
+				<section>
+					{{ form_label(articleForm.featuredImage, 'Images' ) }}
+					<span>
+						<i class="fa-solid fa-info ms-2 mb-2 btn btn-sm border" type="button" data-bs-toggle="modal" data-bs-target="#imagesModal"></i>
+						<section class="modal fade" id="imagesModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+							<div class="modal-dialog modal-dialog-centered modal-xl">
+								<div class="modal-content">
+									<article class="modal-header ">
+										<h3 class="modal-title fs-3 fw-bold" id="exampleModalLabel">Information</h3>
+										<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+									</article>
+									<article class="modal-body">
+										<h4 class='fw-bold'>Ce champ permet d'ajouter des images au diaporama de votre article</h4>
+										<br>
+										<h5>Attention :</h5>
+										<p>Il est fortement coneiller d'ajouter des images au format 16:9. Autrment dit, le format des images doit être de 1024x576 (L*h).</p>
+										<p>Neanmoin, si le format n'est pas respecter :
+										</p>
+										<ul>
+											<li>Les images trop grandes seront rogner au format 16:9</li>
+											<li>Les images trop petite seront border de bandes noir</li>
+										</ul>
+										<p>Si vous n'avez pas d'images au bon format, vous pouvez vous rendre sur ce site qui permet de redimentionner les images au format desiré :
+											<a href="https://www.resizepixel.com/f">ResizePixel</a>
+										</p>
+										<p>Conseiller : si vous choisisez cette solution, pour un meilleur rendu il est préférable de selectionner le parametre 'largeur' à 1024, et laisser la hauteur se regler automatiquement.</p>
+									</article>
+									<section class="modal-footer">
+										<button type="button" class="btn btn-primary" data-bs-dismiss="modal">Ok</button>
+									</section>
+								</div>
+							</div>
+						</section>
+					</span>
+					{{ form_row(articleForm.images) }}
+				</section>
+				{% if new is same as(false) %}
+					<h2>Images :</h2>
+					<section class='d-inline-flex flex-wrap justify-content-center border rounded mb-3'>
+						{% for image in article.images %}
+							<div class='m-3 d-flex flex-column '>
+								<img src="{{asset('assets/uploads/articles/diapo/' ~ image.name) }}" alt="image.name" class='p-0 rounded-top' style="width:400px">
+								<a href="{{path('app_delete_article_image', {id: image.id})}}" data-delete data-token="{{ csrf_token('delete' ~ image.id) }}" class='rounded-bottom bg-danger text-decoration-none text-white p-1 text-center'>Supprimer</a>
+							</div>
+						{% endfor %}
+					</section>
+				{% endif %}
+
+				<section>
+					{{ form_label(articleForm.video, 'Video' ) }}
+					<span>
+						<i class="fa-solid fa-info ms-2 mb-2 btn btn-sm border" type="button" data-bs-toggle="modal" data-bs-target="#videoModal"></i>
+						<section class="modal fade" id="videoModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+							<div class="modal-dialog modal-dialog-centered modal-xl">
+								<div class="modal-content">
+									<article class="modal-header ">
+										<h3 class="modal-title fs-3 fw-bold" id="exampleModalLabel">Information</h3>
+										<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+									</article>
+									<article class="modal-body">
+										<h4 class='fw-bold'>Ce champ permet d'ajouter une video à votre article</h4>
+										<br>
+										<h5>Attention :</h5>
+										<p>Veuillez rentrer le lien vers une vidéo existante.</p>
+										<p>Exemple : https://www.youtube.com/watch?v=jYwrz7muVw8&t=2011s</p>
+									</article>
+									<section class="modal-footer">
+										<button type="button" class="btn btn-primary" data-bs-dismiss="modal">Ok</button>
+									</section>
+								</div>
+							</div>
+						</section>
+					</span>
+					{{ form_row(articleForm.video) }}
+				</section>
+				{{ form_row(articleForm.categories) }}
+				{{ form_end(articleForm) }}
+			</article>
+		</section>
+	</main>
+
+{% endblock %}
+{% block javascripts %}
+	<script src='{{asset('assets/js/images.js')}}' defer></script>
+{% endblock %}

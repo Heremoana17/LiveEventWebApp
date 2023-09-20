@@ -8,7 +8,7 @@ framework:
                 dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
                 options:
                     use_notify: true
-                    check_delayed_interval: 60000
+                    check_delayed_interval: 0
                 retry_strategy:
                     max_retries: 3
                     multiplier: 2
@@ -16,7 +16,7 @@ framework:
             # sync: 'sync://'
 
         routing:
-            Symfony\Component\Mailer\Messenger\SendEmailMessage: async
+            # Symfony\Component\Mailer\Messenger\SendEmailMessage: async
             Symfony\Component\Notifier\Message\ChatMessage: async
             Symfony\Component\Notifier\Message\SmsMessage: async
 

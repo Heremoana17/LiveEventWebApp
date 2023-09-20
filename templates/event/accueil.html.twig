@@ -1,0 +1,120 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Event
+{% endblock %}
+
+{% block body %}
+	<header id='eventAccueilImg'></header>
+	<main id='eventMain'>
+		<section id='section1EventAccueil' class='d-flex p-4 '>
+			<article class='col col-lg-8 p-4'>
+				<h1 class='text-center fw-bold fs-1'>Music festival</h1>
+				<p class='ms-4 mt-4 fs-5'>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Commodi consectetur accusamus vero at fugit illo odit sapiente impedit qui veritatis voluptas illum officiis, natus, sit magnam error reprehenderit! Labore magnam et pariatur eum ullam aliquid culpa tenetur esse, fuga facere praesentium quidem explicabo eius assumenda minima reprehenderit non neque voluptas optio totam, adipisci facilis ea. Provident omnis repellat.
+				</p>
+				<ul class='d-flex list-unstyled mt-4'>
+					<li>
+						<a href=""><img src="{{asset('assets/image/facebook_logo.png')}}" alt="" width='50' class='mx-4 rounded-pill'></a>
+					</li>
+					<li>
+						<a href=""><img src="{{asset('assets/image/instagram_logo.png')}}" alt="" width='50' class='mx-4 rounded-pill'></a>
+					</li>
+					<li>
+						<a href=""><img src="{{asset('assets/image/snapchat_logo.png')}}" alt="" width='50' class='mx-4 rounded-pill'></a>
+					</li>
+					<li>
+						<a href=""><img src="{{asset('assets/image/twitter_logo.png')}}" alt="" width='50' class='mx-4 rounded-pill'></a>
+					</li>
+					<li>
+						<a href=""><img src="{{asset('assets/image/youtube_logo.png')}}" alt="" width='50' class='mx-4 rounded-pill'></a>
+					</li>
+					<li>
+						<a href=""><img src="{{asset('assets/image/linkedin_logo.png')}}" alt="" width='50' class='mx-4 rounded-pill'></a>
+					</li>
+				</ul>
+			</article>
+			<img src="{{asset('assets/image/jk.jpg')}}" alt="music fest" id='imgSection1' class='col-sm-4 d-none d-lg-block p-5 mx-auto'>
+		</section>
+
+		{% if events is not empty %}
+			<section id='section2EventAccueil'>
+				<div class='container-fluid'>
+					<div class='row d-flex justify-content-around px-5 mx-5'>
+						{% for event in events %}
+							<a href="{{path('app_detailEvent', {id:event.id})}}" class='text-decoration-none text-center eventHover col-12 col-lg-6 col-xl-3 my-3'>
+								<div class="card mx-auto d-flex flex-column justify-content-end" style="width: 18rem; height: 26rem; background-image:url('{{asset('assets/uploads/evenements/')}}{{event.featuredImage}}')" id='backgroundImgEvent'>
+									<div class=" ">
+										<h5 class="card-title text-white h2 fw-bolder mb-3">{{event.name}}</h5>
+									</div>
+								</div>
+							</a>
+						{% endfor %}
+					</div>
+				</div>
+				<div class='text-end container my-4'>
+					<a class='text-decoration-none text-black'>Voir plus d'evenement</a>
+				</div>
+			</section>
+		{% endif %}
+
+		{% if lastArticleResumes is not empty %}
+			<section id='section3EventAccueil'>
+				<div class='container-fluid'>
+					<div class='row'>
+						<div class="col-md-6 col-12">
+							<h2 class='h1 fw-bolder p-3 mt-4'>{{lastArticleResumes.title}}</h2>
+							<p class='px-3'>{{lastArticleResumes.introduction}}</p>
+							<div class='text-end pt-3 pe-5'>
+								<a href="{{path('app_article_details', {slug: lastArticleResumes.slug})}}" class='px-3'>
+									<button class='btn btn-lg btn-danger'>C'est parti</button>
+								</a>
+							</div>
+						</div>
+						<div class="col-md-6 col-12">
+							<div class='video-responsive'>
+								<iframe width="560" height="315" src="{{lastArticleResumes.video}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+		{% endif %}
+
+		{% if articles is not empty %}
+			<section class='container-fluid'>
+				<section class="row">
+					{% for article in articles %}
+						<a href="{{path('app_article_details', {slug: article.slug})}}" class='col-12 px-0 articleHover text-decoration-none'>
+							<section class='py-4 bgImg' {% if article.images is not empty %} style="background-image:url('{{asset('assets/uploads/articles/diapo/')}}{{article.images[0].name}}')" {% endif %}></section>
+							<section class='text-white bgText'>
+								<h2 class='px-3 text-white fw-bolder'>{{article.title}}</h2>
+								<p class='px-3 text-white'>{{article.introduction}}</p>
+								<p class='px-3 text-white'>Category :
+									{{article.categories.name}}</p>
+								<p class='px-3 text-white'>Publier le
+									{{article.createdAt|date("d/m/Y")}}
+									/ par :{{article.author}}</p>
+							</section>
+						</a>
+					{% endfor %}
+				</section>
+			</section>
+		{% endif %}
+
+		{% if sponsors is not empty %}
+			<section class="container-fluid bg-primary bg-opacity-75 pt-5 text-white">
+				<div class="row">
+					<div class="col p-4">
+						<h2 class='text-center fw-bolder'>Tous nos partenaires</h2>
+						<p class='text-center'>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Modi laborum itaque voluptatem accusamus suscipit vero pariatur. Quos perferendis, eius aspernatur, totam tenetur id, omnis adipisci quis qui officia tempore impedit.</p>
+						<div class='d-flex justify-content-evenly py-4'>
+							{% for sponsor in sponsors %}
+								<img src="{{asset('assets/uploads/sponsors/' ~ sponsor.logo)}}" alt="logosponsor" width='75' class='rounded mx-2'>
+							{% endfor %}
+						</div>
+					</div>
+				</div>
+			</section>
+		{% endif %}
+
+	</main>
+{% endblock %}

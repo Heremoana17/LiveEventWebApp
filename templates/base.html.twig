@@ -1,16 +1,137 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
-        {% block stylesheets %}
-        {% endblock %}
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>
+			{% block title %}Welcome!
+			{% endblock %}
+		</title>
+		<link rel="icon" href="{{asset('assets/image/logo.jpg')}}">
+		<link
+		href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+		{# feuilles de styles #}
+		<link rel="stylesheet" href="{{asset('assets/css/style.css')}}">
+		<link
+		rel="stylesheet" href="{{asset('assets/css/stylesNav.css')}}">
+		{# feuilles de style pour les fonts #}
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet"> {% block stylesheets %}{% endblock %}
+		{# script js #}
+		<script src='{{asset('assets/js/script.js')}}' defer></script>
+		<script src='{{asset('assets/js/scriptsNav.js')}}' defer></script>
+		<script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+		{# script pour les fomulaires #}
+		{% block javascripts %}{% endblock %}
+	</head>
+	<body>
+		{% include '_partials/_nav.html.twig' %}
+		<div id="layoutSidenav">
+			{% if is_granted('ROLE_ADMIN') %}
+				<div id="layoutSidenav_nav">
+					<nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+						<div class="sb-sidenav-menu">
+							<div class="nav">
+								<div class="sb-sidenav-menu-heading">Rédaction</div>
+								<a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+									<div class="sb-nav-link-icon">
+										<i class="fas fa-columns"></i>
+									</div>
+									Article
+									<div class="sb-sidenav-collapse-arrow">
+										<i class="fas fa-angle-down"></i>
+									</div>
+								</a>
+								<div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+									<nav class="sb-sidenav-menu-nested nav">
+										<a class="nav-link" href="{{path('app_article')}}">Tous les articles</a>
+										<a class="nav-link" href="{{path('app_article_mine')}}">Mes articles</a>
+										<a class="nav-link" href="{{path('app_editArticle')}}">Nouveau article</a>
+									</nav>
+								</div>
+								<a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseCategory" aria-expanded="false" aria-controls="collapseCategory">
+									<div class="sb-nav-link-icon">
+										<i class="fas fa-columns"></i>
+									</div>
+									Category
+									<div class="sb-sidenav-collapse-arrow">
+										<i class="fas fa-angle-down"></i>
+									</div>
+								</a>
+								<div class="collapse" id="collapseCategory" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+									<nav class="sb-sidenav-menu-nested nav">
+										<a class="nav-link" href="{{path('app_category')}}">Toutes les categories</a>
+										<a class="nav-link" href="{{path('app_category_form')}}">Nouvelle category</a>
+									</nav>
+								</div>
 
-        {% block javascripts %}
-        {% endblock %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-    </body>
+								<div class="sb-sidenav-menu-heading">Evenement</div>
+								<a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseEvent" aria-expanded="false" aria-controls="collapseEvent">
+									<div class="sb-nav-link-icon">
+										<i class="fas fa-columns"></i>
+									</div>
+									Event
+									<div class="sb-sidenav-collapse-arrow">
+										<i class="fas fa-angle-down"></i>
+									</div>
+								</a>
+								<div class="collapse" id="collapseEvent" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+									<nav class="sb-sidenav-menu-nested nav">
+										<a class="nav-link" href="{{path('app_allEvents')}}">Tout les evenements</a>
+										<a class="nav-link" href="{{path('app_editEvent')}}">Nouvel evenement</a>
+									</nav>
+								</div>
+
+								<div class="sb-sidenav-menu-heading">Utilisateurs</div>
+								<a class="nav-link" href="{{path('app_user')}}">
+									<div class="sb-nav-link-icon">
+										<i class="fas fa-chart-area"></i>
+									</div>
+									Voir tous les utilisateurs
+								</a>
+
+								<div class="sb-sidenav-menu-heading">Sponsors</div>
+								<a class="nav-link" href="{{path('app_allSponsor')}}">
+									<div class="sb-nav-link-icon">
+										<i class="fas fa-chart-area"></i>
+									</div>
+									Voir tous les sponsors
+								</a>
+
+								<div class="sb-sidenav-menu-heading">Requêtes</div>
+								<a class="nav-link" href="{{path('app_requete')}}">
+									<div class="sb-nav-link-icon">
+										<i class="fas fa-chart-area"></i>
+									</div>
+									Voir toutes les requêtes
+								</a>
+							</div>
+						</div>
+						<div class="sb-sidenav-footer">
+							<div class="small">Logged in as:</div>
+							Start Bootstrap
+						</div>
+					</nav>
+				</div>
+			{% endif %}
+			<div id="layoutSidenav_content">
+				<main>
+					{% if app.user and app.user.isVerified==false %}
+						<div class='alert alert-warning alert-dismissible mb-0' role='alert'>
+							<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='close'></button>
+							<div class="alert-message">
+								<strong>Votre compte n'est pas activer</strong>,
+								<a href="{{path('resend_verif')}}">renvoyer le lien d'activation</a>
+							</div>
+						</div>
+					{% endif %}
+					{% include '_partials/_flash.html.twig' %}
+					{% block body %}{% endblock %}
+				</main>
+				{% include '_partials/_footer.html.twig' %}
+			</div>
+		</div>
+	</body>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 </html>

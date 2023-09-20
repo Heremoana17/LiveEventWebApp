@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Category
+{% endblock %}
+
+{% block body %}
+	<header class='container pt-5 pb-4'>
+		<article class='row'>
+			<h1 class='fw-bold col ps-0'>Liste de tous les categories</h1>
+			<hr>
+		</article>
+		<a class='btn btn-primary row' href="{{path('app_category_form')}}">Rédiger une nouvelle category</a>
+	</header>
+	<main class='container px-0'>
+		<section class="row">
+			{% for category in categories %}
+				<article class="col-12 card text-center border px-0 mb-3">
+					<div class="card-header">
+						<h2 class='fw-bold'>{{category.name}}</h2>
+					</div>
+					<div class="card-body d-flex flex-wrap justify-content-evenly">
+						{% for cat in category.categories %}
+							<div class="articleHover border rounded text-center p-4 my-3">
+								<p class='h3 fw-bold '>{{cat.name}}</p>
+								<p class="card-text ">Nombre d'article :
+									{{cat.articles|length}}</p>
+								<p class="card-text ">Nombre d'evenement :
+									{{cat.events|length}}</p>
+								<div class='d-flex flex-column px-2'>
+									<a href="{{path('app_listArticle', {id:cat.id, slug : cat.slug})}}" class="btn btn-primary my-1 ">Voir les articles</a>
+									<a href="{{path('app_listEvenement', {id: cat.id, slug : cat.slug})}}" class="btn btn-primary my-1 ">Voir les evenements</a>
+									<a href="{{path('app_category_form', {id : cat.id})}}" class="btn btn-success my-1 ">Modifier</a>
+									<a href="{{path('app_category_delet', {id : cat.id})}}" class="btn btn-danger my-1">Suprimer la category</a>
+								</div>
+							</div>
+						{% endfor %}
+					</div>
+
+				</article>
+			{% endfor %}
+
+		</section>
+	</main>
+{% endblock %}

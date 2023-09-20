@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Reponse requetes
+{% endblock %}
+
+{% block body %}
+	<main class="container mt-4">
+		<section class="row">
+			<div class="col-12">
+				<H1>Reponse à la requête
+					{{requete.id}}</H1>
+				<hr>
+				<br>
+				<section class="border rounded p-4">
+					<h3>Rappel de la requete</h3>
+					<hr>
+					<p>Identifiant de la requete :
+						{{requete.id}}</p>
+					<p>Adresse mail :
+						{{requete.email}}</p>
+					<p>Nom et pernom de l'envoyant :
+						{{requete.lastname}}
+						{{requete.firstname}}</p>
+					<p>Motif de la requête :
+						{{requete.motif}}</p>
+					<p>Contenu de la requête :
+						<br>
+						{{requete.content}}</p>
+				</section>
+				<section class='mt-4'>
+					<h3 class='fw-bold'>Réponse</h3>
+					{{ form_start(response) }}
+					{{ form_end(response) }}
+				</section>
+
+			</div>
+		</section>
+	</main>
+{% endblock %}

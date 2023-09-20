@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Requetes
+{% endblock %}
+
+{% block body %}
+	<header class='container pt-5 pb-4'>
+		<article class='row'>
+			<h1 class='fw-bold col ps-0'>Liste des requetes utilisateur
+			</h1>
+			<hr>
+		</article>
+	</header>
+	{% if paginations is not empty %}
+		<main class="container">
+			<section class="row">
+				{% for requete in paginations %}
+					<div class="col-12 px-0">
+						<section class="articleHover border rounded my-3">
+							<article class='p-3' {% if requete.ouvert is same as(false) %} id='ouvert' {% endif %}>
+								<a href="{{path('app_detailsRequete', {id:requete.id})}}" class='text-decoration-none text-black'>
+									<h3 class='fw-bold'>{{requete.motif}}</h3>
+									<p class='mb-0'>Statut :
+										{% if requete.statut %}
+											<span class='text-success'>Traiter</span>
+										{% else %}
+											<span class='text-danger'>En attente</span>
+										{% endif %}
+									</p>
+									<p class='mb-0'>Date d'envoie :
+										{{requete.createdAt|date("d/m/Y")}}</p>
+									<p class='mb-0'>En provenance de :
+										{{requete.email}}</p>
+								</a>
+							</article>
+						</section>
+					</div>
+				{% endfor %}
+				<p></p>
+			</section>
+			<div class=" d-flex justify-content-center">{{knp_pagination_render(paginations)}}</div>
+		</main>
+	{% else %}
+		<article class='container py-4'>
+			<p>Il n'y a aucune requête pour le moment</p>
+		</article>
+	{% endif %}
+{% endblock %}

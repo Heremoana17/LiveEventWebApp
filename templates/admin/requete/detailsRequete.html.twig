@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Requetes
+	{{requete.id}}
+{% endblock %}
+
+{% block body %}
+	<main class="container mt-4">
+		<section class="row">
+			<article class="col-12">
+				<h1>details de la requete</h1>
+				<hr>
+				<p>Identifiant de la requete :
+					{{requete.id}}</p>
+				<p>Adresse mail :
+					{{requete.email}}</p>
+				<p>Nom et pernom de l'envoyant :
+					{{requete.lastname}}
+					{{requete.firstname}}</p>
+				<p>Motif de la requête :
+					{{requete.motif}}</p>
+				<p>Contenu de la requête :
+					<br>
+					{{requete.content}}</p>
+			</article>
+			<section>
+				<a href="{{path('app_reponseRequete', {id:requete.id})}}" class='btn btn-primary'>Répondre</a>
+			</section>
+		</section>
+	</main>
+{% endblock %}
