@@ -1,0 +1,52 @@
+{# partial qui permet d'afficher les article provenant du controler
+Pour être utiliser :
+    -> le controller doit renvoiyer un tableau avec le nom "Articles" qui à pôur valeur les articles provenant du repository Article
+    -> dans le fichier twig le partial doit être encapsulé dans un "{% if articles is not empty %}" #}
+
+<section class='container-fluid'>
+	<section class="row">
+		{% for article in articles %}
+			<a href="{{path('app_article_details', {slug: article.slug})}}" class='col-12 px-0 articleHover text-decoration-none {% if article.images is empty %} bg-black {% endif %}'>
+				<section class='py-4 bgImg' {% if article.images is not empty %} style="background-image:url('{{asset('assets/uploads/articles/diapo/')}}{{article.images[0].name}}')" {% endif %}></section>
+				<section class='text-white bgText'>
+					<h2 class='px-3 text-white fw-bolder'>{{article.title}}</h2>
+					<p class='px-3 text-white'>{{article.introduction}}</p>
+					<p class='px-3 text-white'>Category :
+						{{article.categories.name}}</p>
+					<p class='px-3 text-white'>Publier le
+						{{article.createdAt|date("d/m/Y")}}
+						par :
+						{{article.author}}</p>
+					{% if app.request.get('_route') == 'app_article_mine' %}
+						<section>
+							<a class='text-decoration-none' href="{{path('app_article_details', {slug: article.slug})}}">
+								<button class='btn btn-primary'>Voir plus de details</button>
+							</a>
+							<a class='text-decoration-none' href="{{path('app_editArticle', {id: article.id})}}">
+								<button class='btn btn-success'>Modifier</button>
+							</a>
+							<a class="text-decoration-none" href="#open-modal{{article.id}}">
+								<button class='btn btn-danger'>Supprimer</button>
+							</a>
+							<div id="open-modal{{article.id}}" class="modal-window">
+								<div class='text-black'>
+									<a href="#" title="Fermer" class="modal-close btn-close"></a>
+									<h3>Confirmation</h3>
+									<hr>
+									<p>Etes-vous sur de vouloir supprimer cet article ?</p>
+									<hr>
+									<section class='text-end'>
+										<a href="{{path('app_deletArticle', {id: article.id})}}" class='text-decoration-none' title="Supprimer">
+											<button class='btn btn-danger'>Supprimer</button>
+										</a>
+										<a href="#" title="Fermer" class="btn btn-secondary">Non</a>
+									</section>
+								</div>
+							</div>
+						</section>
+					{% endif %}
+				</section>
+			</a>
+		{% endfor %}
+	</section>
+</section>

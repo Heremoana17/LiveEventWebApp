@@ -6,14 +6,17 @@
 
 {% block body %}
 	{% if event.imageEvents is not empty %}
-		<div style="background-image:url('{{asset('assets/uploads/evenements/')}}{{event.imageEvents[0].name}}')" id='imageArticle'></div>
+		<div style="background-image:url('{{asset('assets/uploads/evenements/diapo/')}}{{event.imageEvents[0].name}}')" id='imageArticleDetails'></div>
 	{% endif %}
 	<section class="container mt-4">
 		<div class="row">
 			<div class="col">
 				<h1>{{event.name}}</h1>
 				<hr>
-				<p>{{event.introduction}}</p>
+				<section class='d-flex my-4'>
+					<img src="{{asset('assets/uploads/evenements/'~ event.featuredImage)}}" alt="" width='300'>
+					<p class='px-3'>{{event.introduction}}</p>
+				</section>
 				<p>{{event.content}}</p>
 				<hr>
 				<p>Publié le :

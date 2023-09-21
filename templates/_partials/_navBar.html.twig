@@ -1,0 +1,186 @@
+<nav class="navbar navbar-expand-lg fixed-top bg-body-tertiary">
+	<div class="container-fluid">
+		<a class="navbar-brand fs-4 fw-bold" href="{{path('app_main')}}">
+			<img src="{{asset('assets/image/logo.jpg')}}" alt="Logo" width="40" class="d-inline-block align-text-center ms-2 rounded">
+			Live event
+		</a>
+		{% if is_granted('ROLE_ADMIN') %}
+			{# <a class="navbar-brand ms-2" href="#"></a> #}
+			<button class="btn btn-outline-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">Admin</button>
+		{% endif %}
+		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarScroll">
+			<ul class="navbar-nav navbar-nav-scroll my-2 my-lg-0 mx-auto pe-5" style="--bs-scroll-height: 200px;">
+				<li class="nav-item me-3">
+					<a class="nav-link me-3 fw-bold fs-5" href="{{path('app_main')}}">Accueil</a>
+				</li>
+				<li class="nav-item me-3">
+					<a class="nav-link me-3 fw-bold fs-5" href="{{path('app_event')}}">Event</a>
+				</li>
+				<li class="nav-item me-3">
+					<a class="nav-link me-3 fw-bold fs-5" href="{{path('app_contact')}}">Contact</a>
+				</li>
+				<li class="nav-item me-3">
+					<a class="nav-link me-3 fw-bold fs-5" href="{{path('app_test')}}">Test</a>
+				</li>
+			</ul>
+
+			<ul class="navbar-nav navbar-nav-scroll my-2 my-lg-0 me-3" style="--bs-scroll-height: 150px;">
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+						<i class="fas fa-user fa-fw"></i>
+					</a>
+					<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+						{% if app.user %}
+							<li>
+								<a class="dropdown-item" href="{{path('app_userDetails', {id : app.user.id})}}">Mon compte</a>
+							</li>
+							<li><hr class="dropdown-divider"/></li>
+							<li>
+								<a class="dropdown-item" href="{{path('app_logout')}}">Deconnexion</a>
+							</li>
+						{% else %}
+							<li>
+								<a class="dropdown-item" href="{{path('app_register')}}">Inscription</a>
+							</li>
+							<li>
+								<a class="dropdown-item" href="{{path('app_login')}}">Connection</a>
+							</li>
+						{% endif %}
+					</ul>
+				</li>
+			</ul>
+		</div>
+	</div>
+</nav>
+<section class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
+	<header class="offcanvas-header mt-3 pb-4  border-bottom ">
+		<h5 class="offcanvas-title ms-5 h4 ps-2">Tableau de bord</h5>
+		<button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+	</header>
+	<article class="offcanvas-body p-0 mt-4 border-0">
+		<section class="accordion" id="accordionArticle">
+			<article class="accordion-item border-0">
+				<h2 class="accordion-header">
+					<button class="accordion-button collapsed py-4" type="button" data-bs-toggle="collapse" data-bs-target="#collapseArticle" aria-expanded="false" aria-controls="collapseArticle">
+						<i class="fa-solid fa-table-columns fa-xl ms-2"></i>
+						<h4 class='my-0 ms-3 fw-bold'>Articles</h4>
+					</button>
+				</h2>
+				<div id="collapseArticle" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+					<div class="accordion-body ms-2">
+						<a class="nav-link d-flex my-1 ms-2" href="{{path('app_article')}}">
+							<i class="fa-solid fa-newspaper fa-lg"></i>
+							<p class='ms-3 h5 fw-bold'>Tous les articles</p>
+						</a>
+						<a class="nav-link d-flex my-1 ms-2" href="{{path('app_article_mine')}}">
+							<i class="fa-solid fa-folder fa-lg"></i>
+							<p class='ms-3 h5 fw-bold'>Mes articles</p>
+						</a>
+						<a class="nav-link d-flex my-1 ms-2" href="{{path('app_editArticle')}}">
+							<i class="fa-solid fa-pen fa-lg"></i>
+							<p class='ms-3 h5 fw-bold'>Nouveau article</p>
+						</a>
+					</div>
+				</div>
+			</article>
+		</section>
+		<section class="accordion" id="accordionCategory">
+			<article class="accordion-item border-0">
+				<h2 class="accordion-header">
+					<button class="accordion-button collapsed py-4" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCategory" aria-expanded="false" aria-controls="collapseCategory">
+						<i class="fa-solid fa-award fa-xl ms-2"></i>
+						<h4 class='my-0 ms-3 fw-bold'>Category</h4>
+					</button>
+				</h2>
+				<div id="collapseCategory" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+					<div class="accordion-body ms-2">
+						<a class="nav-link d-flex my-1 ms-2" href="{{path('app_category')}}">
+							<i class="fa-solid fa-tag fa-lg"></i>
+							<p class='ms-3 h5 fw-bold'>Toutes les categories</p>
+						</a>
+						<a class="nav-link d-flex my-1 ms-2" href="{{path('app_category_form')}}">
+							<i class="fa-solid fa-pen-nib fa-lg"></i>
+							<p class='ms-3 h5 fw-bold'>Nouvelle category</p>
+						</a>
+					</div>
+				</div>
+			</article>
+		</section>
+		<section class="accordion" id="accordionEvent">
+			<article class="accordion-item border-0">
+				<h2 class="accordion-header">
+					<button class="accordion-button collapsed py-4" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEvent" aria-expanded="false" aria-controls="collapseEvent">
+						<i class="fa-regular fa-bookmark fa-xl ms-2"></i>
+						<h4 class='my-0 ms-3 fw-bold'>Event</h4>
+					</button>
+				</h2>
+				<div id="collapseEvent" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+					<div class="accordion-body ms-2">
+						<a class="nav-link d-flex my-1 ms-2" href="{{path('app_allEvents')}}">
+							<i class="fa-solid fa-fire fa-lg"></i>
+							<p class='ms-3 h5 fw-bold'>Tout les evenements</p>
+						</a>
+						<a class="nav-link d-flex my-1 ms-2" href="{{path('app_editEvent')}}">
+							<i class="fa-solid fa-feather fa-lg"></i>
+							<p class='ms-3 h5 fw-bold'>Nouveau evenement</p>
+						</a>
+					</div>
+				</div>
+			</article>
+		</section>
+		<section class="accordion" id="accordionUser">
+			<article class="accordion-item border-0">
+				<h2 class="accordion-header">
+					<button class="accordion-button collapsed py-4" type="button" data-bs-toggle="collapse" data-bs-target="#collapseUser" aria-expanded="false" aria-controls="collapseUser">
+						<i class="fa-solid fa-user fa-xl ms-2"></i>
+						<h4 class='my-0 ms-3 fw-bold'>Utilisateur</h4>
+					</button>
+				</h2>
+				<div id="collapseUser" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+					<div class="accordion-body ms-2">
+						<a class="nav-link d-flex my-1 ms-2" href="{{path('app_user')}}">
+							<i class="fa-solid fa-users fa-lg"></i>
+							<p class='ms-3 h5 fw-bold'>Tout les utilisateurs</p>
+						</a>
+						<a class="nav-link d-flex my-1 ms-2" href="{{path('app_adminEditUser')}}">
+							<i class="fa-solid fa-user-plus fa-lg"></i>
+							<p class='ms-3 h5 fw-bold'>Nouveau utilisateur</p>
+						</a>
+					</div>
+				</div>
+			</article>
+		</section>
+		<section class="accordion" id="accordionSponsor">
+			<article class="accordion-item border-0">
+				<h2 class="accordion-header">
+					<button class="accordion-button collapsed py-4" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSponsor" aria-expanded="false" aria-controls="collapseSponsor">
+						<i class="fa-regular fa-handshake fa-xl ms-2"></i>
+						<h4 class='my-0 ms-3 fw-bold'>Partenaire</h4>
+					</button>
+				</h2>
+				<div id="collapseSponsor" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+					<div class="accordion-body ms-2">
+						<a class="nav-link d-flex my-1 ms-2" href="{{path('app_allSponsor')}}">
+							<i class="fa-solid fa-people-roof fa-lg"></i>
+							<p class='ms-3 h5 fw-bold'>Tout les partenaires</p>
+						</a>
+						<a class="nav-link d-flex my-1 ms-2" href="{{path('app_editSponsor')}}">
+							<i class="fa-solid fa-plus fa-lg"></i>
+							<p class='ms-3 h5 fw-bold'>Nouveau partenaire</p>
+						</a>
+					</div>
+				</div>
+			</article>
+		</section>
+	</article>
+	<footer class='border-top'>
+		<article class='ms-4 my-4 '>
+			<h4 class='fw-bold'>Connecté avec :
+			</h4>
+			<h5>{{app.user}}</h5>
+		</article>
+	</footer>
+</section>

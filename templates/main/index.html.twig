@@ -57,6 +57,16 @@
 						class='row'>
 						{# col gauche #}
 						<div class="col-md-6 col-12">
+							<h2 class='h1 fw-bolder p-3 mt-4'>Tous nos partenaires</h2>
+							<p class='px-3 fs-5'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus aliquid, odio porro sint provident nam. Dolorem culpa reiciendis minus consequatur, expedita dignissimos, incidunt blanditiis distinctio aliquam provident modi esse, repudiandae et in explicabo nostrum pariatur voluptates voluptatem! Voluptatibus, blanditiis corrupti. Ipsum quo magnam explicabo sunt enim dolor nobis nesciunt sapiente.</p>
+							<div class='text-end pt-3 pe-5'>
+								<a href="" class='px-3'>
+									<button class='btn btn-lg btn-danger mb-3'>C'est parti</button>
+								</a>
+							</div>
+						</div>
+						{# col droite #}
+						<div class="col-md-6 col-12">
 							<div id="carouselArticle" class="carousel slide carousel-fade" data-bs-ride="carousel">
 								<div class="carousel-inner">
 									{% for sponsor in sponsors %}
@@ -77,16 +87,6 @@
 								</button>
 							</div>
 						</div>
-						{# col droite #}
-						<div class="col-md-6 col-12">
-							<h2 class='h1 fw-bolder p-3 mt-4'>Tous nos partenaires</h2>
-							<p class='px-3 fs-5'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus aliquid, odio porro sint provident nam. Dolorem culpa reiciendis minus consequatur, expedita dignissimos, incidunt blanditiis distinctio aliquam provident modi esse, repudiandae et in explicabo nostrum pariatur voluptates voluptatem! Voluptatibus, blanditiis corrupti. Ipsum quo magnam explicabo sunt enim dolor nobis nesciunt sapiente.</p>
-							<div class='text-end pt-3 pe-5'>
-								<a href="" class='px-3'>
-									<button class='btn btn-lg btn-danger'>C'est parti</button>
-								</a>
-							</div>
-						</div>
 					</div>
 				</div>
 			</section>
@@ -100,7 +100,7 @@
 					<h2 class='my-3 display-1 fw-bolder'>{{lastEvent.name}}</h2>
 					<ul class='d-flex list-unstyled justify-content-center mt-4 mb-5'>
 						<li class='mx-5 px-4'>
-							<a class='btn btn-lg btn-danger' href="">Découvrir l'évènement</a>
+							<a class='btn btn-lg btn-danger' href="{{path('app_detailEvent', {id : lastEvent.id})}}">Découvrir l'évènement</a>
 						</li>
 						<li class='mx-5 px-4'>
 							<a class='btn btn-lg btn-danger' href="">Réserver vos places</a>

@@ -23,7 +23,7 @@ class MainController extends AbstractController
         $categoriesSection1 = $cr->findBy(['parent' => 70]);
         $events = $er->findAll();
         $sponsors = $sr->findAll();
-        $lastEvent = $er->findOneBy(["name"=>'Astronote']);
+        $lastEvent = $er->findOneBy([],['date' => 'DESC']);
         $formNewsletter = $this->createForm($newsletter::class);
         $formNewsletter->handleRequest($request);
         if ($formNewsletter->isSubmitted()&&$formNewsletter->isValid()) {

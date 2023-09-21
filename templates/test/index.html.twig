@@ -1,42 +1,37 @@
-{% extends 'base.html.twig' %}
+{% extends 'baseTest.html.twig' %}
 
 {% block title %}Page de test
 {% endblock %}
 
 {% block body %}
-	<header class='container pt-5 pb-4'>
-		<article class='row'>
-			<h1 class='fw-bold col ps-0'>Liste de tous les categories</h1>
-			<hr>
+	<header id='eventAccueilImg'></header>
+	<section id='section1EventAccueil' class='d-flex flex-wrap p-4 '>
+		<article class='col-12 col-lg-7 p-4 order-lg-1 order-2' id='article1section1'>
+			<h1 class='text-center fw-bold fs-1'>Music festival</h1>
+			<p class='ms-4 mt-4 fs-5'>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Commodi consectetur accusamus vero at fugit illo odit sapiente impedit qui veritatis voluptas illum officiis, natus, sit magnam error reprehenderit! Labore magnam et pariatur eum ullam aliquid culpa tenetur esse, fuga facere praesentium quidem explicabo eius assumenda minima reprehenderit non neque voluptas optio totam, adipisci facilis ea. Provident omnis repellat.
+			</p>
+			<ul class='d-flex flex-wrap list-unstyled mt-4'>
+				<li class='my-2'>
+					<a href=""><img src="{{asset('assets/image/facebook_logo.png')}}" alt="" width='50' class='mx-4 rounded-pill'></a>
+				</li>
+				<li class='my-2'>
+					<a href=""><img src="{{asset('assets/image/instagram_logo.png')}}" alt="" width='50' class='mx-4 rounded-pill'></a>
+				</li>
+				<li class='my-2'>
+					<a href=""><img src="{{asset('assets/image/snapchat_logo.png')}}" alt="" width='50' class='mx-4 rounded-pill'></a>
+				</li>
+				<li class='my-2'>
+					<a href=""><img src="{{asset('assets/image/twitter_logo.png')}}" alt="" width='50' class='mx-4 rounded-pill'></a>
+				</li>
+				<li class='my-2'>
+					<a href=""><img src="{{asset('assets/image/youtube_logo.png')}}" alt="" width='50' class='mx-4 rounded-pill'></a>
+				</li>
+				<li class='my-2'>
+					<a href=""><img src="{{asset('assets/image/linkedin_logo.png')}}" alt="" width='50' class='mx-4 rounded-pill'></a>
+				</li>
+			</ul>
 		</article>
-		<a class='btn btn-primary row' href="">Rédiger une nouvelle category</a>
-	</header>
-	<main class='container-fluid'>
-		<section class="row">
-			<pre>
-				{{ dump(articles) }}
-			</pre>
-			{% if articles is not empty %}
-				<main class='container-fluid '>
-					<section class="row">
-						{% for article in articles %}
-							<a href="{{path('app_article_details', {slug: article.slug})}}" class='col-12 px-0 articleHover text-decoration-none'>
-								<section class='py-4 bgImg' {% if article.images is not empty %} style="background-image:url('{{asset('assets/uploads/articles/diapo/')}}{{article.images[0].name}}')" {% endif %}></section>
-								<section class='text-white bgText'>
-									<h2 class='px-3 text-white fw-bolder'>{{article.title}}</h2>
-									<p class='px-3 text-white'>{{article.introduction}}</p>
-									<p class='px-3 text-white'>Category :
-										{{article.categories.name}}</p>
-									<p class='px-3 text-white'>Publier le
-										{{article.createdAt|date("d/m/Y")}}
-										/ par :{{article.author}}</p>
-								</section>
-							</a>
-						{% endfor %}
-					</section>
-				</main>
-			{% endif %}
+		<img src="{{asset('assets/image/jk.jpg')}}" alt="music fest" id='test' class='col-lg-5 col-12 order-1 order-lg-2 p-5 pb-3 mx-auto'>
+	</section>
 
-		</section>
-	</main>
-{% endblock %}
+</section>{% endblock %}
