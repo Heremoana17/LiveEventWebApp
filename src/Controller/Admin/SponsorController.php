@@ -72,12 +72,17 @@ class SponsorController extends AbstractController
     }
 
     #[Route('/delete/sponsor/{id?}', name:'deletSponsor')]
-    public function deletSponsor(Sponsor $sponsor, EntityManagerInterface $em):RedirectResponse
+    public function deletSponsor(Sponsor $sponsor, EntityManagerInterface $em, PictureService $pictureService):RedirectResponse
     {
-        $em->remove($sponsor);
-        $em->flush();
-        $this->addFlash('success','Sponsor supprimer');
-        return $this->redirectToRoute('app_allSponsor');
+        if ($sponsor) {
+            $images = $sponsor->getImageSponsors();
+            $featuredImage = $sponsor->getLogo();
+            $pictureService->deleteAllsImages($images, $featuredImage, 'sponsors');
+            $em->remove($sponsor);
+            $em->flush();
+            $this->addFlash('success','Sponsor supprimer');
+            return $this->redirectToRoute('app_allSponsor');
+        }
     }
 
     #[Route('/delete/image/{id}', name:'delete_sponsor_image', methods:['DELETE'])]
@@ -116,7 +121,7 @@ class SponsorController extends AbstractController
             // On récupère le nom de l'image
             $nom = $image->getName();
 
-            if($pictureService->delete($nom, 'logo', 300, 300)){
+            if($pictureService->delete($nom, 'logo')){
                 // On supprime l'image de la base de données
                 $em->remove($image);
                 $em->flush();

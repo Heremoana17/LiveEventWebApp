@@ -1,0 +1,81 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Category
+{% endblock %}
+
+{% block body %}
+	<header class='container pt-5 pb-4 px-4 px-lg-0'>
+		<article class='row'>
+			<h1 class='fw-bold col ps-0'>Liste de tous les pages</h1>
+			<hr>
+		</article>
+		<a class='btn btn-primary row' href="{{path('app_background_image_edit')}}">Ajouter une nouvelle image de fond</a>
+	</header>
+	{% if backgroundImages is not empty %}
+		<main class='container px-4 px-lg-0'>
+			<section class="row">
+				<section class='border rounded mb-3 d-lg-flex justify-content-lg-around flex-wrap'>
+					{% for backgroundImage in backgroundImages|reverse %}
+						<div class='mx-auto my-3 back' style="max-width:400px">
+							<img src="{{asset('assets/uploads/backgroundImages/' ~ backgroundImage.name) }}" alt="Image de fond" class='p-0 rounded' style="max-width:400px">
+							<div class='d-flex flex-column justify-content-center front'>
+								<button type="button" class="btn btn-primary my-1 mx-auto px-4" data-bs-toggle="modal" data-bs-target="#modal{{backgroundImage.id}}" style='width:150px'>
+									Infos
+								</button>
+								<button type="button" class="btn btn-danger my-1 mx-auto px-4" data-bs-toggle="modal" data-bs-target="#modalSup{{backgroundImage.id}}" style='width:150px'>
+									Supprimer
+								</button>
+							</div>
+						</div>
+
+						{# Modal pour les infos #}
+						<div class="modal fade" id="modal{{backgroundImage.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+							<div class="modal-dialog modal-dialog-centered">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h1 class="modal-title fs-5" id="exampleModalLabel">
+											{{backgroundImage.name}}</h1>
+										<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+									</div>
+									<div class="modal-body">
+										Page :
+										{{backgroundImage.page}}
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-primary" data-bs-dismiss="modal">Fermer</button>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						{# modal pour supprimer #}
+						<div class="modal fade" id="modalSup{{backgroundImage.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+							<div class="modal-dialog modal-dialog-centered">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h1 class="modal-title fs-5" id="exampleModalLabel">
+											Confirmation</h1>
+										<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+									</div>
+									<div class="modal-body">
+										Etes-vous sur de vouloir supprimer cette image ?</div>
+									<div class="modal-footer">
+										<a href="{{path('app_background_image_delete', {id:backgroundImage.id})}}" class='btn btn-danger' style='width:150px'>Supprimer</a>
+										<button type="button" class="btn btn-primary" data-bs-dismiss="modal">Fermer</button>
+									</div>
+								</div>
+							</div>
+						</div>
+
+					{% endfor %}
+				</section>
+
+			</section>
+		</main>
+	{% else %}
+		<article class='container py-4'>
+			<p>Il n'y a pour l'instant aucune image</p>
+			<p>Vous pouvez commencer à ajouter en cliquant sur le bouton ci dessus</p>
+		</article>
+	{% endif %}
+{% endblock %}

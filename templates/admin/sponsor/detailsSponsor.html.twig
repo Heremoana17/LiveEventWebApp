@@ -5,24 +5,25 @@
 {% endblock %}
 
 {% block body %}
-	{% if sponsor.imageSponsors is not empty %}
-		<div style="background-image:url('{{asset('assets/uploads/sponsors/')}}{{sponsor.imageSponsors[0].name}}')" id='imageArticleDetails'></div>
-	{% endif %}
 	<section class="container mt-4">
 		<div class="row">
-			<div class="col">
-				<h1>{{sponsor.name}}</h1>
+			<article class="col">
+				<h1 class='fw-bold'>{{sponsor.name}}</h1>
 				<hr>
-				<p>{{sponsor.description}}</p>
-			</div>
+				<article class='mt-4 d-lg-flex border rounded-top py-4'>
+					<img src="{{asset('assets/uploads/sponsors/' ~ sponsor.logo)}}" class='float-start mx-3' width='300' alt="logopartenaire">
+					<p class='px-3'>{{sponsor.description}}</p>
+				</article>
+			</article>
 		</div>
 	</section>
 	{% if sponsor.imageSponsors is not empty %}
+	<section class="container mx-auto">
 		<div id="carouselArticle" class="carousel slide" data-bs-ride="carousel">
 			<div class="carousel-inner">
 				{% for image in sponsor.imageSponsors %}
 					<div class=" carousel-item {{ (loop.first ) ? 'active' : '' }}">
-						<img src="{{asset('assets/uploads/sponsors/' ~ image.name)}}" class="d-block w-100 " alt="...">
+						<img src="{{asset('assets/uploads/sponsors/diapo/' ~ image.name)}}" class="d-block w-100 " alt="...">
 					</div>
 				{% endfor %}
 			</div>
@@ -35,5 +36,6 @@
 				<span class="visually-hidden">Next</span>
 			</button>
 		</div>
+	</section>
 	{% endif %}
 {% endblock %}

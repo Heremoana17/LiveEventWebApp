@@ -4,26 +4,36 @@
 {% endblock %}
 
 {% block body %}
+	<header class='container pt-5 pb-4 px-5 px-lg-0'>
+		<article class='row'>
+			<h1 class='fw-bold col ps-0'>Creation d'un nouveau utilisateur</h1>
+			<hr>
+		</article>
+	</header>
 	<section class="container mt-4">
 		<div class="row">
-			<div class="col-12">
-				<h1>Creation d'un nouveau utilisateur</h1>
-				<hr>
+			<div class="col mx-4 mx-lg-0">
 				{{ form_start(form) }}
-				<div class="d-flex">
-					<fieldset class='col-5 px-2'>
+				<section class="d-lg-flex">
+					<fieldset class='col-lg-6 px-2'>
 						<legend>Identité</legend>
 						{{ form_row(form.lastname) }}
 						{{ form_row(form.firstname) }}
 						{{ form_row(form.email) }}
 					</fieldset>
-					<fieldset class='col-5 px-2'>
+					<fieldset class='col-lg-6 px-2'>
 						<legend>Coordonnées</legend>
 						{{ form_row(form.address) }}
 						{{ form_row(form.zipcode) }}
 						{{ form_row(form.city) }}
 					</fieldset>
-				</div>
+					
+				</section>
+				<section class='px-2'>
+					{{ form_row(form.password, {label: 'Mot de passe'}) }}
+					{{ form_row(form.newsLetter) }}
+				</section>
+				{{ form_row(form.valider) }}
 				{{ form_end(form) }}
 			</div>
 		</div>

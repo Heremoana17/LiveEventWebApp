@@ -10,7 +10,7 @@ Pour être utiliser :
 				<section class='py-4 bgImg' {% if article.images is not empty %} style="background-image:url('{{asset('assets/uploads/articles/diapo/')}}{{article.images[0].name}}')" {% endif %}></section>
 				<section class='text-white bgText'>
 					<h2 class='px-3 text-white fw-bolder'>{{article.title}}</h2>
-					<p class='px-3 text-white'>{{article.introduction}}</p>
+					<p class='px-3 text-white introSection'>{{article.introduction}}</p>
 					<p class='px-3 text-white'>Category :
 						{{article.categories.name}}</p>
 					<p class='px-3 text-white'>Publier le

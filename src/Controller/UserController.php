@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserFormType;
+use App\Repository\ArticleRepository;
 use App\Repository\UserRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -57,7 +58,7 @@ class UserController extends AbstractController
     }
 
     #[Route('/{id}', name: 'userDetails'),IsGranted('ROLE_USER')]
-    public function userDetails(User $user): Response
+    public function userDetails(User $user, ArticleRepository $ar): Response
     {
         //retrouve l'utilisateur actuelement actif
         $userActif = $this->getUser();
@@ -67,8 +68,10 @@ class UserController extends AbstractController
             $this->addFlash('danger', "Une erreur est survenue");
             return $this->redirectToRoute('app_main');
         }
+        $articles = $ar->findBy(['author' => $userActif]);
         return $this->render('user/userDetails.html.twig', [
             'user' => $user,
+            'articles' => $articles
         ]);
     }
 

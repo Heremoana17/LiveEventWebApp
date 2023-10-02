@@ -4,13 +4,13 @@
 {% endblock %}
 
 {% block body %}
-	<header class='container pt-5 pb-4'>
+	<header class='container pt-5 pb-4 px-5 px-lg-0'>
 		<article class='row'>
 			<h1 class='fw-bold col ps-0'>Edition d'un article</h1>
 			<hr>
 		</article>
 	</header>
-	<main class="container">
+	<section class="container px-5 px-lg-0">
 		<section class="row">
 			<article class="col-12 px-0">
 				{{ form_start(articleForm) }}
@@ -18,6 +18,7 @@
 				{{ form_row(articleForm.introduction) }}
 				{{ form_row(articleForm.content) }}
 
+				{# section pour featuredimage #}
 				<section>
 					{{ form_label(articleForm.featuredImage, 'Image en avant' ) }}
 					<span>
@@ -40,18 +41,19 @@
 						</section>
 					</span>
 					{{ form_row(articleForm.featuredImage) }}
+					{% if new is same as(false) %}
+						<h2>Image en avant :</h2>
+						<section class='border rounded mb-3 d-inline-flex'>
+							<div class='m-3 row'>
+								<img src="{{asset('assets/uploads/articles/' ~ article.featuredImage) }}" alt="image.name" class='p-0 rounded' style="width:300px">
+							</div>
+						</section>
+					{% endif %}
 				</section>
-				{% if new is same as(false) %}
-					<h2>Image en avant :</h2>
-					<section class='border rounded mb-3 d-inline-flex'>
-						<div class='m-3 row'>
-							<img src="{{asset('assets/uploads/articles/' ~ article.featuredImage) }}" alt="image.name" class='p-0 rounded' style="width:300px">
-						</div>
-					</section>
-				{% endif %}
 
+				{# section pour les images #}
 				<section>
-					{{ form_label(articleForm.featuredImage, 'Images' ) }}
+					{{ form_label(articleForm.images, 'Images' ) }}
 					<span>
 						<i class="fa-solid fa-info ms-2 mb-2 btn btn-sm border" type="button" data-bs-toggle="modal" data-bs-target="#imagesModal"></i>
 						<section class="modal fade" id="imagesModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -85,18 +87,18 @@
 						</section>
 					</span>
 					{{ form_row(articleForm.images) }}
+					{% if new is same as(false) %}
+						<h2>Images :</h2>
+						<section class='d-inline-flex flex-wrap justify-content-center border rounded mb-3'>
+							{% for image in article.images %}
+								<div class='m-3 d-flex flex-column '>
+									<img src="{{asset('assets/uploads/articles/diapo/' ~ image.name) }}" alt="image.name" class='p-0 rounded-top' style="width:400px">
+									<a href="{{path('app_delete_article_image', {id: image.id})}}" data-delete data-token="{{ csrf_token('delete' ~ image.id) }}" class='rounded-bottom bg-danger text-decoration-none text-white p-1 text-center'>Supprimer</a>
+								</div>
+							{% endfor %}
+						</section>
+					{% endif %}
 				</section>
-				{% if new is same as(false) %}
-					<h2>Images :</h2>
-					<section class='d-inline-flex flex-wrap justify-content-center border rounded mb-3'>
-						{% for image in article.images %}
-							<div class='m-3 d-flex flex-column '>
-								<img src="{{asset('assets/uploads/articles/diapo/' ~ image.name) }}" alt="image.name" class='p-0 rounded-top' style="width:400px">
-								<a href="{{path('app_delete_article_image', {id: image.id})}}" data-delete data-token="{{ csrf_token('delete' ~ image.id) }}" class='rounded-bottom bg-danger text-decoration-none text-white p-1 text-center'>Supprimer</a>
-							</div>
-						{% endfor %}
-					</section>
-				{% endif %}
 
 				<section>
 					{{ form_label(articleForm.video, 'Video' ) }}
@@ -126,11 +128,24 @@
 					{{ form_row(articleForm.video) }}
 				</section>
 				{{ form_row(articleForm.categories) }}
+				{{ form_row(articleForm.relatedEvent) }}
+				{% if new %}
+					<section class='container border rounded p-4 my-4'>
+						{{ form_row(articleForm.Valider) }}
+						{{ form_row(articleForm.Subject) }}
+						{{ form_row(articleForm.Content) }}
+					</section>
+				{% else %}
+					<section class='d-none'>
+						{{ form_row(articleForm.Valider) }}
+						{{ form_row(articleForm.Subject) }}
+						{{ form_row(articleForm.Content) }}
+					</section>
+				{% endif %}
 				{{ form_end(articleForm) }}
-			</article>
-		</section>
-	</main>
-
+			</section>
+		</article>
+	</section>
 {% endblock %}
 {% block javascripts %}
 	<script src='{{asset('assets/js/images.js')}}' defer></script>

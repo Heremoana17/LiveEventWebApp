@@ -5,7 +5,6 @@
 			Live event
 		</a>
 		{% if is_granted('ROLE_ADMIN') %}
-			{# <a class="navbar-brand ms-2" href="#"></a> #}
 			<button class="btn btn-outline-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">Admin</button>
 		{% endif %}
 		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
@@ -14,16 +13,14 @@
 		<div class="collapse navbar-collapse" id="navbarScroll">
 			<ul class="navbar-nav navbar-nav-scroll my-2 my-lg-0 mx-auto pe-5" style="--bs-scroll-height: 200px;">
 				<li class="nav-item me-3">
-					<a class="nav-link me-3 fw-bold fs-5" href="{{path('app_main')}}">Accueil</a>
+					
+					<a class="nav-link me-3 fw-bold fs-5 {% if app.request.get('_route') == 'app_main' %} text-primary {% endif %}" href="{{path('app_main')}}">Accueil</a>
 				</li>
 				<li class="nav-item me-3">
-					<a class="nav-link me-3 fw-bold fs-5" href="{{path('app_event')}}">Event</a>
+					<a class="nav-link me-3 fw-bold fs-5 {% if app.request.get('_route') == 'app_event' %} text-primary {% endif %}" href="{{path('app_event')}}">Event</a>
 				</li>
 				<li class="nav-item me-3">
-					<a class="nav-link me-3 fw-bold fs-5" href="{{path('app_contact')}}">Contact</a>
-				</li>
-				<li class="nav-item me-3">
-					<a class="nav-link me-3 fw-bold fs-5" href="{{path('app_test')}}">Test</a>
+					<a class="nav-link me-3 fw-bold fs-5 {% if app.request.get('_route') == 'app_contact' %} text-primary {% endif %}" href="{{path('app_contact')}}">Contact</a>
 				</li>
 			</ul>
 
@@ -61,6 +58,24 @@
 		<button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
 	</header>
 	<article class="offcanvas-body p-0 mt-4 border-0">
+		<section class="accordion" id="accordionPage">
+			<article class="accordion-item border-0">
+				<h2 class="accordion-header">
+					<button class="accordion-button collapsed py-4" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePage" aria-expanded="false" aria-controls="collapsePage">
+						<i class="fa-solid fa-pager fa-xl ms-2"></i>
+						<h4 class='my-0 ms-3 fw-bold'>Page</h4>
+					</button>
+				</h2>
+				<div id="collapsePage" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+					<div class="accordion-body ms-2">
+						<a class="nav-link d-flex my-1 ms-2" href="{{path('app_background_image_all')}}">
+							<i class="fa-regular fa-images fa-lg"></i>
+							<p class='ms-3 h5 fw-bold'>Image de fond</p>
+						</a>
+					</div>
+				</div>
+			</article>
+		</section>
 		<section class="accordion" id="accordionArticle">
 			<article class="accordion-item border-0">
 				<h2 class="accordion-header">
@@ -170,6 +185,24 @@
 						<a class="nav-link d-flex my-1 ms-2" href="{{path('app_editSponsor')}}">
 							<i class="fa-solid fa-plus fa-lg"></i>
 							<p class='ms-3 h5 fw-bold'>Nouveau partenaire</p>
+						</a>
+					</div>
+				</div>
+			</article>
+		</section>
+		<section class="accordion" id="accordionRequête">
+			<article class="accordion-item border-0">
+				<h2 class="accordion-header">
+					<button class="accordion-button collapsed py-4" type="button" data-bs-toggle="collapse" data-bs-target="#collapseRequête" aria-expanded="false" aria-controls="collapseRequête">
+						<i class="fa-solid fa-envelope-open-text fa-xl ms-2"></i>
+						<h4 class='my-0 ms-3 fw-bold'>Requête</h4>
+					</button>
+				</h2>
+				<div id="collapseRequête" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+					<div class="accordion-body ms-2">
+						<a class="nav-link d-flex my-1 ms-2" href="{{path('app_requete')}}">
+							<i class="fa-solid fa-inbox fa-lg"></i>
+							<p class='ms-3 h5 fw-bold'>Toute les requêtes</p>
 						</a>
 					</div>
 				</div>

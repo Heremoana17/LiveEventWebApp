@@ -1,0 +1,22 @@
+<article>
+	<h1>Bonjours
+		{{abonnée.lastname}}</h1>
+	<p>{{content}}</p>
+	<section class='container border rounded py-4'>
+		{% if article is defined %}
+			<h3 class='mx-3'>{{article.title}}</h3>
+			<section class='d-flex my-3'>
+				<img class='mx-3' src="{{absolute_url(asset('assets/uploads/articles/' ~ article.featuredImage)) }}" alt="" width='300px'>
+				<p class='mx-3'>{{article.introduction}}</p>
+			</section>
+			<a class='mx-3' href="{{ absolute_url(path('app_article_details', {slug: article.slug})) }}">Voir l'article dans son intégralité</a>
+		{% elseif event is defined %}
+			<h3 class='mx-3'>{{event.name}}</h3>
+			<section class='d-flex my-3'>
+				<img class='mx-3' src="{{absolute_url(asset('assets/uploads/evenements/' ~ event.featuredImage)) }}" alt="" width='300px'>
+				<p class='mx-3'>{{event.introduction}}</p>
+			</section>
+			<a class='mx-3' href="{{ absolute_url(path('app_detailEvent', {slug: event.slug})) }}">Voir l'évènement dans son intégralité</a>
+		{% endif %}
+	</section>
+</article>

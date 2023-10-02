@@ -4,7 +4,20 @@
 {% endblock %}
 
 {% block body %}
-	<header id='eventAccueilImg'></header>
+	<header id='headerEvent'>
+		{% if pageEvent is not empty %}
+			{% for background in pageEvent %}
+				<div id="carouselExampleAutoplaying" class="carousel slide carousel-fade" data-bs-ride="carousel">
+					<div class="carousel-inner">
+						{% for images in background.backgroundImages %}
+
+							<div class="carousel-item headerImage {{ (loop.first ) ? 'active' : '' }}" style="background-image:url('{{asset('assets/uploads/backgroundImages/')}}{{images.name}}'); z-index:0;"></div>
+						{% endfor %}
+					</div>
+				</div>
+			{% endfor %}
+		{% endif %}
+	</header>
 	<main id='eventMain'>
 		<section id='section1EventAccueil' class='d-flex flex-wrap p-4 '>
 			<article class='col-12 col-lg-7 p-4 order-lg-1 order-2' id='article1section1'>
@@ -32,15 +45,15 @@
 					</li>
 				</ul>
 			</article>
-			<img src="{{asset('assets/image/jk.jpg')}}" alt="music fest" id='test' class='col-lg-5 col-12 order-1 order-lg-2 p-5 pb-3 mx-auto'>
+			<img src="{{asset('assets/image/jk.jpg')}}" alt="music fest" id='imgSection1EventAccueil' class='col-lg-5 col-12 order-1 order-lg-2 p-5 pb-3 mx-auto'>
 		</section>
 
 		{% if events is not empty %}
-			<section id=''>
+			<section>
 				<div class='container-fluid'>
 					<div class='row d-flex justify-content-around px-5 mx-5'>
 						{% for event in events %}
-							<a href="{{path('app_detailEvent', {id:event.id})}}" class='text-decoration-none text-center eventHover col-12 col-lg-6 col-xl-3 my-3'>
+							<a href="{{path('app_detailEvent', {slug:event.slug})}}" class='text-decoration-none text-center eventHover col-12 col-lg-6 col-xl-3 my-3'>
 								<div class="card mx-auto d-flex flex-column justify-content-end" style="width: 18rem; height: 26rem; background-image:url('{{asset('assets/uploads/evenements/')}}{{event.featuredImage}}')" id='backgroundImgEvent'>
 									<div class=" ">
 										<h5 class="card-title text-white h2 fw-bolder mb-3">{{event.name}}</h5>

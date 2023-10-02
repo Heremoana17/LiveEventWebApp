@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Inscription
+{% block title %}
+	{{article.title}}
 {% endblock %}
 
 {% block body %}
@@ -14,12 +15,15 @@
 		<div style="background-image:url('{{asset('assets/uploads/articles/diapo/')}}{{article.images[0].name}}')" id='imageArticleDetails'></div>
 	{% endif %}
 
-	<section class="container mt-4">
+	<section class="container mt-4 px-4">
 		<div class="row">
 			<div class="col">
-				<h1>{{article.title}}</h1>
+				<h1 class='fw-bold'>{{article.title}}</h1>
 				<hr>
-				<p>{{article.introduction}}</p>
+				<section class='my-4 d-lg-flex border rounded py-4'>
+					<img src="{{asset('assets/uploads/articles/'~ article.featuredImage)}}" class='float-start mx-3' alt="ImageArticle" width='300'>
+					<p class='px-3'>{{article.introduction}}</p>
+				</section>
 				<p>{{article.content}}</p>
 				<hr>
 				<p>Ecrit par :
@@ -31,22 +35,61 @@
 		</div>
 	</section>
 	{% if article.images is not empty %}
-		<div id="carouselArticle" class="carousel slide carousel-fade" data-bs-ride="carousel">
-			<div class="carousel-inner">
-				{% for image in article.images %}
-					<div class=" carousel-item {{ (loop.first ) ? 'active' : '' }}">
-						<img src="{{asset('assets/uploads/articles/diapo/' ~ image.name)}}" class="d-block w-100 " alt="...">
-					</div>
-				{% endfor %}
+		<section class="container mx-auto">
+			<div id="carouselArticle" class="carousel slide carousel-fade" data-bs-ride="carousel">
+				<div class="carousel-inner">
+					{% for image in article.images %}
+						<div class=" carousel-item {{ (loop.first ) ? 'active' : '' }}">
+							<img src="{{asset('assets/uploads/articles/diapo/' ~ image.name)}}" class="d-block w-100 " alt="...">
+						</div>
+					{% endfor %}
+				</div>
+				<button class="carousel-control-prev" type="button" data-bs-target="#carouselArticle" data-bs-slide="prev">
+					<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+					<span class="visually-hidden">Previous</span>
+				</button>
+				<button class="carousel-control-next" type="button" data-bs-target="#carouselArticle" data-bs-slide="next">
+					<span class="carousel-control-next-icon" aria-hidden="true"></span>
+					<span class="visually-hidden">Next</span>
+				</button>
 			</div>
-			<button class="carousel-control-prev" type="button" data-bs-target="#carouselArticle" data-bs-slide="prev">
-				<span class="carousel-control-prev-icon" aria-hidden="true"></span>
-				<span class="visually-hidden">Previous</span>
-			</button>
-			<button class="carousel-control-next" type="button" data-bs-target="#carouselArticle" data-bs-slide="next">
-				<span class="carousel-control-next-icon" aria-hidden="true"></span>
-				<span class="visually-hidden">Next</span>
-			</button>
-		</div>
+		</section>
 	{% endif %}
+
+	<section class='container my-4'>
+		<h3 class='fw-bold py-3'>Commentaires :</h3>
+		{% if article.comments %}
+			{% for comment in article.comments %}
+				<section class="p-2">
+					<p class='border rounded-top px-3 py-2 d-inline'>{{comment.author.firstname}}
+						{{comment.author.lastname}}</p>
+					<p class='border rounded-bottom rounded-end px-3 mt-1 py-2 mb-0'>{{comment.content}}
+					</p>
+					<p class='px-3 pt-1 text-end'>le :
+						{{comment.createdAt|date("d/m/Y")}}</p>
+				</section>
+			{% endfor %}
+		{% endif %}
+
+		{% if app.user %}
+			<section>
+				{{ form_start(commentForm) }}
+				{{ form_row(commentForm.content) }}
+				{{ form_end(commentForm) }}
+			</section>
+		{% else %}
+			<section>
+				<p>Connectez vous pour commenter.
+					<span>
+						<a href="{{path('app_login')}}">Me connecter</a>
+					</span>
+				</p>
+				{{ form_start(commentForm) }}
+				{{ form_row(commentForm.content, {'disabled' : 'disabled'}) }}
+				{{ form_row(commentForm.envoyer, {'disabled' : 'disabled'}) }}
+				{{ form_end(commentForm) }}
+			</section>
+		{% endif %}
+
+	</section>
 {% endblock %}

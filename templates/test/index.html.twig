@@ -4,34 +4,19 @@
 {% endblock %}
 
 {% block body %}
-	<header id='eventAccueilImg'></header>
-	<section id='section1EventAccueil' class='d-flex flex-wrap p-4 '>
-		<article class='col-12 col-lg-7 p-4 order-lg-1 order-2' id='article1section1'>
-			<h1 class='text-center fw-bold fs-1'>Music festival</h1>
-			<p class='ms-4 mt-4 fs-5'>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Commodi consectetur accusamus vero at fugit illo odit sapiente impedit qui veritatis voluptas illum officiis, natus, sit magnam error reprehenderit! Labore magnam et pariatur eum ullam aliquid culpa tenetur esse, fuga facere praesentium quidem explicabo eius assumenda minima reprehenderit non neque voluptas optio totam, adipisci facilis ea. Provident omnis repellat.
-			</p>
-			<ul class='d-flex flex-wrap list-unstyled mt-4'>
-				<li class='my-2'>
-					<a href=""><img src="{{asset('assets/image/facebook_logo.png')}}" alt="" width='50' class='mx-4 rounded-pill'></a>
-				</li>
-				<li class='my-2'>
-					<a href=""><img src="{{asset('assets/image/instagram_logo.png')}}" alt="" width='50' class='mx-4 rounded-pill'></a>
-				</li>
-				<li class='my-2'>
-					<a href=""><img src="{{asset('assets/image/snapchat_logo.png')}}" alt="" width='50' class='mx-4 rounded-pill'></a>
-				</li>
-				<li class='my-2'>
-					<a href=""><img src="{{asset('assets/image/twitter_logo.png')}}" alt="" width='50' class='mx-4 rounded-pill'></a>
-				</li>
-				<li class='my-2'>
-					<a href=""><img src="{{asset('assets/image/youtube_logo.png')}}" alt="" width='50' class='mx-4 rounded-pill'></a>
-				</li>
-				<li class='my-2'>
-					<a href=""><img src="{{asset('assets/image/linkedin_logo.png')}}" alt="" width='50' class='mx-4 rounded-pill'></a>
-				</li>
-			</ul>
-		</article>
-		<img src="{{asset('assets/image/jk.jpg')}}" alt="music fest" id='test' class='col-lg-5 col-12 order-1 order-lg-2 p-5 pb-3 mx-auto'>
-	</section>
-
-</section>{% endblock %}
+	<header class='container py-4'>
+		<h2 class='text-center fw-bold'>Page de test</h2>
+	</header>
+	<article class='px-4'>
+		<h1>Bonjours</h1>
+		<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis, facere reiciendis? Et, voluptas nulla? Sequi, veritatis quaerat odit consequuntur tempora dolorum porro quia, laborum commodi, dolores similique optio aliquid voluptates dolore possimus! Aliquam, libero! Ducimus quam obcaecati dicta vero, iusto facilis eaque blanditiis quod, eveniet aperiam similique quaerat voluptatum neque!</p>
+		<section class='container border rounded py-4'>
+			<h3 class='mx-3'>{{article.title}}</h3>
+			<section class='d-flex my-3'>
+				<img class='mx-3' src="{{absolute_url(asset('assets/uploads/articles/' ~ article.featuredImage)) }}" alt="" width='300px'>
+				<p class='mx-3'>{{article.introduction}}</p>
+			</section>
+			<a class='mx-3' href="{{ absolute_url(path('app_article_details', {slug: article.slug})) }}">Voir l'article dans son intégralité</a>
+		</section>
+	</article>
+{% endblock %}

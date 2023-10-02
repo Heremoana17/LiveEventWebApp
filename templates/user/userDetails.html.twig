@@ -1,38 +1,57 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello UserController!
+{% block title %}
+	{{user.firstName}}
+	{{user.lastName}}
 {% endblock %}
 
 {% block body %}
 	<section class="container mt-4">
 		<div class="row">
-			<h1>{{user.firstName}}
-				{{user.lastName}}</h1>
-			<hr>
-			<div class="col-6">
-				<p>Email :
-					{{user.email}}</p>
-				<p>Adresse :
-					{{user.address}}
-					<br>
-					{{user.zipCode}}
-					<br>
-					{{user.city}}</p>
-				<p>Role :
-					{{user.roles[0]}}</p>
-				<p>Date d'inscriptiuon :
-					{{user.createdAt|date("d/m/Y")}}</p>
-				<p>Inscrit à la newsletter :
-					{% if user.isSubscriber is same as(false) %}
-						non
-					{% else %}
-						oui
-					{% endif %}
-				</p>
-			</div>
-			<a href="{{path('app_editUser', {id: user.id})}}" class="col-6">
-				<button class='btn btn-primary'>Modifier mes données</button>
-			</a>
+			<section class='col mx-4 mx-lg-0'>
+				<h1 class='fw-bold'>{{user.firstName}}
+					{{user.lastName}}</h1>
+				<hr>
+				<article class='d-lg-flex'>
+					<div class="col-12 col-lg-6">
+						<p class='fw-bold'>Email :
+							<span class='fw-normal text-primary'>{{user.email}}</span>
+						</p>
+						<p class='fw-bold'>Adresse :
+							<span class='fw-normal text-primary'>{{user.address}}
+								<br>
+								{{user.zipCode}}
+								<br>
+								{{user.city}}</span>
+						</p>
+						<p class='fw-bold'>Role :
+							<span class='fw-normal text-primary'>{{user.roles[0]}}</span>
+						</p>
+						{% if user.roles[0] is same as('ROLE_ADMIN')%}
+							<section>
+								<p class="fw-bold border rounded mb-3 mx-2 px-3 py-2">Nombre d'articles :
+									<span class='fw-normal text-primary'>{{articles|length}}</span>
+								</p>
+							</section>
+						{% endif %}
+						<p class='fw-bold'>Date d'inscriptiuon :
+							<span class='fw-normal text-primary'>{{user.createdAt|date("d/m/Y")}}</span>
+						</p>
+						<p class='fw-bold'>Inscrit à la newsletter :
+							<span class='fw-normal text-primary'>
+								{% if user.isSubscriber is same as(false) %}
+									non
+								{% else %}
+									oui
+								{% endif %}
+							</span>
+						</p>
+					</div>
+					<a href="{{path('app_editUser', {id: user.id})}}" class="col-6">
+						<button class='btn btn-primary'>Modifier mes données</button>
+					</a>
+				</article>
+			</section>
 		</div>
 	</section>
 {% endblock %}

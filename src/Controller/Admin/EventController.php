@@ -6,7 +6,9 @@ use App\Entity\Event;
 use App\Entity\ImageEvent;
 use App\Form\EventFormType;
 use App\Repository\EventRepository;
+use App\Repository\UserRepository;
 use App\Service\PictureService;
+use App\Service\SendMailService;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -35,7 +37,7 @@ class EventController extends AbstractController
     }
 
     #[Route('/edit/{id?}', name:'editEvent')]
-    public function editEvent(Request $request, EntityManagerInterface $em, PictureService $pictureService, Event $event=null, SluggerInterface $sluggerInterface): Response
+    public function editEvent(Request $request, EntityManagerInterface $em, PictureService $pictureService, Event $event=null, SluggerInterface $sluggerInterface, UserRepository $userRepository, SendMailService $mailer): Response
     {
         $new = false;
         if (!$event) {
@@ -68,6 +70,29 @@ class EventController extends AbstractController
             //on persist
             $em->persist($event);
             $em->flush();
+            //on envoie le mail newsletter aux abonnées
+            $valider = $form->get('valider')->getData();
+            if ($valider) {
+                //on recupère les données du formulaire
+                $subject = $form->get('subject')->getData();
+                $content = $form->get('Content')->getData();
+                //on récupère les abonnées
+                $abonnées = $userRepository->findBy(['isSubscriber' => true]);
+                //on envoie le mail
+                foreach($abonnées as $abonnée){
+                    $mailer->send(
+                        'news@liveevent.fr',
+                        $abonnée->getEmail(),
+                        $subject,
+                        'newletter',
+                        [
+                            'content' => $content,
+                            'abonnée' => $abonnée,
+                            'event' => $event
+                        ]
+                    );
+                }
+            }
             //creation des message flash
             if ($new === true) {
                 $this->addFlash('success', 'Nouvel evenement crée');
@@ -84,9 +109,12 @@ class EventController extends AbstractController
     }
 
     #[Route('/delete/event/{id?}', name:'deleteEvent')]
-    public function deleteEvent(Event $event, EntityManagerInterface $em):RedirectResponse
+    public function deleteEvent(Event $event, EntityManagerInterface $em, PictureService $pictureService):RedirectResponse
     {
         if ($event) {
+            $images = $event->getImageEvents();
+            $featuredImage = $event->getFeaturedImage();
+            $pictureService->deleteAllsImages($images, $featuredImage, 'evenements');
             $em->remove($event);
             $em->flush();
             //edition des messages flash
@@ -108,7 +136,7 @@ class EventController extends AbstractController
             // On récupère le nom de l'image
             $nom = $image->getName();
 
-            if($pictureService->delete($nom, 'evenements', 300, 300)){
+            if($pictureService->delete($nom, 'evenements')){
                 // On supprime l'image de la base de données
                 $em->remove($image);
                 $em->flush();

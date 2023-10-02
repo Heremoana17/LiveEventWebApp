@@ -43,11 +43,18 @@ class Event
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $featuredImage = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $video = null;
+
+    #[ORM\OneToMany(mappedBy: 'relatedEvent', targetEntity: Article::class)]
+    private Collection $relatedArticles;
+
     public function __construct()
     {
         $this->imageEvents = new ArrayCollection();
         $this->created_at = new DateTimeImmutable();
         $this->category = new ArrayCollection();
+        $this->relatedArticles = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -169,6 +176,48 @@ class Event
     public function setFeaturedImage(?string $featuredImage): static
     {
         $this->featuredImage = $featuredImage;
+
+        return $this;
+    }
+
+    public function getVideo(): ?string
+    {
+        return $this->video;
+    }
+
+    public function setVideo(?string $video): static
+    {
+        $this->video = $video;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Article>
+     */
+    public function getRelatedArticles(): Collection
+    {
+        return $this->relatedArticles;
+    }
+
+    public function addRelatedArticle(Article $relatedArticle): static
+    {
+        if (!$this->relatedArticles->contains($relatedArticle)) {
+            $this->relatedArticles->add($relatedArticle);
+            $relatedArticle->setRelatedEvent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRelatedArticle(Article $relatedArticle): static
+    {
+        if ($this->relatedArticles->removeElement($relatedArticle)) {
+            // set the owning side to null (unless already changed)
+            if ($relatedArticle->getRelatedEvent() === $this) {
+                $relatedArticle->setRelatedEvent(null);
+            }
+        }
 
         return $this;
     }

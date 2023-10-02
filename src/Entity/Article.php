@@ -54,10 +54,17 @@ class Article
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $video = null;
 
+    #[ORM\ManyToOne(inversedBy: 'relatedArticles')]
+    private ?Event $relatedEvent = null;
+
+    #[ORM\OneToMany(mappedBy: 'relatedArticle', targetEntity: Comment::class, orphanRemoval: true)]
+    private Collection $comments;
+
     public function __construct()
     {
         $this->images = new ArrayCollection();
         $this->created_at = new DateTimeImmutable();
+        $this->comments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -175,6 +182,48 @@ class Article
     public function setVideo(?string $video): static
     {
         $this->video = $video;
+
+        return $this;
+    }
+
+    public function getRelatedEvent(): ?Event
+    {
+        return $this->relatedEvent;
+    }
+
+    public function setRelatedEvent(?Event $relatedEvent): static
+    {
+        $this->relatedEvent = $relatedEvent;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Comment>
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comment $comment): static
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments->add($comment);
+            $comment->setRelatedArticle($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comment $comment): static
+    {
+        if ($this->comments->removeElement($comment)) {
+            // set the owning side to null (unless already changed)
+            if ($comment->getRelatedArticle() === $this) {
+                $comment->setRelatedArticle(null);
+            }
+        }
 
         return $this;
     }

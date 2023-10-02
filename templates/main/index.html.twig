@@ -5,13 +5,17 @@
 
 {% block body %}
 	<header id="headerAccueil">
-		<section class="container">
-			<div class="row">
-				<div class="col-12">
-					<h1 class='text-center mt-3' id='titleAccueil'>Live event</h1>
+		{% if  PageAccueil is not empty%}
+			{% for background in PageAccueil %}
+				<div id="carouselExampleAutoplaying" class="carousel slide carousel-fade" data-bs-ride="carousel">
+					<div class="carousel-inner">
+						{% for images in background.backgroundImages %}
+							<div class="carousel-item headerImage {{ (loop.first ) ? 'active' : '' }}" style="background-image:url('{{asset('assets/uploads/backgroundImages/')}}{{images.name}}'); z-index:0"></div>
+						{% endfor %}
+					</div>
 				</div>
-			</div>
-		</section>
+			{% endfor %}
+		{% endif %}
 	</header>
 	<main id='mainAccueil'>
 		<section class='container rounded' id='section1Accueil'>
@@ -24,9 +28,9 @@
 								<i class="fas fa-arrow-left"></i>
 							</div>
 							{% for event in events %}
-								<div class="slide mx-xl-4 eventHover rounded-top text-center pt-4 d-flex flex-column justify-content-end" id='imageArticleDetails' style="background-image:url('{{asset('assets/uploads/evenements/')}}{{event.featuredImage}}')">
-									<p class='h3 fw-bold text-white text-center pb-3'>{{event.name}}</p>
-								</div>
+								<a href='{{path('app_detailEvent', {slug : event.slug})}}' class="slide mx-xl-4 eventHover rounded-top text-center pt-4 d-flex flex-column justify-content-end text-decoration-none" id='imageArticleDetails' style="background-image:url('{{asset('assets/uploads/evenements/')}}{{event.featuredImage}}')">
+									<p class='h3 fw-bold text-white text-center pb-3 mx-auto'>{{event.name}}</p>
+								</a>
 							{% endfor %}
 							<div onclick="next()" class="control-next-btn">
 								<i class="fas fa-arrow-right"></i>
@@ -36,7 +40,7 @@
 					{% else %}
 						<article class='text-center pt-4'>
 							<h3>Auncun Evenement pour le moment</h3>
-							<h4>Retrouvez tres prochainement tous nos evenements</h4>
+							<h4>Retrouvez très prochainement tous nos evenements</h4>
 						</article>
 					{% endif %}
 				</div>
@@ -100,7 +104,7 @@
 					<h2 class='my-3 display-1 fw-bolder'>{{lastEvent.name}}</h2>
 					<ul class='d-flex list-unstyled justify-content-center mt-4 mb-5'>
 						<li class='mx-5 px-4'>
-							<a class='btn btn-lg btn-danger' href="{{path('app_detailEvent', {id : lastEvent.id})}}">Découvrir l'évènement</a>
+							<a class='btn btn-lg btn-danger' href="{{path('app_detailEvent', {slug : lastEvent.slug})}}">Découvrir l'évènement</a>
 						</li>
 						<li class='mx-5 px-4'>
 							<a class='btn btn-lg btn-danger' href="">Réserver vos places</a>

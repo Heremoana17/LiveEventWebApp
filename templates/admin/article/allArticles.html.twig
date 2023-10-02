@@ -4,8 +4,8 @@
 {% endblock %}
 
 {% block body %}
-	<header class='container pt-5 pb-4'>
-		<article class='row'>
+	<header class='container pt-5 pb-4 px-4 px-lg-0'>
+		<article class='row '>
 			<h1 class='fw-bold col ps-0'>Liste de tous les articles
 				{% if slug is defined %}
 					de la category
@@ -24,4 +24,5 @@
 			<p>Vous pouvez commencer à rediger en cliquant sur le bouton ci dessus</p>
 		</article>
 	{% endif %}
+	
 {% endblock %}

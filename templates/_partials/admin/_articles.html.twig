@@ -5,7 +5,7 @@
 				<section class='py-4 bgImg' {% if article.images is not empty %} style="background-image:url('{{asset('assets/uploads/articles/diapo/')}}{{article.images[0].name}}')" {% endif %}></section>
 				<section class='text-white bgText'>
 					<h2 class='fw-bold h1'>{{article.title}}</h2>
-					<p class='pIntro'>{{article.introduction}}</p>
+					<p class='introSection'>{{article.introduction}}</p>
 					<p class='fst-italic'>Publier le :
 						{{article.createdAt|date("d/m/Y")}}
 						<br>
@@ -13,14 +13,14 @@
 						{{article.author}}</p>
 					<section>
 						<a class='text-decoration-none' href="{{path('app_article_details', {slug: article.slug})}}">
-							<button class='btn btn-primary'>Voir plus de details</button>
+							<button class='btn btn-primary my-1'>Voir plus de details</button>
 						</a>
 						<a class='text-decoration-none' href="{{path('app_editArticle', {id: article.id})}}">
-							<button class='btn btn-success'>Modifier</button>
+							<button class='btn btn-success my-1'>Modifier</button>
 						</a>
 						{% if app.request.get('_route') == 'app_article_mine' %}
 							<a class="text-decoration-none" href="#open-modal{{article.id}}">
-								<button class='btn btn-danger'>Supprimer</button>
+								<button class='btn btn-danger my-1'>Supprimer</button>
 							</a>
 							<div id="open-modal{{article.id}}" class="modal-window">
 								<div class='text-black'>

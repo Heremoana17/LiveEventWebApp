@@ -8,39 +8,53 @@
 	{% if event.imageEvents is not empty %}
 		<div style="background-image:url('{{asset('assets/uploads/evenements/diapo/')}}{{event.imageEvents[0].name}}')" id='imageArticleDetails'></div>
 	{% endif %}
-	<section class="container mt-4">
+	<section class="container mt-4 px-4">
 		<div class="row">
 			<div class="col">
 				<h1>{{event.name}}</h1>
 				<hr>
-				<section class='d-flex my-4'>
-					<img src="{{asset('assets/uploads/evenements/'~ event.featuredImage)}}" alt="" width='300'>
+				<section class='my-4 d-lg-flex border rounded py-4'>
+					<img src="{{asset('assets/uploads/evenements/'~ event.featuredImage)}}" class='float-start mx-3' alt="" width='300'>
 					<p class='px-3'>{{event.introduction}}</p>
 				</section>
-				<p>{{event.content}}</p>
-				<hr>
-				<p>Publié le :
-					{{event.createdAt|date("d/m/Y")}}</p>
+				<section >
+					<p>{{event.content}}</p>
+					<hr>
+					<p>Publié le :
+						{{event.createdAt|date("d/m/Y")}}</p>
+				</section>
 			</div>
 		</div>
 	</section>
 	{% if event.imageEvents is not empty %}
-		<div id="carouselArticle" class="carousel slide" data-bs-ride="carousel">
-			<div class="carousel-inner">
-				{% for image in event.imageEvents %}
-					<div class=" carousel-item {{ (loop.first ) ? 'active' : '' }}">
-						<img src="{{asset('assets/uploads/evenements/diapo/' ~ image.name)}}" class="d-block w-100 " alt="...">
-					</div>
-				{% endfor %}
+		<section class="container mx-auto">
+			<div id="carouselArticle" class="carousel slide" data-bs-ride="carousel">
+				<div class="carousel-inner">
+					{% for image in event.imageEvents %}
+						<div class=" carousel-item {{ (loop.first ) ? 'active' : '' }}">
+							<img src="{{asset('assets/uploads/evenements/diapo/' ~ image.name)}}" class="d-block w-100 " alt="...">
+						</div>
+					{% endfor %}
+				</div>
+				<button class="carousel-control-prev" type="button" data-bs-target="#carouselArticle" data-bs-slide="prev">
+					<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+					<span class="visually-hidden">Previous</span>
+				</button>
+				<button class="carousel-control-next" type="button" data-bs-target="#carouselArticle" data-bs-slide="next">
+					<span class="carousel-control-next-icon" aria-hidden="true"></span>
+					<span class="visually-hidden">Next</span>
+				</button>
 			</div>
-			<button class="carousel-control-prev" type="button" data-bs-target="#carouselArticle" data-bs-slide="prev">
-				<span class="carousel-control-prev-icon" aria-hidden="true"></span>
-				<span class="visually-hidden">Previous</span>
-			</button>
-			<button class="carousel-control-next" type="button" data-bs-target="#carouselArticle" data-bs-slide="next">
-				<span class="carousel-control-next-icon" aria-hidden="true"></span>
-				<span class="visually-hidden">Next</span>
-			</button>
-		</div>
+		</section>
+	{% endif %}
+	{% if event.relatedArticles is not empty %}
+		<section class='container-fluid my-4'>
+			<section class="row">
+				<h3 class='text-center fw-bold p-3'>Retrouvé toutes les actualitées sur
+					{{event.name}}</h3>
+				{% set articles = event.relatedArticles|reverse %}
+				{% include '_partials/_articles.html.twig' %}
+			</section>
+		</section>
 	{% endif %}
 {% endblock %}

@@ -4,11 +4,15 @@
 {% endblock %}
 
 {% block body %}
-	<section class="container mt-4">
+	<header class='container pt-5 pb-4 px-5 px-lg-0'>
+		<article class='row'>
+			<h1 class='fw-bold col ps-0'>Ajout d'un partenaire</h1>
+			<hr>
+		</article>
+	</header>
+	<section class="container px-5 px-lg-0">
 		<div class="row">
-			<div class="col">
-				<h1>Edition d'un sponsor</h1>
-				<hr>
+			<section class="col-12 px-0">
 				{{ form_start(form) }}
 				{{ form_row(form.name) }}
 				{{ form_row(form.description) }}
@@ -38,7 +42,7 @@
 					</section>
 				{% endif %}
 				{{ form_end(form) }}
-			</div>
+			</section>
 		</div>
 	</section>
 {% endblock %}

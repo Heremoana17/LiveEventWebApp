@@ -3,9 +3,10 @@
 namespace App\Controller;
 
 use App\Form\NewsLetterFormType;
-use App\Repository\ArticleRepository;
+use App\Repository\BackgroundImageRepository;
 use App\Repository\CategoryRepository;
 use App\Repository\EventRepository;
+use App\Repository\PageRepository;
 use App\Repository\SponsorRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -18,8 +19,9 @@ use Symfony\Component\Routing\Annotation\Route;
 class MainController extends AbstractController
 {
     #[Route('', name: 'main')]
-    public function index(CategoryRepository $cr, SponsorRepository $sr, EventRepository $er, NewsLetterFormType $newsletter, Request $request, UserRepository $ur, EntityManagerInterface $em): Response
+    public function index(CategoryRepository $cr, SponsorRepository $sr, EventRepository $er, NewsLetterFormType $newsletter, Request $request, UserRepository $ur, EntityManagerInterface $em, PageRepository $pr): Response
     {
+        $PageAccueil = $pr->findBy(['name' => 'accueil']);
         $categoriesSection1 = $cr->findBy(['parent' => 70]);
         $events = $er->findAll();
         $sponsors = $sr->findAll();
@@ -48,6 +50,7 @@ class MainController extends AbstractController
             }
         }
         return $this->render('main/index.html.twig',[
+            'PageAccueil' => $PageAccueil,
             'categoriesSection1' =>$categoriesSection1,
             'sponsors' => $sponsors,
             'events' => $events,

@@ -4,9 +4,11 @@ namespace App\Form;
 
 use App\Entity\Article;
 use App\Entity\Category;
+use App\Entity\Event;
 use App\Repository\CategoryRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -57,6 +59,41 @@ class ArticleFormType extends AbstractType
                 'label' => false,
                 'required' => false
             ])
+            // champ pour l'evenement référent
+            ->add('relatedEvent', EntityType::class, [
+                'class' => Event::class,
+                'label' => 'Votre article fait-il référence à un évènement en particulier ?',
+                'required' => false
+            ])
+            //champ pour rediger le mail pour les abonnées newsletter
+            ->add('Valider', CheckboxType::class, [
+                'label' => 'Voulez vous informer les abonnées de cette nouvelle actualité ?',
+                'mapped' => false,
+                'required' => false,
+                'attr' => [
+                    'onclick' => "myFunction()"
+                ]
+            ])
+            ->add('Subject', TextareaType::class, [
+                'label' => 'Title',
+                'mapped' => false,
+                'required' => false,
+                'attr' => [
+                    'class'=>'hero',
+                    'disabled' => 'disabled'
+                ]
+            ])
+            ->add('Content', TextareaType::class, [
+                'label' => 'Contenut',
+                'mapped' => false,
+                'required' => false,
+                'attr' => [
+                    'class'=>'hero',
+                    'disabled' => 'disabled'
+                ]
+            ])
+
+            //boutton d'envoie du formulurair
             ->add('valider', SubmitType::class)
         ;
     }

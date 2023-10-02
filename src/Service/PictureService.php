@@ -94,7 +94,7 @@ class PictureService
         return $fichier;
     }
 
-    public function delete(string $fichier, ?string $folder = '', ?int $width = 250, ?int $height = 250)
+    public function delete(string $fichier, ?string $folder = '')
     {
         if($fichier !== 'default.webp'){
             $success = false;
@@ -116,6 +116,36 @@ class PictureService
             return $success;
         }
         return false;
+    }
+    public function backgropundImage($image, ?string $folder = '')
+    {
+        if ($image) {
+            $nomImage = $this->params->get('images_directory') . $folder;
+            $min = $nomImage . '/' . $image->getName();
+            if (file_exists($min)) {
+                unlink($min);
+            }
+        }
+    }
+
+    public function deleteAllsImages($images, string $featuredImage, ?string $folder = '')
+    {
+        if ($images) {
+            foreach($images as $image){
+                $nomImage = $this->params->get('images_directory') . $folder;
+                $min = $nomImage . '/diapo/' . $image->getName();
+                if (file_exists($min)) {
+                    unlink($min);
+                }
+            }
+        }
+        if ($featuredImage) {
+            $nomImage = $this->params->get('images_directory') . $folder;
+            $min = $nomImage .'/'. $featuredImage;
+            if (file_exists($min)) {
+                unlink($min);
+            }
+        }
     }
 }
 

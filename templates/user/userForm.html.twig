@@ -6,7 +6,7 @@
 {% block body %}
 	<section class="container mt-4">
 		<div class="row">
-			<div class="col-12">
+			<article class="col mx-4 mx-lg-0">
 				<h1>Modifier mes données</h1>
 				<hr>
 				{{ form_start(form) }}
@@ -24,10 +24,12 @@
 						{{ form_row(form.city) }}
 					</fieldset>
 				</div>
-				{{ form_row(form.password) }}
-				{{ form_row(form.newsLetter) }}
-				{{ form_end(form) }}
-			</div>
+				<section class='px-2'>
+					{{ form_row(form.password) }}
+					{{ form_row(form.newsLetter) }}
+					{{ form_end(form) }}
+				</section>
+			</article>
 		</div>
 	</section>
 {% endblock %}

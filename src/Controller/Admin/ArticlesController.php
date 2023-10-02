@@ -6,7 +6,9 @@ use App\Entity\Article;
 use App\Entity\Image;
 use App\Form\ArticleFormType;
 use App\Repository\ArticleRepository;
+use App\Repository\UserRepository;
 use App\Service\PictureService;
+use App\Service\SendMailService;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Component\Pager\PaginatorInterface;
@@ -54,7 +56,7 @@ class ArticlesController extends AbstractController{
     }
 
     #[Route('/edit/{id?}', name: 'editArticle')]
-    public function addArticle(ManagerRegistry $doctrine, Request $request, Article $article = null, PictureService $pictureService, SluggerInterface $slugger): Response
+    public function addArticle(ManagerRegistry $doctrine, Request $request, Article $article = null, PictureService $pictureService, SluggerInterface $slugger, SendMailService $mail, UserRepository $userRepository): Response
     {
         $new = false;
         if (!$article) {
@@ -90,6 +92,30 @@ class ArticlesController extends AbstractController{
             //on persist
             $manager->persist($article);
             $manager->flush();
+            //on envoie le mail aux abonnées
+            $valider = $articleForm->get('Valider')->getData();
+            if ($valider) {
+                //on recupère les données du formulaire
+                $Subject = $articleForm->get('Subject')->getData();
+                $Content = $articleForm->get('Content')->getData();
+                //on récupère les abonnées
+                $abonnées = $userRepository->findBy(['isSubscriber' => true]);
+                //on envoie le mail
+                foreach ($abonnées as $abonnée) { 
+                    $mail->send(
+                        'news@liveevent.fr',
+                        $abonnée->getEmail(),
+                        $Subject,
+                        'newletter',
+                        [
+                            'content' => $Content,
+                            'abonnée' => $abonnée,
+                            'article' => $article
+                        ]
+                    );
+                }
+                
+            }
             if ($new === true) {
                 $this->addFlash('success',"Nouvelle article crée et ajouter aux actualité");
             } else {
@@ -104,9 +130,12 @@ class ArticlesController extends AbstractController{
         ]);
     }
 
-    #[Route('/delete/{id}', name:'deletArticle')]
-    public function deletArticle(Article $article, EntityManagerInterface $em): RedirectResponse
+    #[Route('/delete/article/{id}', name:'deletArticle')]
+    public function deletArticle(Article $article, EntityManagerInterface $em, PictureService $pictureService): RedirectResponse
     {
+        $images = $article->getImages();
+        $featuredImage = $article->getFeaturedImage();
+        $pictureService->deleteAllsImages($images, $featuredImage, 'articles');
         $em->remove($article);
         $em->flush();
         return $this->redirectToRoute('app_article_mine');
@@ -123,11 +152,10 @@ class ArticlesController extends AbstractController{
             // On récupère le nom de l'image
             $nom = $image->getName();
 
-            if($pictureService->delete($nom, 'articles', 1024, 576)){
+            if($pictureService->delete($nom, 'articles')){
                 // On supprime l'image de la base de données
                 $em->remove($image);
                 $em->flush();
-
                 return new JsonResponse(['success' => true], 200);
             }
             // La suppression a échoué

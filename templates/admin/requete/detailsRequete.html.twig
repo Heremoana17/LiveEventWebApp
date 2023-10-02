@@ -5,27 +5,26 @@
 {% endblock %}
 
 {% block body %}
-	<main class="container mt-4">
-		<section class="row">
+	<section class="container mt-4">
+		<div class="row px-3 px-lg-0">
 			<article class="col-12">
-				<h1>details de la requete</h1>
+				<h2 class='fw-bold h1'>Details de la requete</h2>
 				<hr>
-				<p>Identifiant de la requete :
-					{{requete.id}}</p>
-				<p>Adresse mail :
-					{{requete.email}}</p>
-				<p>Nom et pernom de l'envoyant :
-					{{requete.lastname}}
-					{{requete.firstname}}</p>
-				<p>Motif de la requête :
-					{{requete.motif}}</p>
-				<p>Contenu de la requête :
-					<br>
-					{{requete.content}}</p>
+				<p class='fw-bold'>Identifiant de la requete : <span class='fw-normal text-primary'>{{requete.id}}</span>
+					</p>
+				<p class='fw-bold'>Adresse mail : <span class='fw-normal text-primary'>{{requete.email}}</span>
+					</p>
+				<p class='fw-bold'>Nom et pernom de l'envoyant : <span class='fw-normal text-primary'>{{requete.lastname}}
+					{{requete.firstname}}</span>
+					</p>
+				<p class='fw-bold'>Motif de la requête : <span class='fw-normal text-primary'>{{requete.motif}}</span>
+					</p>
+				<p class='fw-bold'>Contenu de la requête : <br> <span class='fw-normal text-primary'>{{requete.content}}</span>
+					</p>
 			</article>
 			<section>
 				<a href="{{path('app_reponseRequete', {id:requete.id})}}" class='btn btn-primary'>Répondre</a>
 			</section>
-		</section>
-	</main>
+		</div>
+	</section>
 {% endblock %}

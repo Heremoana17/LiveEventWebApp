@@ -4,13 +4,15 @@
 {% endblock %}
 
 {% block body %}
-	<main class="container mt-4">
-		<section class="row">
+	<header class='container pt-5 pb-lg-4 px-5 px-lg-0'>
+		<article class='row'>
+			<h1 class='fw-bold col ps-0'>Reponse à la requête {{requete.id}}</h1>
+			<hr>
+		</article>
+	</header>
+	<section class="container mt-4">
+		<section class="row mx-3 mx-lg-0">
 			<div class="col-12">
-				<H1>Reponse à la requête
-					{{requete.id}}</H1>
-				<hr>
-				<br>
 				<section class="border rounded p-4">
 					<h3>Rappel de la requete</h3>
 					<hr>
@@ -35,5 +37,5 @@
 
 			</div>
 		</section>
-	</main>
+	</section>
 {% endblock %}

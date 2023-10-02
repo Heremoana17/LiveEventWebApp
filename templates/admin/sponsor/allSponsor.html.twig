@@ -1,60 +1,66 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Sponsors
+{% block title %}Partenaires
 {% endblock %}
 
 {% block body %}
-	<header class='container pt-5 pb-4'>
+	<header class='container pt-5 pb-4 px-4 px-lg-0'>
 		<article class='row'>
-			<h1 class='fw-bold col ps-0'>Cree un nouveau sponsor</h1>
+			<h1 class='fw-bold col ps-0'>Tous les partenaires</h1>
 			<hr>
 		</article>
-		<a class='btn btn-primary row' href="{{path('app_editSponsor')}}">Rédiger un nouveau sponsor</a>
+		<a class='btn btn-primary row' href="{{path('app_editSponsor')}}">Ajouter un nouveau sponsor</a>
 	</header>
-	<main class='container-fluid'>
-		<section class="row">
-			{% for sponsor in sponsors %}
-				<article class="col-12 px-0">
-					<section class='pt-2 bgImg' {% if sponsor.imageSponsors is not empty %} style="background-image:url('{{asset('assets/uploads/sponsors/diapo/')}}{{sponsor.imageSponsors[0].name}}')" id='imageArticle' {% endif %}></section>
-					<section class=' pt-4 text-white fw-bold bgText d-flex justify-content-between'>
-						<article>
-							<h1>{{sponsor.name}}</h1>
-							<p class='textIntro'>{{sponsor.description}}</p>
-							<section>
-								<a href="{{path('app_detailsSponsor', {id:sponsor.id})}}" class='text-decoration-none '>
-									<button class='btn btn-primary'>Voir details</button>
-								</a>
-								<a href="{{path('app_editSponsor', { id : sponsor.id})}}" class='text-decoration-none'>
-									<button class='btn btn-success'>Modifier</button>
-								</a>
-								<a class="text-decoration-none" href="#open-modal{{sponsor.id}}">
-									<button class='btn btn-danger'>Supprimer</button>
-								</a>
-								<div id="open-modal{{sponsor.id}}" class="modal-window">
-									<div class='text-black'>
-										<a href="#" title="Fermer" class="modal-close btn-close"></a>
-										<h3>Confirmation</h3>
-										<hr>
-										<p>Etes-vous sur de vouloir supprimer ce sponsor ?</p>
-										<hr>
-										<section class='text-end'>
-											<a href="{{path('app_deletSponsor', {id:sponsor.id})}}" class='text-decoration-none'>
-												<button class='btn btn-danger'>Supprimer</button>
-											</a>
-											<a href="#" title="Fermer" class="btn btn-secondary">Non</a>
-										</section>
+	{% if sponsors is not empty %}
+		<section class='container-fluid'>
+			<section class="row">
+				{% for sponsor in sponsors %}
+					<article class=" px-0">
+						<section class='pt-2 bgImg' {% if sponsor.imageSponsors is not empty %} style="background-image:url('{{asset('assets/uploads/sponsors/diapo/')}}{{sponsor.imageSponsors[0].name}}')" id='imageArticle' {% endif %}></section>
+						<section class=' pt-4 text-white fw-bold bgText d-flex justify-content-between'>
+							<article>
+								<h1>{{sponsor.name}}</h1>
+								<p class='textIntro'>{{sponsor.description}}</p>
+								<section>
+									<a href="{{path('app_detailsSponsor', {id:sponsor.id})}}" class='text-decoration-none '>
+										<button class='btn btn-primary'>Voir details</button>
+									</a>
+									<a href="{{path('app_editSponsor', { id : sponsor.id})}}" class='text-decoration-none'>
+										<button class='btn btn-success'>Modifier</button>
+									</a>
+									<a class="text-decoration-none" href="#open-modal{{sponsor.id}}">
+										<button class='btn btn-danger'>Supprimer</button>
+									</a>
+									<div id="open-modal{{sponsor.id}}" class="modal-window">
+										<div class='text-black'>
+											<a href="#" title="Fermer" class="modal-close btn-close"></a>
+											<h3>Confirmation</h3>
+											<hr>
+											<p>Etes-vous sur de vouloir supprimer ce sponsor ?</p>
+											<hr>
+											<section class='text-end'>
+												<a href="{{path('app_deletSponsor', {id:sponsor.id})}}" class='text-decoration-none'>
+													<button class='btn btn-danger'>Supprimer</button>
+												</a>
+												<a href="#" title="Fermer" class="btn btn-secondary">Non</a>
+											</section>
+										</div>
 									</div>
-								</div>
-							</section>
-						</article>
-						<div class=" pt-2 text-end">
-							<img src="{{asset('assets/uploads/sponsors/' ~ sponsor.logo)}}" class="img-fluid" width="150" alt="logo sponsor">
-						</div>
-					</section>
-
-				</article>
-
-			{% endfor %}
+								</section>
+							</article>
+							<div class=" pt-2 text-end">
+								<img src="{{asset('assets/uploads/sponsors/' ~ sponsor.logo)}}" class="img-fluid" width="150" alt="logo sponsor">
+							</div>
+						</section>
+					</article>
+				{% endfor %}
+			</section>
 		</section>
-	</main>
+	{% else %}
+		<article class='container py-4'>
+			<p>Il n'y a pour l'instant aucun Partenaire</p>
+			<p>Vous pouvez ajouter un partenaire en cliquant sur le bouton ci dessus</p>
+		</article>
+	{% endif %}
+	
 {% endblock %}

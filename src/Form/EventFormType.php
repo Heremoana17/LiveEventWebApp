@@ -7,6 +7,7 @@ use App\Entity\Event;
 use App\Repository\CategoryRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -41,16 +42,47 @@ class EventFormType extends AbstractType
                 },
             ])
             ->add('featuredImage', FileType::class, [
-                'label' => 'Image en avant',
+                'label' => false,
                 'multiple' => false,
                 'mapped' => false,
                 'required' => false
             ])
             ->add('images', FileType::class,[
-                'label' => 'Images',
+                'label' => false,
                 'multiple' => true,
                 'mapped' => false,
                 'required' => false
+            ])
+            ->add('video', TextType::class,[
+                'label' => false,
+                'required' => false
+            ])
+            //champ pour rediger le mail pour les abonnées newsletter
+            ->add('valider', CheckboxType::class, [
+                'label' => 'Voulez vous informer les abonnées de ce nouvel evenemant ?',
+                'required' => false,
+                'mapped' => false,
+                'attr' => [
+                    'onclick' => 'myFunction()'
+                ]
+            ])
+            ->add('subject', TextType::class, [
+                'label' => 'Titre',
+                'mapped' => false,
+                'required' => false,
+                'attr' => [
+                    'class' => 'hero',
+                    'disabled' => 'disabled'
+                ]
+            ])
+            ->add('Content', TextType::class, [
+                'label' => 'Contenu',
+                'mapped' => false,
+                'required' => false,
+                'attr' => [
+                    'class' => 'hero',
+                    'disabled' => 'disabled'
+                ]
             ])
             ->add('Valider', SubmitType::class)
         ;

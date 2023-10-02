@@ -11,16 +11,14 @@
 		<link
 		href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 		{# feuilles de styles #}
-		<link rel="stylesheet" href="{{asset('assets/css/style.css')}}">
 		<link
-		rel="stylesheet" href="{{asset('assets/css/stylesNav.css')}}">
+		rel="stylesheet" href="{{asset('assets/css/style.css')}}">
 		{# feuilles de style pour les fonts #}
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 		<link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet"> {% block stylesheets %}{% endblock %}
 		{# script js #}
 		<script src='{{asset('assets/js/script.js')}}' defer></script>
-		<script src='{{asset('assets/js/scriptsNav.js')}}' defer></script>
 		<script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous" defer></script>
 		{% block javascripts %}{% endblock %}
 	</head>
