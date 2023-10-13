@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
 use App\Entity\Trait\CreatedAtTrait;
 use App\Entity\Trait\SlugTrait;
 use App\Repository\EventRepository;
@@ -12,6 +13,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: EventRepository::class)]
+#[ApiResource]
 class Event
 {
     use SlugTrait;
@@ -48,6 +50,10 @@ class Event
 
     #[ORM\OneToMany(mappedBy: 'relatedEvent', targetEntity: Article::class)]
     private Collection $relatedArticles;
+
+    #[ORM\ManyToOne(inversedBy: 'event')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?City $city = null;
 
     public function __construct()
     {
@@ -218,6 +224,18 @@ class Event
                 $relatedArticle->setRelatedEvent(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCity(): ?City
+    {
+        return $this->city;
+    }
+
+    public function setCity(?City $city): static
+    {
+        $this->city = $city;
 
         return $this;
     }

@@ -10,13 +10,6 @@
 	<article class='px-4'>
 		<h1>Bonjours</h1>
 		<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis, facere reiciendis? Et, voluptas nulla? Sequi, veritatis quaerat odit consequuntur tempora dolorum porro quia, laborum commodi, dolores similique optio aliquid voluptates dolore possimus! Aliquam, libero! Ducimus quam obcaecati dicta vero, iusto facilis eaque blanditiis quod, eveniet aperiam similique quaerat voluptatum neque!</p>
-		<section class='container border rounded py-4'>
-			<h3 class='mx-3'>{{article.title}}</h3>
-			<section class='d-flex my-3'>
-				<img class='mx-3' src="{{absolute_url(asset('assets/uploads/articles/' ~ article.featuredImage)) }}" alt="" width='300px'>
-				<p class='mx-3'>{{article.introduction}}</p>
-			</section>
-			<a class='mx-3' href="{{ absolute_url(path('app_article_details', {slug: article.slug})) }}">Voir l'article dans son intégralité</a>
-		</section>
+
 	</article>
 {% endblock %}

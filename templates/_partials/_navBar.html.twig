@@ -13,7 +13,7 @@
 		<div class="collapse navbar-collapse" id="navbarScroll">
 			<ul class="navbar-nav navbar-nav-scroll my-2 my-lg-0 mx-auto pe-5" style="--bs-scroll-height: 200px;">
 				<li class="nav-item me-3">
-					
+
 					<a class="nav-link me-3 fw-bold fs-5 {% if app.request.get('_route') == 'app_main' %} text-primary {% endif %}" href="{{path('app_main')}}">Accueil</a>
 				</li>
 				<li class="nav-item me-3">
@@ -21,6 +21,9 @@
 				</li>
 				<li class="nav-item me-3">
 					<a class="nav-link me-3 fw-bold fs-5 {% if app.request.get('_route') == 'app_contact' %} text-primary {% endif %}" href="{{path('app_contact')}}">Contact</a>
+				</li>
+				<li class="nav-item me-3">
+					<a class="nav-link me-3 fw-bold fs-5 {% if app.request.get('_route') == 'app_contact' %} text-primary {% endif %}" href="{{path('app_test')}}">Test</a>
 				</li>
 			</ul>
 
