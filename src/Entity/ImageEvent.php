@@ -3,9 +3,11 @@
 namespace App\Entity;
 
 use App\Repository\ImageEventRepository;
+use ApiPlatform\Metadata\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ImageEventRepository::class)]
+#[ApiResource]
 class ImageEvent
 {
     #[ORM\Id]

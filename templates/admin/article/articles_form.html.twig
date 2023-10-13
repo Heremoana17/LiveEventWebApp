@@ -14,9 +14,15 @@
 		<section class="row">
 			<article class="col-12 px-0">
 				{{ form_start(articleForm) }}
-				{{ form_row(articleForm.title) }}
-				{{ form_row(articleForm.introduction) }}
-				{{ form_row(articleForm.content) }}
+				<section>
+					{{ form_row(articleForm.title) }}
+				</section>
+				<section>
+					{{ form_row(articleForm.introduction) }}
+				</section>
+				<section>
+					{{ form_row(articleForm.content) }}
+				</section>
 
 				{# section pour featuredimage #}
 				<section>
@@ -42,12 +48,17 @@
 					</span>
 					{{ form_row(articleForm.featuredImage) }}
 					{% if new is same as(false) %}
-						<h2>Image en avant :</h2>
-						<section class='border rounded mb-3 d-inline-flex'>
-							<div class='m-3 row'>
-								<img src="{{asset('assets/uploads/articles/' ~ article.featuredImage) }}" alt="image.name" class='p-0 rounded' style="width:300px">
-							</div>
-						</section>
+						{% if article.featuredImage is not empty %}
+							<h4>Image en avant :</h4>
+							<section class='border rounded mb-3 d-inline-flex'>
+								<div class='m-3 row'>
+									<img src="{{asset('assets/uploads/articles/' ~ article.featuredImage) }}" alt="image.name" class='p-0 rounded' style="width:300px">
+								</div>
+
+							</section>
+						{% else %}
+							<p>Auncune image pour cette articles</p>
+						{% endif %}
 					{% endif %}
 				</section>
 
@@ -88,15 +99,19 @@
 					</span>
 					{{ form_row(articleForm.images) }}
 					{% if new is same as(false) %}
-						<h2>Images :</h2>
-						<section class='d-inline-flex flex-wrap justify-content-center border rounded mb-3'>
-							{% for image in article.images %}
-								<div class='m-3 d-flex flex-column '>
-									<img src="{{asset('assets/uploads/articles/diapo/' ~ image.name) }}" alt="image.name" class='p-0 rounded-top' style="width:400px">
-									<a href="{{path('app_delete_article_image', {id: image.id})}}" data-delete data-token="{{ csrf_token('delete' ~ image.id) }}" class='rounded-bottom bg-danger text-decoration-none text-white p-1 text-center'>Supprimer</a>
-								</div>
-							{% endfor %}
-						</section>
+						{% if article.images is not empty %}
+							<h4>Images :</h4>
+							<section class='d-inline-flex flex-wrap justify-content-center border rounded mb-3'>
+								{% for image in article.images %}
+									<div class='m-3 d-flex flex-column '>
+										<img src="{{asset('assets/uploads/articles/diapo/' ~ image.name) }}" alt="image.name" class='p-0 rounded-top' style="width:400px">
+										<a href="{{path('app_delete_article_image', {id: image.id})}}" data-delete data-token="{{ csrf_token('delete' ~ image.id) }}" class='rounded-bottom bg-danger text-decoration-none text-white p-1 text-center'>Supprimer</a>
+									</div>
+								{% endfor %}
+							</section>
+						{% else %}
+							<p>Auncune image pour cette articles</p>
+						{% endif %}
 					{% endif %}
 				</section>
 
@@ -127,8 +142,13 @@
 					</span>
 					{{ form_row(articleForm.video) }}
 				</section>
-				{{ form_row(articleForm.categories) }}
-				{{ form_row(articleForm.relatedEvent) }}
+
+				<section>
+					{{ form_row(articleForm.categories) }}
+				</section>
+				<section>
+					{{ form_row(articleForm.relatedEvent) }}
+				</section>
 				{% if new %}
 					<section class='container border rounded p-4 my-4'>
 						{{ form_row(articleForm.Valider) }}

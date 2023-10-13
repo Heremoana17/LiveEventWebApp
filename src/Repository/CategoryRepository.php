@@ -36,6 +36,17 @@ class CategoryRepository extends ServiceEntityRepository
            ->getResult()
        ;
    }
+   public function test($value): array
+   {
+       return $this->createQueryBuilder('c')
+            ->join('c.events', 'e')
+            ->andWhere('e.category = :val')
+            ->setParameter('val', $value)
+            ->orderBy('e.id', 'DESC')
+            ->getQuery()
+            ->getResult()
+       ;
+   }
 
 //    public function findOneBySomeField($value): ?Category
 //    {

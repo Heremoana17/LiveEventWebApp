@@ -3,9 +3,11 @@
 namespace App\Entity;
 
 use App\Repository\ImageRepository;
+use ApiPlatform\Metadata\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ImageRepository::class)]
+#[ApiResource]
 class Image
 {
     #[ORM\Id]

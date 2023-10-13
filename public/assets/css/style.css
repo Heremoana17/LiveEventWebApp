@@ -35,13 +35,6 @@ transform: scaleY(1.09);
   background-position: center;
   color: black;
 }
-#imageArticleDetails{
-  width: 100%;
-  height: 500px;
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
-}
 .introSection{
   overflow-y: hidden;
   max-height: 148px;
@@ -74,7 +67,7 @@ transform: scaleY(1.09);
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
-  height: 600px;
+  height: 500px;
 }
 #mainAccueil{
   background-image: url('../image/Astronote.jpg');
@@ -84,10 +77,16 @@ transform: scaleY(1.09);
 }
 #section1Accueil{
   position:relative;
-  top: -100px;
+  top: -200px;
   background: linear-gradient(180deg, rgba(7, 31, 100,1) 48%, rgba(255,255,255,0) 85%);
 }
-
+.imageArticleDetails{
+  height: 500px;
+  width: 100%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
 /* style pour le carousel devenement */
 .slider {
   display: flex;
@@ -188,12 +187,13 @@ transform: scaleY(1.09);
     top: 37%;
   }
 }
-
 .sectionAccueil{
-    margin-top: 100px;
+    position: relative;
+    top: -150px;
 }
 #newsLetterAccueil{
     background-color: #051525;
+    margin-top: -150px;
 }
 
 
@@ -203,7 +203,7 @@ transform: scaleY(1.09);
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
-  height: 600px;
+  height: 500px;
 }
 @media screen and (max-width: 992px) {
   #article1section1 {

@@ -6,8 +6,10 @@ use App\Entity\Trait\CreatedAtTrait;
 use App\Repository\RequestRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Metadata\ApiResource;
 
 #[ORM\Entity(repositoryClass: RequestRepository::class)]
+#[ApiResource]
 class Request
 {
     use CreatedAtTrait;
