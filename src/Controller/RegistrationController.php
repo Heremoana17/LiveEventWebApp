@@ -36,6 +36,8 @@ class RegistrationController extends AbstractController
             $isSub = $form->get('newLetter')->getData();
             if ($isSub) {
                 $user->setIsSubscriber(true);
+            } else {
+                $user->setIsSubscriber(false);
             }
 
             $entityManager->persist($user);
@@ -65,14 +67,12 @@ class RegistrationController extends AbstractController
                     'token' => $token
                 ]
                 );
-
             return $userAuthenticator->authenticateUser(
                 $user,
                 $authenticator,
                 $request
             );
         }
-
         return $this->render('registration/register.html.twig', [
             'registrationForm' => $form->createView(),
         ]);
