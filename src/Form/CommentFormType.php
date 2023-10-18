@@ -19,9 +19,6 @@ class CommentFormType extends AbstractType
                 'label' => 'Rédiger un commentaire :'
             ])
             ->add('envoyer', SubmitType::class);
-            // ->add('created_at')
-            // ->add('author')
-            // ->add('relatedArticle')
         ;
     }
 

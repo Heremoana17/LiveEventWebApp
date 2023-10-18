@@ -30,7 +30,7 @@ class BackgroundImageController extends AbstractController
     public function edit(Request $request, PictureService $pictureService, EntityManagerInterface $em): Response
     {
         $backgroundImage = new BackgroundImage();
-        $form = $this->createForm(BackgroundImageFormType::class);
+        $form = $this->createForm(BackgroundImageFormType::class, $backgroundImage);
         $form->handleRequest($request);
         if ($form->isSubmitted()&&$form->isValid()) {
             $backgroundImage = $form->getData();
@@ -46,7 +46,7 @@ class BackgroundImageController extends AbstractController
             $em->flush();
             return $this->redirectToRoute('app_background_image_all');
         }
-        return $this->render('admin/background_image/backgroundimageForm.html.twig', [
+        return $this->render('admin/background_image/backgroundImageForm.html.twig', [
             'form' => $form,
         ]);
     }

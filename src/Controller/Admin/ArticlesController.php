@@ -25,10 +25,10 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 class ArticlesController extends AbstractController{
 
     #[Route('/', name:'article')]
-    public function allArticle(ArticleRepository $articlesrepo, PaginatorInterface $paginatorInterface, Request $request):Response
+    public function allArticle(ArticleRepository $articlerepo, PaginatorInterface $paginatorInterface, Request $request):Response
     {
         $articles = $paginatorInterface->paginate(
-            $articlesrepo->findBy([],['created_at'=>'DESC']),
+            $articlerepo->findBy([],['created_at'=>'DESC']),
             $request->query->get('page', 1),
             5
         );
