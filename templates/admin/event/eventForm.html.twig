@@ -99,7 +99,7 @@
 						</section>
 					{% endif %}
 				</section>
-				
+
 				{# section pour la vidéo #}
 				<section>
 					{{ form_label(form.video, 'Video' ) }}
@@ -128,9 +128,14 @@
 					</span>
 					{{ form_row(form.video) }}
 				</section>
-				{{ form_row(form.category) }}
+				<section>
+					{{ form_row(form.category) }}
+				</section>
+				<section>
+					{{ form_row(form.city) }}
+				</section>
 			</article>
-			
+
 			{% if new %}
 				<section class='container border rounded p-4 my-4'>
 					{{ form_row(form.valider) }}

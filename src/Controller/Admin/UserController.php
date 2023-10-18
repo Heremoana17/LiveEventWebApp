@@ -52,8 +52,15 @@ class UserController extends AbstractController
         if($form->isSubmitted()){
             $manager = $doctrine->getManager();
             $user=$form->getData();
+            $isSub = $form->get('newsLetter')->getData();
+            if ($isSub === true) {
+                $user->setIsSubscriber(true);
+            }else {
+                $user->setIsSubscriber(false);
+            }
             $manager->persist($user);
             $manager->flush();
+            
             if ($new) {
                 $this->addFlash('success', 'Nouveau compte creé');
             }else{
@@ -72,6 +79,7 @@ class UserController extends AbstractController
         $manager = $doctrine->getManager();
         $manager->remove($user);
         $manager->flush();
+        $this->addFlash('success', 'Utilisateur supprimé');
         return $this->redirectToRoute('app_user', [
             'user' => $user,
         ]);
