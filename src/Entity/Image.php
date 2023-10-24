@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\ImageRepository;
 use ApiPlatform\Metadata\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ImageRepository::class)]
 #[ApiResource]
@@ -13,9 +14,11 @@ class Image
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['imageForArticle'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['imageForArticle'])]
     private ?string $name = null;
 
     #[ORM\ManyToOne(inversedBy: 'images')]
