@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	page
+	{{title}}
+{% endblock %}
+
+{% block body %}
+	<body id='homeNationSound'>
+		{% if page is not empty %}
+			<header class='container pt-5 px-4 px-lg-0'>
+				<h1 class='text-white text-center title mb-4'>
+					Page
+					{{title}}
+				</h1>
+				<hr>
+			</header>
+			<section class='container'>
+				<section class="row">
+					<div class='my-3'>
+						{% include '_partials/_dashboardNationSound.html.twig' %}
+						<a href="{{path('nationSound_contenu_edit',{id:page.id})}}" class='btn btn-success'>Modifier</a>
+					</div>
+					{% if page is not empty %}
+						<article>
+							<h3 class='text-center text-white fw-bold h1 pt-4'>Image de haut</h3>
+							{% if page.headerImage is not empty%}
+								<div class='col-4 px-3 sectionHomeNationSound imgHeader border border-black rounded' style="background-image:url('{{asset('assets/uploads/figure/' ~ page.headerImage)}}')"></div>
+							{% else %}
+								<p>Il n'y a aucune Image pour le moment</p>
+							{% endif %}
+
+							<h3 class='text-center text-white fw-bold h1 pt-4'>Text de haut</h3>
+							{% if page.headerText %}
+								<p class='border border-black rounded p-3 fs-5 text bg-white'>{{page.headerText}}</p>
+							{% else %}
+								<p>Il n'y a aucun text pour le moment</p>
+							{% endif %}
+						</article>
+					{% endif %}
+				</section>
+			</section>
+		{% else %}
+			<header class='container pt-5 px-4 px-lg-0'>
+				<h1 class='text-white text-center title mb-4'>
+					Page
+					{{title}}
+				</h1>
+				<hr>
+			</header>
+			<section class='container'>
+				<section class="row">
+					<div class='my-3'>
+						{% include '_partials/_dashboardNationSound.html.twig' %}
+						<a href="{{path('nationSound_contenu_edit')}}" class='btn btn-primary'>Rediger</a>
+					</div>
+					<section>
+						<p class='text-white'>Cette page n'existe pas encore, clicker sur
+							<span class='text-primary'>Rediger</span>
+							pour commencer</p>
+					</section>
+				</section>
+			</section>
+		{% endif %}
+	</body>
+{% endblock %}

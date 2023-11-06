@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajout scene
+{% endblock %}
+
+{% block body %}
+	<body id='homeNationSound'>
+		<header class='container pt-5 px-4 px-lg-0'>
+			<h1 class='text-white text-center title mb-4'>
+				Ajout scene
+			</h1>
+			<hr>
+		</header>
+		<section class='container'>
+			<section class='my-3'>{% include '_partials/_dashboardNationSound.html.twig' %}</section>
+			<section class="row pt-4">
+				{{ form_start(form) }}
+				<section>
+					{{ form_row(form.name) }}
+				</section>
+				{# section pour featuredimage #}
+				<section>
+					{{ form_label(form.featuredImage, 'Image en avant' ) }}
+					<span>
+						<i class="fa-solid fa-info ms-2 mb-2 btn btn-sm border" type="button" data-bs-toggle="modal" data-bs-target="#imagesPrincipalModal"></i>
+						<section class="modal fade" id="imagesPrincipalModal" tabindex="-1" aria-labelledby="imagesPrincipalModal" aria-hidden="true">
+							<div class="modal-dialog modal-dialog-centered modal-xl">
+								<div class="modal-content">
+									<article class="modal-header ">
+										<h3 class="modal-title fs-3 fw-bold" id="imagesPrincipalModal">Information</h3>
+										<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+									</article>
+									<article class="modal-body">
+										<h4 class='fw-bold'>Ce champ permet d'ajouter une image à votre scene</h4>
+									</article>
+									<section class="modal-footer">
+										<button type="button" class="btn btn-primary" data-bs-dismiss="modal">Ok</button>
+									</section>
+								</div>
+							</div>
+						</section>
+					</span>
+					{{ form_row(form.featuredImage) }}
+					{% if new is same as(false) %}
+						{% if scene.featuredImage is not empty %}
+							<h4>Image en avant :</h4>
+							<section class='border rounded mb-3 d-inline-flex'>
+								<div class='m-3 row'>
+									<img src="{{asset('assets/uploads/scene/' ~ scene.featuredImage) }}" alt="image.name" class='p-0 rounded' style="width:300px">
+								</div>
+							</section>
+						{% else %}
+							<p>Auncune image pour cette articles</p>
+						{% endif %}
+					{% endif %}
+				</section>
+				{{ form_end(form) }}
+			</section>
+		</section>
+	</body>
+{% endblock %}

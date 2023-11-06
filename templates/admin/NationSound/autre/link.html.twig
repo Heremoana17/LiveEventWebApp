@@ -1,0 +1,70 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liens
+{% endblock %}
+
+{% block body %}
+	<body id='homeNationSound'>
+		<header class='container pt-5 px-4 px-lg-0'>
+			<h1 class='text-white text-center title mb-4'>
+				Liens
+			</h1>
+			<hr>
+		</header>
+		<section class='container'>
+			<section class="row">
+				{% if links is not empty %}
+					<div class='my-3'>
+						{% include '_partials/_dashboardNationSound.html.twig' %}
+						<a href="{{path('nationSound_editLink')}}" class='btn btn-success'>Ajouter un lien</a>
+						<section class='d-flex justify-content-around flex-wrap'>
+							{% for link in links|reverse %}
+								<article class='card p-0 border-0 rounded col-3 m-3 mt-4'>
+									<div class="card-body d-flex flex-column justify-content-between">
+										<h5 class="card-title m-0 text-center">{{link.link}}</h5>
+										<hr>
+										<p class="card-text introSection">{{link.artiste}}</p>
+										<div class='align-self-end '>
+											<a href="{{path('nationSound_editLink', {id : link.id})}}" class="btn btn-success">Modifier</a>
+											<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal{{link.id}}">
+												Supprimer
+											</button>
+										</div>
+									</div>
+								</article>
+								<div class="modal fade" id="exampleModal{{link.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+									<div class="modal-dialog modal-dialog-centered">
+										<div class="modal-content">
+											<div class="modal-header">
+												<h1 class="modal-title fs-5" id="exampleModalLabel">Attention</h1>
+												<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+											</div>
+											<div class="modal-body">
+												Etes vous sûr de vouloir supprimer definitivement ce lien ? Si oui clicker sur
+												<span class='text-danger'>'Supprimer'</span>
+											</div>
+											<div class="modal-footer">
+												<a href="{{path('nationSound_deleteLink', {id : link.id})}}" class="btn btn-danger">Supprimer</a>
+												<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+											</div>
+										</div>
+									</div>
+								</div>
+							{% endfor %}
+						</section>
+					</div>
+				{% else %}
+					<div class='my-3'>
+						{% include '_partials/_dashboardNationSound.html.twig' %}
+						<a href="{{path('nationSound_editLink')}}" class='btn btn-primary'>Rediger</a>
+					</div>
+					<section>
+						<p class='text-white'>Il n'y a pour le moment aucun lien, clicker sur
+							<span class='text-primary'>Rediger</span>
+							pour commencer</p>
+					</section>
+				{% endif %}
+			</section>
+		</section>
+	</body>
+{% endblock %}

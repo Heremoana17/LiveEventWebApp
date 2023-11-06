@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Scenes
+{% endblock %}
+
+{% block body %}
+	<body id='homeNationSound'>
+		<header class='container pt-5 px-4 px-lg-0'>
+			<h1 class='text-white text-center title mb-4'>
+				Toutes les scenes
+			</h1>
+			<hr>
+		</header>
+		<section class='container'>
+			<section class="row">
+				<div class='my-3'>
+					{% include '_partials/_dashboardNationSound.html.twig' %}
+					<a href="{{path('nationSound_addScene')}}" class='btn btn-success'>Ajouter une scene</a>
+				</div>
+				{% if scenes is not empty %}
+					<section class='d-flex justify-content-around flex-wrap'>
+						{% for scene in scenes %}
+							<article class='card p-0 border-0 rounded col-3 m-3'>
+								<div style="background-image:url('{{asset('assets/uploads/scene/' ~ scene.featuredImage)}}')" class='sectionHomeNationSound imgCard rounded-top'></div>
+								<div class="card-body d-flex flex-column justify-content-between">
+									<h5 class="card-title">{{scene.name}}</h5>
+									<hr>
+									<p class="card-text introSection">Coordonées gps :
+										{{scene.GPSPtLat}},{{scene.GPSPtLng}}</p>
+									<div class='align-self-end '>
+										<a href="{{path('nationSound_addScene', {id : scene.id})}}" class="btn btn-success">Modifier</a>
+										<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modal{{scene.id}}">
+											Supprimer
+										</button>
+
+									</div>
+								</div>
+							</article>
+							<!-- Modal -->
+							<div class="modal fade" id="modal{{scene.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+								<div class="modal-dialog modal-dialog-centered">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h1 class="modal-title fs-5" id="exampleModalLabel">Attention</h1>
+											<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+										</div>
+										<div class="modal-body">
+											Etes vous sûr de vouloir supprimer definitivement cette scene ? Si oui clicker sur
+											<span class='text-danger'>'Supprimer'</span>
+										</div>
+										<div class="modal-footer">
+											<a href="{{path('nationSound_deleteScene', {id : scene.id})}}" class="btn btn-danger">Supprimer</a>
+											<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						{% endfor %}
+					</section>
+				{% else %}
+					<p>Il n'y a pour le moment aucun artiste</p>
+				{% endif %}
+			</section>
+		</section>
+	</body>
+{% endblock %}

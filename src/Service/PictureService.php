@@ -127,6 +127,17 @@ class PictureService
             }
         }
     }
+    // supprime une image qui n'est pas une entité simplement dans le dossier
+    public function deleteSimpleImage($image, ?string $folder = '')
+    {
+        if ($image) {
+            $nomImage = $this->params->get('images_directory') . $folder;
+            $min = $nomImage . '/' . $image;
+            if (file_exists($min)) {
+                unlink($min);
+            }
+        }
+    }
 
     public function deleteAllsImages($images, string $featuredImage, ?string $folder = '')
     {
