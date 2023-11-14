@@ -36,8 +36,13 @@ class RegistrationController extends AbstractController
             $isSub = $form->get('newLetter')->getData();
             if ($isSub) {
                 $user->setIsSubscriber(true);
+<<<<<<< HEAD
             } else {
                 $user->setIsSubscriber(false);
+=======
+            }else{
+                $user->setIsSubscriber(true);
+>>>>>>> test
             }
 
             $entityManager->persist($user);

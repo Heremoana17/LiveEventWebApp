@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajout journée
+{% endblock %}
+
+{% block body %}
+	<body id='homeNationSound'>
+		<header class='container pt-5 px-4 px-lg-0'>
+			<h1 class='text-white text-center title mb-4'>
+				Ajout d'une journee
+			</h1>
+			<hr>
+		</header>
+		<section class='container'>
+			<section class='my-3'>{% include '_partials/_dashboardNationSound.html.twig' %}</section>
+			<section class="row pt-4">
+				{{ form_start(form) }}
+				{{ form_end(form) }}
+			</section>
+		</section>
+	</body>
+{% endblock %}

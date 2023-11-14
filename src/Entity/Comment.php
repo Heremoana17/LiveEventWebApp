@@ -3,13 +3,25 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
 use App\Entity\Trait\CreatedAtTrait;
 use App\Repository\CommentRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: CommentRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    // normalizationContext:['groups' => ['read:collection']], 
+    // order: ['createdAt' => 'DESC'],
+    operations:[
+        new Get(normalizationContext:['groups' => ['getforarticle']]),
+        new GetCollection(normalizationContext:['groups' => ['getforcomment','authorForComment','articleForComment']]),
+        new Post()
+    ]
+)]
 class Comment
 {
     use CreatedAtTrait;
@@ -17,17 +29,21 @@ class Comment
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['getforcomment'])]
     private ?int $id = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Groups(['getforcomment'])]
     private ?string $content = null;
 
     #[ORM\ManyToOne(inversedBy: 'comments')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['authorForComment'])]
     private ?User $author = null;
 
     #[ORM\ManyToOne(inversedBy: 'comments')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['getforcomment'])]
     private ?Article $relatedArticle = null;
 
     public function __construct()

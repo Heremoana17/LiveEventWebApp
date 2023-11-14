@@ -55,12 +55,20 @@ class Event
     #[ORM\JoinColumn(nullable: false)]
     private ?City $city = null;
 
+    #[ORM\OneToMany(mappedBy: 'event', targetEntity: Sponsor::class)]
+    private Collection $sponsors;
+
+    #[ORM\OneToMany(mappedBy: 'event', targetEntity: Billet::class)]
+    private Collection $billets;
+
     public function __construct()
     {
         $this->imageEvents = new ArrayCollection();
         $this->created_at = new DateTimeImmutable();
         $this->category = new ArrayCollection();
         $this->relatedArticles = new ArrayCollection();
+        $this->sponsors = new ArrayCollection();
+        $this->billets = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -239,4 +247,66 @@ class Event
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, Sponsor>
+     */
+    public function getSponsors(): Collection
+    {
+        return $this->sponsors;
+    }
+
+    public function addSponsor(Sponsor $sponsor): static
+    {
+        if (!$this->sponsors->contains($sponsor)) {
+            $this->sponsors->add($sponsor);
+            $sponsor->setEvent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSponsor(Sponsor $sponsor): static
+    {
+        if ($this->sponsors->removeElement($sponsor)) {
+            // set the owning side to null (unless already changed)
+            if ($sponsor->getEvent() === $this) {
+                $sponsor->setEvent(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Billet>
+     */
+    public function getBillets(): Collection
+    {
+        return $this->billets;
+    }
+
+    public function addBillet(Billet $billet): static
+    {
+        if (!$this->billets->contains($billet)) {
+            $this->billets->add($billet);
+            $billet->setEvent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBillet(Billet $billet): static
+    {
+        if ($this->billets->removeElement($billet)) {
+            // set the owning side to null (unless already changed)
+            if ($billet->getEvent() === $this) {
+                $billet->setEvent(null);
+            }
+        }
+
+        return $this;
+    }
+
+
 }
