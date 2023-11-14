@@ -8,7 +8,8 @@
 	<body id='homeNationSound'>
 		<header class='container pt-5 px-4 px-lg-0'>
 			<h1 class='text-white text-center title test mb-4'>
-				Page
+				Edit page
+				{{name}}
 			</h1>
 			<hr>
 		</header>
@@ -16,9 +17,13 @@
 			<section class='my-3'>{% include '_partials/_dashboardNationSound.html.twig' %}</section>
 			<section class="row pt-4">
 				{{ form_start(form) }}
-				<section>
+				{% if name %}
+					<section class='d-none'>
+						{{ form_row(form.name) }}
+					</section>
+				{% else %}
 					{{ form_row(form.name) }}
-				</section>
+				{% endif %}
 				{# section pour featuredimage #}
 				<section>
 					{{ form_label(form.headerImage, 'Image en avant' ) }}

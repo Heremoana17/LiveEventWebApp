@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\NationSound\Artiste;
+use App\Entity\NationSound\Lieu;
 use App\Entity\NationSound\Link;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -21,8 +22,15 @@ class LinkType extends AbstractType
             ])
             ->add('artiste', EntityType::class, [
                 'class' => Artiste::class,
-                'label' => 'Artiste',
-                'placeholder' => ''
+                'label' => 'Artiste (facultatif)',
+                'placeholder' => '',
+                'required' => false
+            ])
+            ->add('lieu', EntityType::class, [
+                'class' => Lieu::class,
+                'label' => 'Lieu (facultatif)',
+                'placeholder' => '',
+                'required' => false
             ])
             ->add('Valider', SubmitType::class)
         ;

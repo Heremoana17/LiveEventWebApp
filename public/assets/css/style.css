@@ -392,6 +392,9 @@ transform: scaleY(1.09);
 #sectionInformation {
   background-image: url(../image/audience-g7db68d50c_640.jpg);
 }
+#sectionSponsor {
+  background-image: url(../image/leaves_plant_green_136320_1024x768.jpg);
+}
 #sectionCharte {
   background-image: url(../image/charte.jpg);
 }

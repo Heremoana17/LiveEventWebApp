@@ -21,6 +21,9 @@ class Link
     #[ORM\ManyToOne(inversedBy: 'links')]
     private ?Artiste $artiste = null;
 
+    #[ORM\ManyToOne(inversedBy: 'links')]
+    private ?Lieu $lieu = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -37,6 +40,7 @@ class Link
 
         return $this;
     }
+
     public function getArtiste(): ?Artiste
     {
         return $this->artiste;
@@ -48,4 +52,22 @@ class Link
 
         return $this;
     }
+
+    public function getLieu(): ?Lieu
+    {
+        return $this->lieu;
+    }
+
+    public function setLieu(?Lieu $lieu): static
+    {
+        $this->lieu = $lieu;
+
+        return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->link;
+    }
+
 }

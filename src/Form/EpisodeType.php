@@ -5,7 +5,8 @@ namespace App\Form;
 use App\Entity\NationSound\Artiste;
 use App\Entity\NationSound\Day;
 use App\Entity\NationSound\Episode;
-use App\Entity\NationSound\Scene;
+use App\Entity\NationSound\Lieu;
+use App\Repository\LieuRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -31,11 +32,16 @@ class EpisodeType extends AbstractType
                 'label' => 'Artiste',
                 'required' => false
             ])
-            ->add('scene', EntityType::class, [
-                'class' => Scene::class,
+            ->add('lieu', EntityType::class, [
+                'class' => Lieu::class,
                 'label' => 'Scene',
                 'placeholder' => ' ',
-                'required' => false
+                'required' => false,
+                'query_builder' => function(LieuRepository $lr)
+                {
+                    return $lr->createQueryBuilder('l')
+                    ->where("l.category = 'Scene'");
+                }
             ])
             ->add('day', EntityType::class, [
                 'class' => Day::class,

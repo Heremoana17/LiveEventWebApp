@@ -2,7 +2,9 @@
 
 namespace App\Form;
 
+use App\Entity\Event;
 use App\Entity\Sponsor;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -30,6 +32,13 @@ class SponsorFormType extends AbstractType
                 'mapped' => false,
                 'multiple' => true,
                 'required' => false,
+            ])
+            ->add('event', EntityType::class,[
+                'class' => Event::class,
+                'label' => 'Evenement sponsorisé(s)',
+                'expanded' => false,
+                'required' => false,
+                'mapped' => true
             ])
             ->add('Valider', SubmitType::class)
         ;

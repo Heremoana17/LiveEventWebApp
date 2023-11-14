@@ -22,16 +22,14 @@ class Episode
     #[ORM\Column(type: Types::TIME_MUTABLE)]
     private ?\DateTimeInterface $hour = null;
 
-    #[ORM\ManyToOne(inversedBy: 'episodes')]
-    // #[ORM\JoinColumn(nullable: false)]
-    private ?Artiste $artiste = null;
-
-    #[ORM\ManyToOne(inversedBy: 'episodes')]
-    // #[ORM\JoinColumn(nullable: false)]
-    private ?Scene $scene = null;
-
     #[ORM\ManyToOne(inversedBy: 'episode')]
     private ?Day $day = null;
+
+    #[ORM\ManyToOne(inversedBy: 'episodes')]
+    private ?Lieu $lieu = null;
+
+    #[ORM\ManyToOne(inversedBy: 'episodes')]
+    private ?Artiste $artiste = null;
 
     public function getId(): ?int
     {
@@ -62,30 +60,6 @@ class Episode
         return $this;
     }
 
-    public function getArtiste(): ?Artiste
-    {
-        return $this->artiste;
-    }
-
-    public function setArtiste(?Artiste $artiste): static
-    {
-        $this->artiste = $artiste;
-
-        return $this;
-    }
-
-    public function getScene(): ?Scene
-    {
-        return $this->scene;
-    }
-
-    public function setScene(?Scene $scene): static
-    {
-        $this->scene = $scene;
-
-        return $this;
-    }
-
     public function getDay(): ?Day
     {
         return $this->day;
@@ -102,4 +76,29 @@ class Episode
     {
         return $this->name;
     }
+
+    public function getLieu(): ?Lieu
+    {
+        return $this->lieu;
+    }
+
+    public function setLieu(?Lieu $lieu): static
+    {
+        $this->lieu = $lieu;
+
+        return $this;
+    }
+
+    public function getArtiste(): ?Artiste
+    {
+        return $this->artiste;
+    }
+
+    public function setArtiste(?Artiste $artiste): static
+    {
+        $this->artiste = $artiste;
+
+        return $this;
+    }
+
 }

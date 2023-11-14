@@ -2,22 +2,18 @@
 
 namespace App\Controller\Admin\NationSound;
 
-use App\Entity\Evenement;
 use App\Entity\NationSound\Artiste;
 use App\Entity\NationSound\Day;
 use App\Entity\NationSound\Episode;
 use App\Entity\NationSound\Lieu;
-use App\Entity\NationSound\Scene;
 use App\Form\ArtisteType;
 use App\Form\DayType;
 use App\Form\EpisodeType;
 use App\Form\LieuType;
-use App\Form\SceneType;
 use App\Repository\ArtisteRepository;
 use App\Repository\DayRepository;
 use App\Repository\EpisodeRepository;
 use App\Repository\LieuRepository;
-use App\Repository\SceneRepository;
 use App\Service\PictureService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -203,8 +199,10 @@ class ProgrammeController extends AbstractController
     public function detailsArtiste(ArtisteRepository $ar, Artiste $artiste): Response
     {
         $artiste = $ar->findOneBy(['id'=>$artiste]);
-        return $this->render('admin/NationSound/artiste/detailsArtiste.html.twig', [
-            'artiste' => $artiste,
+        return $this->render('admin/NationSound/pagedetails.html.twig', [
+            'data' => $artiste,
+            'folder' => 'assets/uploads/artiste/',
+            'file' => $artiste->getFeaturedImage(),
         ]);
     }
     #[Route('/add/artiste/{id?}', name: 'addArtiste')]
@@ -252,6 +250,12 @@ class ProgrammeController extends AbstractController
             $this->addFlash('danger', 'Une erreur est surenu');
             return $this->redirectToRoute('nationSound_artistes');
         } else {
+            $episodes = $artiste->getEpisodes();
+            if ($episodes) {
+                foreach($episodes as $episode){
+                    $artiste->removeEpisode($episode);
+                }
+            }
             $links = $artiste->getLinks();
             if ($links) {
                 foreach($links as $link){
@@ -271,36 +275,36 @@ class ProgrammeController extends AbstractController
 
     //controller des scenes
     #[Route('/scene', name: 'scenes')]
-    public function scenes(SceneRepository $sr): Response
+    public function scenes(LieuRepository $sr): Response
     {
-        $scenes = $sr->findAll();
+        $scenes = $sr->findBy(['category'=>'Scene']);
         return $this->render('admin/NationSound/scene/scenes.html.twig', [
             'scenes' => $scenes,
         ]);
     }
     #[Route('/add/scene/{id?}', name: 'addScene')]
-    public function addScene(Request $request, Scene $scene=null, EntityManagerInterface $em, PictureService $pictureService): Response
+    public function addScene(Request $request, Lieu $lieu=null, EntityManagerInterface $em, PictureService $pictureService): Response
     {
         $new = false;
-        if (!$scene) {
-            $scene = new scene();
+        if (!$lieu) {
+            $lieu = new lieu();
             $new = true;
         }
-        $form = $this->createForm(SceneType::class, $scene);
+        $form = $this->createForm(LieuType::class, $lieu);
         $form->handleRequest($request);
         if ($form->isSubmitted()&&$form->isValid()) {
-            $scene = $form->getData();
+            $lieu = $form->getData();
             $featuredImage = $form->get('featuredImage')->getData();
-            $folder = 'scene';
+            $folder = 'lieu';
             if ($featuredImage) {
-                $lastFeaturedImage = $scene->getfeaturedImage();
+                $lastFeaturedImage = $lieu->getfeaturedImage();
                 if ($lastFeaturedImage) {
                     $pictureService->deleteSimpleImage($lastFeaturedImage, $folder);
                 }
                 $newFileName = $pictureService->addFeaturedImage($featuredImage, $folder);
-                $scene->setFeaturedImage($newFileName);
+                $lieu->setFeaturedImage($newFileName);
             }
-            $em->persist($scene);
+            $em->persist($lieu);
             $em->flush();
             if ($new) {
                 $this->addFlash('success','Nouvelle scene ajouter');
@@ -312,27 +316,25 @@ class ProgrammeController extends AbstractController
         return $this->render('admin/NationSound/scene/addScene.html.twig', [
             'form' => $form,
             'new' => $new,
-            'scene' => $scene
+            'scene' => $lieu
         ]);
     }
     #[Route('/delete/scene/{id?}', name:'deleteScene')]
-    public function deleteScene(Scene $scene=null, EntityManagerInterface $em, PictureService $pictureService): RedirectResponse
+    public function deleteScene(Lieu $lieu=null, EntityManagerInterface $em, PictureService $pictureService): RedirectResponse
     {
-        if (!$scene) {
+        if (!$lieu) {
             $this->addFlash('danger', 'Une erreur est surenu');
             return $this->redirectToRoute('nationSound_scenes');
         } else {
-            $featuredImage = $scene->getFeaturedImage();
+            $featuredImage = $lieu->getFeaturedImage();
             if ($featuredImage) {
-                $pictureService->deleteSimpleImage($featuredImage, 'scene');
+                $pictureService->deleteSimpleImage($featuredImage, 'lieu');
             }
-            $em->remove($scene);
+            $em->remove($lieu);
             $em->flush();
             $this->addFlash('success', 'Scene supprimer');
             return $this->redirectToRoute('nationSound_scenes');
         }
     }
-
-    //controller des lieux
     
 }

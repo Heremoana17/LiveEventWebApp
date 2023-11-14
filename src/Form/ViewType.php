@@ -17,7 +17,8 @@ class ViewType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, [
-                'label' => 'Nom de la page'
+                'label' => 'Nom de la page',
+                'required' => false
             ])
             ->add('headerImage', FileType::class, [
                 'label' => false,

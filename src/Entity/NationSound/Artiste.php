@@ -27,10 +27,10 @@ class Artiste
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $musicLink = null;
 
-    #[ORM\Column(length: 200, nullable: true)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $featuredImage = null;
 
-    #[ORM\OneToMany(mappedBy: 'artistes', targetEntity: Episode::class)]
+    #[ORM\OneToMany(mappedBy: 'artiste', targetEntity: Episode::class)]
     private Collection $episodes;
 
     #[ORM\OneToMany(mappedBy: 'artiste', targetEntity: Link::class)]
@@ -59,18 +59,6 @@ class Artiste
         return $this;
     }
 
-    public function getfeaturedImage(): ?string
-    {
-        return $this->featuredImage;
-    }
-
-    public function setfeaturedImage(string $featuredImage): static
-    {
-        $this->featuredImage = $featuredImage;
-
-        return $this;
-    }
-
     public function getDescription(): ?string
     {
         return $this->description;
@@ -95,9 +83,16 @@ class Artiste
         return $this;
     }
 
-    public function __toString()
+    public function getFeaturedImage(): ?string
     {
-        return $this->name;
+        return $this->featuredImage;
+    }
+
+    public function setFeaturedImage(?string $featuredImage): static
+    {
+        $this->featuredImage = $featuredImage;
+
+        return $this;
     }
 
     /**
@@ -160,4 +155,8 @@ class Artiste
         return $this;
     }
 
+    public function __toString()
+    {
+        return $this->name;
+    }
 }

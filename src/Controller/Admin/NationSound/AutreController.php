@@ -30,11 +30,13 @@ class AutreController extends AbstractController
         ]);
     }
     #[Route('/lieu/{id?}', name: 'detailLieu')]
-    public function detailLieu(Lieu $lieu, LieuRepository $lr): Response
+    public function detailLieu(Lieu $lieu): Response
     {
-        $lieux = $lr->findOneBy(['id'=>$lieu]);
-        return $this->render('admin/NationSound/lieux/detailLieu.html.twig', [
-            'lieu' => $lieu,
+        return $this->render('admin/NationSound/pagedetails.html.twig', [
+            // 'lieu' => $lieu,
+            'data' => $lieu,
+            'folder' => 'assets/uploads/lieu/',
+            'file' => $lieu->getFeaturedImage(),
         ]);
     }
     #[Route('/add/lieu/{id?}', name: 'addLieu')]

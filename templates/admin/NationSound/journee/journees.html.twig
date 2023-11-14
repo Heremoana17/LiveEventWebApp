@@ -45,7 +45,7 @@
 												<td>{{epi.name}}</td>
 												<td>{{epi.hour|format_datetime('none', 'short', locale='fr')}}</td>
 												<td>{{epi.artiste}}</td>
-												<td>{{epi.scene}}</td>
+												<td>{{epi.lieu}}</td>
 												<td>
 													<a href="{{path('nationSound_joureditEpisode', {id : epi.id})}}" class='btn btn-sm btn-primary'>Modifier</a>
 													<button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal{{epi.id}}">
