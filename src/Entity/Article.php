@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
 use App\Entity\Trait\CreatedAtTrait;
 use App\Entity\Trait\SlugTrait;
 use App\Repository\ArticleRepository;
@@ -11,10 +13,17 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ArticleRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    // normalizationContext:['groups' => ['read:collection']], 
+    operations:[
+        new Get(normalizationContext:['groups' => ['getforarticle']]),
+        new GetCollection(normalizationContext:['groups' => ['getforarticle','categoryForArticle','imageForArticle']]),
+    ]
+)]
 class Article
 {
     use CreatedAtTrait;
@@ -23,6 +32,7 @@ class Article
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['getforarticle', 'getforcomment'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
@@ -32,9 +42,11 @@ class Article
         max: 100,
         minMessage:"Le titre doit faire au moin 5 caractères",
         maxMessage:"Le titre ne doit pas faire plus de 25 caractères")]
+    #[Groups(['getforarticle'])]
     private ?string $title = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Groups(['getforarticle'])]
     private ?string $introduction = null;
 
     #[ORM\Column(type: Types::TEXT)]
@@ -45,12 +57,15 @@ class Article
 
     #[ORM\ManyToOne(inversedBy: 'articles')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['categoryForArticle'])]
     private ?Category $categories = null;
 
     #[ORM\OneToMany(mappedBy: 'article', targetEntity: Image::class, orphanRemoval: true, cascade:['persist'])]
+    #[Groups(['imageForArticle'])]
     private Collection $images;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['getforarticle'])]
     private ?string $featuredImage = null;
 
     #[ORM\Column(length: 255, nullable: true)]
