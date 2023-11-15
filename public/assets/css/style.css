@@ -395,6 +395,9 @@ transform: scaleY(1.09);
 #sectionSponsor {
   background-image: url(../image/leaves_plant_green_136320_1024x768.jpg);
 }
+#sectionApropos {
+  background-image: url(../image/logo.jpg);
+}
 #sectionCharte {
   background-image: url(../image/charte.jpg);
 }

@@ -61,8 +61,15 @@
 		{% if article.comments %}
 			{% for comment in article.comments %}
 				<section class="p-2">
-					<p class='border rounded-top px-3 py-2 d-inline'>{{comment.author.firstname}}
-						{{comment.author.lastname}}</p>
+					<p class='border rounded-top px-3 py-2 d-inline'>
+						{% if comment.author is not empty %}
+							{{comment.author.firstname}}
+							{{comment.author.lastname}}
+						{% endif %}
+						{% if comment.authorMobile is not empty %}
+							{{comment.authorMobile}}
+						{% endif %}
+					</p>
 					<p class='border rounded-bottom rounded-end px-3 mt-1 py-2 mb-0'>{{comment.content}}
 					</p>
 					<p class='px-3 pt-1 text-end'>le :

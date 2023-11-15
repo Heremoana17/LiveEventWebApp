@@ -37,7 +37,7 @@ class Comment
     private ?string $content = null;
 
     #[ORM\ManyToOne(inversedBy: 'comments')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     #[Groups(['authorForComment'])]
     private ?User $author = null;
 
@@ -45,6 +45,9 @@ class Comment
     #[ORM\JoinColumn(nullable: false)]
     #[Groups(['getforcomment'])]
     private ?Article $relatedArticle = null;
+
+    #[ORM\Column(length: 50, nullable: true)]
+    private ?string $authorMobile = null;
 
     public function __construct()
     {
@@ -87,6 +90,18 @@ class Comment
     public function setRelatedArticle(?Article $relatedArticle): static
     {
         $this->relatedArticle = $relatedArticle;
+
+        return $this;
+    }
+
+    public function getAuthorMobile(): ?string
+    {
+        return $this->authorMobile;
+    }
+
+    public function setAuthorMobile(?string $authorMobile): static
+    {
+        $this->authorMobile = $authorMobile;
 
         return $this;
     }

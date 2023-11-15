@@ -5,6 +5,7 @@ namespace App\Controller\Admin\NationSound;
 use App\Entity\Article;
 use App\Entity\BackgroundImage;
 use App\Entity\Billet;
+use App\Entity\FAQ;
 use App\Entity\NationSound\Figure;
 use App\Entity\Image;
 use App\Entity\ImageSponsor;
@@ -12,12 +13,14 @@ use App\Entity\Page;
 use App\Entity\NationSound\View;
 use App\Entity\Sponsor;
 use App\Form\BilletType;
+use App\Form\FAQType;
 use App\Form\PageFormType;
 use App\Form\SponsorFormType;
 use App\Form\ViewType;
 use App\Repository\ArticleRepository;
 use App\Repository\BilletRepository;
 use App\Repository\EventRepository;
+use App\Repository\FAQRepository;
 use App\Repository\PageRepository;
 use App\Repository\SponsorRepository;
 use App\Repository\ViewRepository;
@@ -104,7 +107,7 @@ class ContenuController extends AbstractController
     }
 
     #[Route('/billetterie/{id?}', name: 'contenu_billetterie_details')]
-    public function billetterieDetails(Billet $billet=null, BilletRepository $br): Response
+    public function billetDetails(Billet $billet=null, BilletRepository $br): Response
     {
         $billet = $br->findOneBy(['id'=>$billet]);
         return $this->render('admin/NationSound/contenu/pagedetails.html.twig', [
@@ -112,6 +115,22 @@ class ContenuController extends AbstractController
             'folder' => 'assets/uploads/billet/',
             'file' => $billet->getFeaturedImage(),
         ]);
+    }
+
+    #[Route('/billetterie/delete/{id?}', name: 'contenu_billetterie_delete')]
+    public function billetDelete(Billet $billet=null, EntityManagerInterface $em, PictureService $pictureService): RedirectResponse
+    {
+        if ($billet) {
+            $featuredImage = $billet->getFeaturedImage();
+            $pictureService->deleteSimpleImage($featuredImage, 'billet');
+            $em->remove($billet);
+            $em->flush();
+            $this->addFlash('success','billet supprimer');
+            return $this->redirectToRoute('nationSound_contenu_billetterie');
+        }else{
+            $this->addFlash('error','Une erreur est apparu');
+            return $this->redirectToRoute('nationSound_contenu_billetterie');
+        }
     }
 
     #[Route('/programme', name: 'contenu_programme')]
@@ -126,14 +145,72 @@ class ContenuController extends AbstractController
     }
 
     #[Route('/information', name: 'contenu_information')]
-    public function information(ViewRepository $vw): Response
+    public function information(ViewRepository $vw, FAQRepository $fr, EventRepository $er, ArticleRepository $ar): Response
     {
+        //on recupère le contenu de la page
         $page = $vw->findOneBy(['name'=>'information']);
+        //on récupère les articles liés à l'évènement nationsound
+        $nationSound = $er->findOneBy(['name'=>'Nation Sound']);
+        $articles = $ar->findBy(['relatedEvent'=>$nationSound->getId()]);
+        //on recupère la faq
+        $FAQs = $fr->findAll();
         return $this->render('admin/NationSound/contenu/page.html.twig', [
             'pageDefaultName' => 'information',
             'title' => 'Information',
             'page' => $page,
+            'articles' => $articles,
+            'FAQs' => $FAQs
         ]);
+    }
+
+    #[Route('/information/edit/{id?}', name: 'contenu_information_edit')]
+    public function informationEdit(FAQ $faq=null, Request $request, EntityManagerInterface $em): Response
+    {
+        $new = false;
+        if (!$faq) {
+            $faq = new faq();
+            $new = true;
+        }
+        $form = $this->createForm(FAQType::class, $faq );
+        $form->handleRequest($request);
+        if ($form->isSubmitted()&&$form->isValid()) {
+            $faq = $form->getData();
+            $em->persist($faq);
+            $em->flush();
+            if ($new) {
+                $this->addFlash('success','Question et réponse ajoutées');
+            }else{
+                $this->addFlash('success','Question/réponse mis-à-jour');
+            }
+            return $this->redirectToRoute("nationSound_contenu_information");
+        }
+        return $this->render('admin/NationSound/contenu/addFAQ.html.twig', [
+            'form'=>$form
+        ]);
+    }
+
+    #[Route('/information/withdraw/article/{id?}', name:'contenu_information_article_withdraw')]
+    public function withdrawArticle(Article $article=null, EntityManagerInterface $em):Response
+    {
+        $article->setRelatedEvent(null);
+        $em->persist($article);
+        $em->flush();
+        $this->addFlash('success','Article retiré');
+        return $this->redirectToRoute('nationSound_contenu_information');
+    }
+
+    #[Route('/information/delete/{id?}', name: 'contenu_information_delete')]
+    public function informationDelete(FAQ $faq=null, EntityManagerInterface $em): RedirectResponse
+    {
+        if ($faq) {
+            $em->remove($faq);
+            $em->flush();
+            $this->addFlash('success','question/reponse supprimer');
+            return $this->redirectToRoute('nationSound_contenu_information');
+        }else{
+            $this->addFlash('error','Une erreur est apparu');
+            return $this->redirectToRoute('nationSound_contenu_information');
+        }
     }
 
     #[Route('/sponsor', name: 'contenu_sponsor')]
@@ -221,6 +298,18 @@ class ContenuController extends AbstractController
         }
     }
 
+    #[Route('/apropos', name: 'contenu_a-propos')]
+    public function apropos(ViewRepository $vw): Response
+    {
+        //on récupère la page qui a pour name sponsor
+        $page = $vw->findOneBy(['name'=>'a-propos']);
+        return $this->render('admin/NationSound/contenu/page.html.twig', [
+            'pageDefaultName' => 'a-propos',
+            'title' => 'a-propos',
+            'page' => $page,
+        ]);
+    }
+
     // Controller pour l'edition d'une page
     #[Route('/contenu/edit/{name?}/{id?}', name: 'contenu_edit')]
     public function edit(View $view=null, $name=null, Request $request, EntityManagerInterface $em, SluggerInterface $slugger, PictureService $pictureService): Response
@@ -276,16 +365,6 @@ class ContenuController extends AbstractController
         ]);
     }
 
-    #[Route('/apropos', name: 'contenu_apropos')]
-    public function apropos(ViewRepository $vw): Response
-    {
-        //on récupère la page qui a pour name sponsor
-        $page = $vw->findOneBy(['name'=>'apropos']);
-        return $this->render('admin/NationSound/contenu/page.html.twig', [
-            'pageDefaultName' => 'sponsor',
-            'title' => 'Sponsors',
-            'page' => $page,
-        ]);
-    }
+
 
 }

@@ -58,7 +58,6 @@
 			{% endif %}
 		</section>
 
-
 		<section
 			class='container mt-3 border rounded py-3'>
 			{# //section pour le contenu de les sponsor #}
@@ -131,6 +130,67 @@
 				{% endif %}
 			{% endif %}
 
+			{# //section pour le contenu de les articles #}
+			{% if articles is defined %}
+				{% if articles is not empty%}
+					<h2 class='text-center fw-bold text-white mt-2'>Section pour les articles</h2>
+					<section class='container'>
+						<section class="row">
+							<div
+								class='my-3'>{# <a href="{{path('nationSound_contenu_sponsor_edit')}}" class='btn btn-success'>Ajouter</a> #}
+							</div>
+							<section class='d-flex justify-content-around flex-wrap'>
+								{% for article in articles %}
+									<article class='card p-0 border-0 rounded col-3 m-3'>
+										<div style="background-image:url('{{asset('assets/uploads/articles/' ~ article.featuredImage)}}')" class='sectionHomeNationSound imgCard rounded-top'></div>
+										<div class="card-body d-flex flex-column justify-content-between">
+											<h5 class="card-title text-center m-0">{{article.title}}</h5>
+											<hr>
+											<div class='align-self-end '>
+												<a href="{{path('app_article_details', {slug : article.slug})}}" class="btn btn-primary">Details</a>
+												<a href="{{path('app_editArticle', {id : article.id})}}" class="btn btn-success">Modifier</a>
+												<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal{{article.id}}">
+													Supprimer
+												</button>
+											</div>
+										</div>
+									</article>
+									<div class="modal fade" id="exampleModal{{article.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+										<div class="modal-dialog modal-dialog-centered">
+											<div class="modal-content">
+												<div class="modal-header">
+													<h1 class="modal-title fs-5" id="exampleModalLabel">Attention</h1>
+													<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+												</div>
+												<div class="modal-body">
+													<p>Vous etes sur le point de retiré cette article de la section. Cela aura pour effet de délier l'article au l'évènement nation sound, en conséquant elle ne serat pas supprimer mais ne serat plus visible ici et sur l'application mobile. Continué en cliquant sur
+														<span class='text-danger'>'Supprimer'</span>
+													</p>
+												</div>
+												<div class="modal-footer">
+													<a href="{{path('nationSound_contenu_information_article_withdraw', {id : article.id})}}" class="btn btn-danger">Supprimer</a>
+													<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+												</div>
+											</div>
+										</div>
+									</div>
+								{% endfor %}
+							</section>
+						</section>
+					</section>
+				{% else %}
+					<h2 class='text-center fw-bold text-white mt-2'>Section pour les articles</h2>
+					<section class='container'>
+						<section class="row">
+							<section>
+								<p class='text-white'>Il n'y a aucun article faisant référence à l'évènement, il vous faut soit rédiger un nouveau dans la section dédié, soit modifié un article.</p>
+							</section>
+						</section>
+					</section>
+				{% endif %}
+			{% endif %}
+
+
 			{# //section pour le contenu des billet #}
 			{% if billets is defined %}
 				{% if billets is not empty%}
@@ -138,7 +198,7 @@
 					<section class='container'>
 						<section class="row">
 							<div class='my-3'>
-								<a href="{{path('nationSound_contenu_sponsor_edit')}}" class='btn btn-success'>Ajouter</a>
+								<a href="{{path('nationSound_contenu_billetterie_edit')}}" class='btn btn-success'>Ajouter</a>
 							</div>
 							<section class='d-flex justify-content-around flex-wrap'>
 								{% for billet in billets %}
@@ -167,9 +227,8 @@
 													Etes vous sûr de vouloir supprimer definitivement ce billet ? Si oui clicker sur
 													<span class='text-danger'>'Supprimer'</span>
 												</div>
-												<div
-													class="modal-footer">
-													{# <a href="{{path('nationSound_contenu_billetterie_delete', {id : billet.id})}}" class="btn btn-danger">Supprimer</a> #}
+												<div class="modal-footer">
+													<a href="{{path('nationSound_contenu_billetterie_delete', {id : billet.id})}}" class="btn btn-danger">Supprimer</a>
 													<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
 												</div>
 											</div>
@@ -196,5 +255,75 @@
 				{% endif %}
 			{% endif %}
 		</section>
+
+
+		{% if FAQs is defined %}
+			<section
+				class='container mt-3 border rounded py-3'>
+				{# //section pour le contenu de la page information #}
+				{% if FAQs is not empty%}
+					<h2 class='text-center fw-bold text-white mt-2'>Section pour la FAQ</h2>
+					<section class='container'>
+						<section class="row">
+							<div class='my-3'>
+								<a href="{{path('nationSound_contenu_information_edit')}}" class='btn btn-success'>Ajouter</a>
+							</div>
+							<section class='d-flex justify-content-around flex-wrap'>
+								{% for faq in FAQs %}
+									<article class='card p-0 border-0 rounded col-12 m-3'>
+										<div class="card-body d-flex flex-column justify-content-between">
+											<h5 class="card-title text-center m-0">Question :
+												{{faq.question}}</h5>
+											<hr>
+											<h5 class="card-title text-center m-0">Reponse :
+												{{faq.answer}}</h5>
+											<hr>
+											<div class='align-self-end '>
+												<a href="{{path('nationSound_contenu_information_edit', {id : faq.id})}}" class="btn btn-success">Modifier</a>
+												<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal{{faq.id}}">
+													Supprimer
+												</button>
+											</div>
+										</div>
+									</article>
+									<div class="modal fade" id="exampleModal{{faq.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+										<div class="modal-dialog modal-dialog-centered">
+											<div class="modal-content">
+												<div class="modal-header">
+													<h1 class="modal-title fs-5" id="exampleModalLabel">Attention</h1>
+													<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+												</div>
+												<div class="modal-body">
+													Etes vous sûr de vouloir supprimer definitivement cette question/reponse ? Si oui clicker sur
+													<span class='text-danger'>'Supprimer'</span>
+												</div>
+												<div class="modal-footer">
+													<a href="{{path('nationSound_contenu_information_delete', {id : faq.id})}}" class="btn btn-danger">Supprimer</a>
+													<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+												</div>
+											</div>
+										</div>
+									</div>
+								{% endfor %}
+							</section>
+						</section>
+					</section>
+				{% else %}
+					<h2 class='text-center fw-bold text-white mt-2'>Section pour la FAQ</h2>
+					<section class='container'>
+						<section class="row">
+							<div class='my-3'>
+								<a href="{{path('nationSound_contenu_information_edit')}}" class='btn btn-success'>Rediger</a>
+							</div>
+							<section>
+								<p class='text-white'>Il n'y a aucune FAQ, clicker sur
+									<span class='text-primary'>Rediger</span>
+									pour commencer</p>
+							</section>
+						</section>
+					</section>
+				{% endif %}
+			</section>
+		{% endif %}
 	</body>
 {% endblock %}
