@@ -30,6 +30,7 @@ use App\Repository\ViewRepository;
 use App\Service\PictureService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -377,9 +378,9 @@ class ContenuController extends AbstractController
         ]);
     }
 
-    // Controler pour cree une nouvelle section pour une page
+    // Controler pour les sections supplementaires d'une page
     #[Route('/pagesection/edit/{name?}/{id?}', name: 'contenu_edit_section')]
-    public function editSection(PageSection $pageSection=null, $name=null, Request $request, ViewRepository $vr, EntityManagerInterface $em): Response
+    public function editSection(PageSection $pageSection=null, $name=null, Request $request, ViewRepository $vr, PictureService $pictureService ,EntityManagerInterface $em): Response
     {
         $page = $vr->findOneBy(['name'=>$name]);
         $slug = $page->getSlug();
@@ -393,6 +394,16 @@ class ContenuController extends AbstractController
         if ($form->isSubmitted()&&$form->isValid()) {
             $pageSection = $form->getData();
             $pageSection->setView($page);
+            //on ajoute les images
+            $folder = 'figure';
+            $images = $form->get('images')->getData();
+            foreach ($images as $image) { 
+                $fichier = $pictureService->addFeaturedImage($image, $folder);
+                $img = new Figure();
+                $img->setName($fichier);
+                $pageSection->addImage($img);
+                $em->persist($img);
+            }
             $em->persist($pageSection);
             $em->flush();
             if ($new) {
@@ -405,7 +416,50 @@ class ContenuController extends AbstractController
         }
         return $this->render('admin/NationSound/contenu/editSection.html.twig', [
             'form' => $form,
-            'name' => $name
+            'name' => $name,
+            'new' => $new,
+            'section' => $pageSection
         ]);
     }
+    #[Route('/pagesection/delete/image/{pagename}/{id}', name:'contenu_delete_section_image', methods:['DELETE'])]
+    public function deleteImage(Figure $image, Request $request, EntityManagerInterface $em, PictureService $pictureService): JsonResponse
+    {
+        // On récupère le contenu de la requête
+        $data = json_decode($request->getContent(), true);
+
+        if($this->isCsrfTokenValid('delete' . $image->getId(), $data['_token'])){
+            // Le token csrf est valide
+            // On récupère le nom de l'image
+            $nom = $image->getName();
+
+            if($pictureService->delete($nom, 'figure')){
+                // On supprime l'image de la base de données
+                $em->remove($image);
+                $em->flush();
+                return new JsonResponse(['success' => true], 200);
+            }
+            // La suppression a échoué
+            return new JsonResponse(['error' => 'Erreur de suppression'], 400);
+        }
+
+        return new JsonResponse(['error' => 'Token invalide'], 400);
+    }
+    
+    #[Route('/pagesection/delete/{name?}/{id?}', name: 'contenu_edit_section_delete')]
+    public function deleteSection(PageSection $pageSection=null, ViewRepository $vr, EntityManagerInterface $em, $name=null): RedirectResponse
+    {
+        $page = $vr->findOneBy(['name'=>$name]);
+        $slug = $page->getSlug();
+        if ($pageSection) {
+            $em->remove($pageSection);
+            $em->flush();
+            $this->addFlash('success','Section supprimer');
+            return $this->redirectToRoute("nationSound_contenu_$slug");
+        }
+        $this->addFlash('danger','Une erreur est survenu');
+        return $this->redirectToRoute("nationSound_contenu_$slug");
+        
+    }
+    
+
 }

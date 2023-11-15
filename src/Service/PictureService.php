@@ -14,6 +14,7 @@ class PictureService
         private SluggerInterface $slugger
     ){}
 
+    //Pour ajouter une image avec ses dimentions de base
     public function addFeaturedImage(UploadedFile $featuredImage, ?string $folder = '')
     {
         $originalFileName = pathinfo($featuredImage->getClientOriginalName(),PATHINFO_FILENAME);
@@ -26,6 +27,7 @@ class PictureService
         return $newFileName;
     }
 
+    //Pour ajouter une image de diaporama, les images sont recadré
     public function addImages(UploadedFile $picture, ?string $folder = '', ?int $width = 1024, ?int $height = 576)
     {
         //on donne un nouveau nom à l'image

@@ -339,12 +339,19 @@
 					<article class='border border-black rounded px-3 my-4'>
 						<div class='my-3'>
 							<a href="{{path('nationSound_contenu_edit_section', {name:pageDefaultName, id : section.id})}}" class='btn btn-success'>Modifier</a>
+							<a href="{{path('nationSound_contenu_edit_section_delete', {name:pageDefaultName, id : section.id})}}" class='btn btn-danger'>Supprimer</a>
 						</div>
-						<pre>
-							{{ dump(pageDefaultName) }}
-						</pre>
 						<h3 class='text-center fw-bold text-white mt-2'>{{section.title}}</h3>
-						<p class='border border-black rounded p-3 fs-5 text bg-white'>{{section.content}}</p>
+						<p class=' p-3 fs-5 text-white fw-bold'>{{section.content}}</p>
+						{% if section.images is not empty %}
+							<section class='d-inline-flex flex-wrap justify-content-center mb-3'>
+								{% for image in section.images %}
+									<div class='m-3 d-flex flex-column  '>
+										<img src="{{asset('assets/uploads/figure/' ~ image.name) }}" alt="image.name" class='p-0 rounded' style="width:200px; height:400px">
+									</div>
+								{% endfor %}
+							</section>
+						{% endif %}
 					</article>
 				{% endfor %}
 			{% endif %}
