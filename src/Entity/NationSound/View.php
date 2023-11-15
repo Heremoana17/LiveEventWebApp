@@ -4,6 +4,8 @@ namespace App\Entity\NationSound;
 
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\ViewRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -28,6 +30,14 @@ class View
 
     #[ORM\OneToOne(inversedBy: 'view', cascade: ['persist', 'remove'])]
     private ?Figure $headerImage = null;
+
+    #[ORM\OneToMany(mappedBy: 'view', targetEntity: PageSection::class)]
+    private Collection $pageSections;
+
+    public function __construct()
+    {
+        $this->pageSections = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -78,6 +88,36 @@ class View
     public function setHeaderImage(?Figure $headerImage): static
     {
         $this->headerImage = $headerImage;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PageSection>
+     */
+    public function getPageSections(): Collection
+    {
+        return $this->pageSections;
+    }
+
+    public function addPageSection(PageSection $pageSection): static
+    {
+        if (!$this->pageSections->contains($pageSection)) {
+            $this->pageSections->add($pageSection);
+            $pageSection->setView($this);
+        }
+
+        return $this;
+    }
+
+    public function removePageSection(PageSection $pageSection): static
+    {
+        if ($this->pageSections->removeElement($pageSection)) {
+            // set the owning side to null (unless already changed)
+            if ($pageSection->getView() === $this) {
+                $pageSection->setView(null);
+            }
+        }
 
         return $this;
     }

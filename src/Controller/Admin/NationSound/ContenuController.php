@@ -9,16 +9,19 @@ use App\Entity\FAQ;
 use App\Entity\NationSound\Figure;
 use App\Entity\Image;
 use App\Entity\ImageSponsor;
+use App\Entity\NationSound\PageSection;
 use App\Entity\Page;
 use App\Entity\NationSound\View;
 use App\Entity\Sponsor;
 use App\Form\BilletType;
 use App\Form\FAQType;
 use App\Form\PageFormType;
+use App\Form\PageSectionType;
 use App\Form\SponsorFormType;
 use App\Form\ViewType;
 use App\Repository\ArticleRepository;
 use App\Repository\BilletRepository;
+use App\Repository\DayRepository;
 use App\Repository\EventRepository;
 use App\Repository\FAQRepository;
 use App\Repository\PageRepository;
@@ -133,37 +136,44 @@ class ContenuController extends AbstractController
         }
     }
 
+    // Controller pour la page Programme
     #[Route('/programme', name: 'contenu_programme')]
-    public function programme(ViewRepository $vw): Response
+    public function programme(ViewRepository $vw, DayRepository $dr): Response
     {
+        //on recup-re le contenu de la page programme
         $page = $vw->findOneBy(['name'=>'programme']);
+        //on recupère le contenu du programme de nation sound
+        $days = $dr->findAll();
+
         return $this->render('admin/NationSound/contenu/page.html.twig', [
             'pageDefaultName' => 'programme',
             'title' => 'Programme',
             'page' => $page,
+            'days' => $days
         ]);
     }
 
-    #[Route('/information', name: 'contenu_information')]
+    // Controller pour la page actualité faq
+    #[Route('/actualite', name: 'contenu_actualite')]
     public function information(ViewRepository $vw, FAQRepository $fr, EventRepository $er, ArticleRepository $ar): Response
     {
         //on recupère le contenu de la page
-        $page = $vw->findOneBy(['name'=>'information']);
+        $page = $vw->findOneBy(['name'=>'actualite']);
         //on récupère les articles liés à l'évènement nationsound
         $nationSound = $er->findOneBy(['name'=>'Nation Sound']);
         $articles = $ar->findBy(['relatedEvent'=>$nationSound->getId()]);
         //on recupère la faq
         $FAQs = $fr->findAll();
         return $this->render('admin/NationSound/contenu/page.html.twig', [
-            'pageDefaultName' => 'information',
-            'title' => 'Information',
+            'pageDefaultName' => 'actualite',
+            'title' => 'Actualite',
             'page' => $page,
             'articles' => $articles,
             'FAQs' => $FAQs
         ]);
     }
 
-    #[Route('/information/edit/{id?}', name: 'contenu_information_edit')]
+    #[Route('/actualite/edit/{id?}', name: 'contenu_actualite_edit')]
     public function informationEdit(FAQ $faq=null, Request $request, EntityManagerInterface $em): Response
     {
         $new = false;
@@ -182,37 +192,38 @@ class ContenuController extends AbstractController
             }else{
                 $this->addFlash('success','Question/réponse mis-à-jour');
             }
-            return $this->redirectToRoute("nationSound_contenu_information");
+            return $this->redirectToRoute("nationSound_contenu_actualite");
         }
         return $this->render('admin/NationSound/contenu/addFAQ.html.twig', [
             'form'=>$form
         ]);
     }
 
-    #[Route('/information/withdraw/article/{id?}', name:'contenu_information_article_withdraw')]
+    #[Route('/actualite/withdraw/article/{id?}', name:'contenu_actualite_article_withdraw')]
     public function withdrawArticle(Article $article=null, EntityManagerInterface $em):Response
     {
         $article->setRelatedEvent(null);
         $em->persist($article);
         $em->flush();
         $this->addFlash('success','Article retiré');
-        return $this->redirectToRoute('nationSound_contenu_information');
+        return $this->redirectToRoute('nationSound_contenu_actualite');
     }
 
-    #[Route('/information/delete/{id?}', name: 'contenu_information_delete')]
+    #[Route('/actualite/delete/{id?}', name: 'contenu_actualite_delete')]
     public function informationDelete(FAQ $faq=null, EntityManagerInterface $em): RedirectResponse
     {
         if ($faq) {
             $em->remove($faq);
             $em->flush();
             $this->addFlash('success','question/reponse supprimer');
-            return $this->redirectToRoute('nationSound_contenu_information');
+            return $this->redirectToRoute('nationSound_contenu_actualite');
         }else{
             $this->addFlash('error','Une erreur est apparu');
-            return $this->redirectToRoute('nationSound_contenu_information');
+            return $this->redirectToRoute('nationSound_contenu_actualite');
         }
     }
 
+    // Controller pour la page sponsor
     #[Route('/sponsor', name: 'contenu_sponsor')]
     public function sponsor(ViewRepository $vw, SponsorRepository $sr, EventRepository $er): Response
     {
@@ -298,6 +309,7 @@ class ContenuController extends AbstractController
         }
     }
 
+    // Controller pour la page a propos contact
     #[Route('/apropos', name: 'contenu_a-propos')]
     public function apropos(ViewRepository $vw): Response
     {
@@ -365,6 +377,35 @@ class ContenuController extends AbstractController
         ]);
     }
 
-
-
+    // Controler pour cree une nouvelle section pour une page
+    #[Route('/pagesection/edit/{name?}/{id?}', name: 'contenu_edit_section')]
+    public function editSection(PageSection $pageSection=null, $name=null, Request $request, ViewRepository $vr, EntityManagerInterface $em): Response
+    {
+        $page = $vr->findOneBy(['name'=>$name]);
+        $slug = $page->getSlug();
+        $new = false;
+        if (!$pageSection) {
+            $pageSection = new PageSection();
+            $new = true;
+        }
+        $form = $this->createForm(PageSectionType::class, $pageSection);
+        $form->handleRequest($request);
+        if ($form->isSubmitted()&&$form->isValid()) {
+            $pageSection = $form->getData();
+            $pageSection->setView($page);
+            $em->persist($pageSection);
+            $em->flush();
+            if ($new) {
+                $this->addFlash('success','Nouvelle section ajouté à la page');
+            } else {
+                $this->addFlash('success','Section mis-à-jour');
+            }
+            return $this->redirectToRoute("nationSound_contenu_$slug", [
+            ]);
+        }
+        return $this->render('admin/NationSound/contenu/editSection.html.twig', [
+            'form' => $form,
+            'name' => $name
+        ]);
+    }
 }

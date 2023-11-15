@@ -35,7 +35,6 @@ class ProgrammeController extends AbstractController
             'days' => $days
         ]);
     }
-    
     #[Route('/jour/edit/{id?}', name: 'editJour')]
     public function editJour(Day $day = null, Request $request, EntityManagerInterface $em): Response
     {

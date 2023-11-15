@@ -59,7 +59,7 @@
 		</section>
 
 		<section
-			class='container mt-3 border rounded py-3'>
+			class='container my-3 border rounded py-3'>
 			{# //section pour le contenu de les sponsor #}
 			{% if sponsors is defined %}
 				{% if sponsors is not empty%}
@@ -130,6 +130,13 @@
 				{% endif %}
 			{% endif %}
 
+			{# //section pour le contenu de le programme #}
+			{% if days is defined %}
+				<h2 class='text-center fw-bold text-white mt-2 mb-4'>Section pour le programme</h2>
+				{% include '_partials/admin/NationSound/_dayProgramme.html.twig' %}
+			{% endif %}
+
+
 			{# //section pour le contenu de les articles #}
 			{% if articles is defined %}
 				{% if articles is not empty%}
@@ -168,7 +175,7 @@
 													</p>
 												</div>
 												<div class="modal-footer">
-													<a href="{{path('nationSound_contenu_information_article_withdraw', {id : article.id})}}" class="btn btn-danger">Supprimer</a>
+													<a href="{{path('nationSound_contenu_actualite_article_withdraw', {id : article.id})}}" class="btn btn-danger">Supprimer</a>
 													<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
 												</div>
 											</div>
@@ -259,14 +266,14 @@
 
 		{% if FAQs is defined %}
 			<section
-				class='container mt-3 border rounded py-3'>
+				class='container my-3 border rounded py-3'>
 				{# //section pour le contenu de la page information #}
 				{% if FAQs is not empty%}
 					<h2 class='text-center fw-bold text-white mt-2'>Section pour la FAQ</h2>
 					<section class='container'>
 						<section class="row">
 							<div class='my-3'>
-								<a href="{{path('nationSound_contenu_information_edit')}}" class='btn btn-success'>Ajouter</a>
+								<a href="{{path('nationSound_contenu_actualite_edit')}}" class='btn btn-success'>Ajouter</a>
 							</div>
 							<section class='d-flex justify-content-around flex-wrap'>
 								{% for faq in FAQs %}
@@ -279,7 +286,7 @@
 												{{faq.answer}}</h5>
 											<hr>
 											<div class='align-self-end '>
-												<a href="{{path('nationSound_contenu_information_edit', {id : faq.id})}}" class="btn btn-success">Modifier</a>
+												<a href="{{path('nationSound_contenu_actualite_edit', {id : faq.id})}}" class="btn btn-success">Modifier</a>
 												<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal{{faq.id}}">
 													Supprimer
 												</button>
@@ -298,7 +305,7 @@
 													<span class='text-danger'>'Supprimer'</span>
 												</div>
 												<div class="modal-footer">
-													<a href="{{path('nationSound_contenu_information_delete', {id : faq.id})}}" class="btn btn-danger">Supprimer</a>
+													<a href="{{path('nationSound_contenu_actualite_delete', {id : faq.id})}}" class="btn btn-danger">Supprimer</a>
 													<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
 												</div>
 											</div>
@@ -325,5 +332,30 @@
 				{% endif %}
 			</section>
 		{% endif %}
+		<section class='container my-3 border rounded py-3'>
+			{% if page.pageSections is not empty%}
+				<h2 class='text-center fw-bold text-white my-2'>Autre section</h2>
+				{% for section in page.pageSections %}
+					<article class='border border-black rounded px-3 my-4'>
+						<div class='my-3'>
+							<a href="{{path('nationSound_contenu_edit_section', {name:pageDefaultName, id : section.id})}}" class='btn btn-success'>Modifier</a>
+						</div>
+						<pre>
+							{{ dump(pageDefaultName) }}
+						</pre>
+						<h3 class='text-center fw-bold text-white mt-2'>{{section.title}}</h3>
+						<p class='border border-black rounded p-3 fs-5 text bg-white'>{{section.content}}</p>
+					</article>
+				{% endfor %}
+			{% endif %}
+			<div class='my-3'>
+				<a href="{{path('nationSound_contenu_edit_section',{name:pageDefaultName})}}" class='btn btn-success'>Rediger</a>
+			</div>
+			<section>
+				<p class='text-white'>Ajouter une nouvelle section ? Clicker sur
+					<span class='text-primary'>Rediger</span>
+					pour commencer</p>
+			</section>
+		</section>
 	</body>
 {% endblock %}

@@ -21,6 +21,9 @@ class Figure
     #[ORM\OneToOne(mappedBy: 'headerImage', cascade: ['persist', 'remove'])]
     private ?View $view = null;
 
+    #[ORM\ManyToOne(inversedBy: 'images')]
+    private ?PageSection $pageSection = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -62,5 +65,17 @@ class Figure
     public function __toString()
     {
         return $this->name;
+    }
+
+    public function getPageSection(): ?PageSection
+    {
+        return $this->pageSection;
+    }
+
+    public function setPageSection(?PageSection $pageSection): static
+    {
+        $this->pageSection = $pageSection;
+
+        return $this;
     }
 }
