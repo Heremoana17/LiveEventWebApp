@@ -13,6 +13,7 @@ use App\Entity\NationSound\PageSection;
 use App\Entity\Page;
 use App\Entity\NationSound\View;
 use App\Entity\Sponsor;
+use App\Form\ArticleFormType;
 use App\Form\BilletType;
 use App\Form\FAQType;
 use App\Form\PageFormType;
@@ -26,8 +27,10 @@ use App\Repository\EventRepository;
 use App\Repository\FAQRepository;
 use App\Repository\PageRepository;
 use App\Repository\SponsorRepository;
+use App\Repository\UserRepository;
 use App\Repository\ViewRepository;
 use App\Service\PictureService;
+use App\Service\SendMailService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -174,8 +177,100 @@ class ContenuController extends AbstractController
         ]);
     }
 
-    #[Route('/actualite/edit/{id?}', name: 'contenu_actualite_edit')]
-    public function informationEdit(FAQ $faq=null, Request $request, EntityManagerInterface $em): Response
+    #[Route('/actualite/article/edit/{id?}', name: 'contenu_actualite_article_edit')]
+    public function informationArticleEdit(Article $article=null, Request $request, PictureService $pictureService, SluggerInterface $slugger, EntityManagerInterface $em, SendMailService $mail, UserRepository $userRepository, EventRepository $er): Response
+    {
+        //Pour savoir si l'article est nouveau ou deja existant
+        $new = false;
+        if (!$article) {
+            $article = new Article();
+            $new = true;
+        }
+        // en recupère l'evenement
+        $event = $er->findOneBy(['name'=>'Nation Sound']);
+        //creation du formulaire
+        $form = $this->createForm(ArticleFormType::class, $article );
+        $form->handleRequest($request);
+        // Si le formulaire est envoyé et valide
+        if ($form->isSubmitted()&&$form->isValid()) {
+            //on definit le dossier de destination
+            $folder = 'articles';
+            //on recupère les images
+            $images = $form->get('images')->getData();
+            foreach($images as $image){
+                //on appelle le service d'ajout
+                $fichier = $pictureService->addImages($image, $folder, 1024, 576);
+                $img = new Image();
+                $img->setName($fichier);
+                $article->addImage($img);
+            }
+            $featuredImage = $form->get('featuredImage')->getData();
+            if($featuredImage){
+                $newFileName = $pictureService->addFeaturedImage($featuredImage, $folder);
+                $article->setFeaturedImage($newFileName);
+            };
+            $article = $form->getData();
+            //on génère le slug
+            $slug = $slugger->slug($article->getTitle());
+            $article->setSlug($slug);
+            //on attribut l'autheur
+            $article->setAuthor($this->getUser());
+            //on attribut l'évènement
+            $article->setRelatedEvent($event);
+            //on persist
+            $em->persist($article);
+            $em->flush();
+            //on envoie le mail aux abonnées
+            $valider = $form->get('Valider')->getData();
+            if ($valider) {
+                //on recupère les données du formulaire
+                $Subject = $form->get('Subject')->getData();
+                $Content = $form->get('Content')->getData();
+                //on récupère les abonnées
+                $abonnées = $userRepository->findBy(['isSubscriber' => true]);
+                //on envoie le mail à chaque abonnées
+                foreach ($abonnées as $abonnée) { 
+                    $mail->send(
+                        'news@liveevent.fr',
+                        $abonnée->getEmail(),
+                        $Subject,
+                        'newletter',
+                        [
+                            'content' => $Content,
+                            'abonnée' => $abonnée,
+                            'article' => $article
+                        ]
+                    );
+                }
+                
+            }
+            if ($new === true) {
+                $this->addFlash('success',"Nouvelle article crée et ajouter aux actualité");
+            } else {
+                $this->addFlash('success',"Article modifié et ajouter aux actualité");
+            }
+            return $this->redirectToRoute('nationSound_contenu_actualite');
+        }
+        return $this->render('admin/NationSound/contenu/addArticle.html.twig', [
+            'form'=>$form,
+            'event' => $event,
+            'new' => $new,
+            'article' => $article,
+        ]);
+    }
+
+    #[Route('/actualite/withdraw/article/{id?}', name:'contenu_actualite_article_withdraw')]
+    public function withdrawArticle(Article $article=null, EntityManagerInterface $em):Response
+    {
+        $article->setRelatedEvent(null);
+        $em->persist($article);
+        $em->flush();
+        $this->addFlash('success','Article retiré');
+        return $this->redirectToRoute('nationSound_contenu_actualite');
+    }
+
+    #[Route('/actualite/FAQ/edit/{id?}', name: 'contenu_actualite_FAQ_edit')]
+    public function informationFAQEdit(FAQ $faq=null, Request $request, EntityManagerInterface $em): Response
     {
         $new = false;
         if (!$faq) {
@@ -198,16 +293,6 @@ class ContenuController extends AbstractController
         return $this->render('admin/NationSound/contenu/addFAQ.html.twig', [
             'form'=>$form
         ]);
-    }
-
-    #[Route('/actualite/withdraw/article/{id?}', name:'contenu_actualite_article_withdraw')]
-    public function withdrawArticle(Article $article=null, EntityManagerInterface $em):Response
-    {
-        $article->setRelatedEvent(null);
-        $em->persist($article);
-        $em->flush();
-        $this->addFlash('success','Article retiré');
-        return $this->redirectToRoute('nationSound_contenu_actualite');
     }
 
     #[Route('/actualite/delete/{id?}', name: 'contenu_actualite_delete')]

@@ -18,7 +18,7 @@
 			</div>
 		</header>
 		{# //section pour le contenu de la page #}
-		<section class='container mt-3 border rounded py-3'>
+		<section class='container my-3 border rounded py-3'>
 			<h2 class='text-center fw-bold text-white mt-2'>Section pour le header</h2>
 			{% if page is not empty %}
 				<section class="row">
@@ -58,10 +58,9 @@
 			{% endif %}
 		</section>
 
-		<section
-			class='container my-3 border rounded py-3'>
-			{# //section pour le contenu de les sponsor #}
-			{% if sponsors is defined %}
+		{# //section pour le contenu de les sponsor #}
+		{% if sponsors is defined %}
+			<section class='container my-3 border rounded py-3'>
 				{% if sponsors is not empty%}
 					<h2 class='text-center fw-bold text-white mt-2'>Section pour les sponsors</h2>
 					<section class='container'>
@@ -128,19 +127,24 @@
 						</section>
 					</section>
 				{% endif %}
-			{% endif %}
+			</section>
+		{% endif %}
 
-			{# //section pour le contenu de le programme #}
-			{% if days is defined %}
+		{# //section pour le contenu de le programme #}
+		{% if days is defined %}
+			<section class='container my-3 border rounded py-3'>
 				<h2 class='text-center fw-bold text-white mt-2 mb-4'>Section pour le programme</h2>
+				<a href="{{path('nationSound_editJour')}}" class='btn btn-success'>Ajouter une journée</a>
 				{% include '_partials/admin/NationSound/_dayProgramme.html.twig' %}
-			{% endif %}
+			</section>
+		{% endif %}
 
-
-			{# //section pour le contenu de les articles #}
-			{% if articles is defined %}
+		{# //section pour le contenu de les articles #}
+		{% if articles is defined %}
+			<section class='container my-3 border rounded py-3'>
 				{% if articles is not empty%}
 					<h2 class='text-center fw-bold text-white mt-2'>Section pour les articles</h2>
+					<a href="{{path('nationSound_contenu_actualite_article_edit')}}" class='btn btn-success'>Ajouter un article</a>
 					<section class='container'>
 						<section class="row">
 							<div
@@ -155,7 +159,7 @@
 											<hr>
 											<div class='align-self-end '>
 												<a href="{{path('app_article_details', {slug : article.slug})}}" class="btn btn-primary">Details</a>
-												<a href="{{path('app_editArticle', {id : article.id})}}" class="btn btn-success">Modifier</a>
+												<a href="{{path('nationSound_contenu_actualite_article_edit', {id : article.id})}}" class="btn btn-success">Modifier</a>
 												<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal{{article.id}}">
 													Supprimer
 												</button>
@@ -195,11 +199,12 @@
 						</section>
 					</section>
 				{% endif %}
-			{% endif %}
+			</section>
+		{% endif %}
 
-
-			{# //section pour le contenu des billet #}
-			{% if billets is defined %}
+		{# //section pour le contenu des billet #}
+		{% if billets is defined %}
+			<section class='container my-3 border rounded py-3'>
 				{% if billets is not empty%}
 					<h2 class='text-center fw-bold text-white mt-2'>Section pour les billet</h2>
 					<section class='container'>
@@ -260,10 +265,10 @@
 						</section>
 					</section>
 				{% endif %}
-			{% endif %}
-		</section>
+			</section>
+		{% endif %}
 
-
+		{# //section pour la FAQ #}
 		{% if FAQs is defined %}
 			<section
 				class='container my-3 border rounded py-3'>
@@ -273,7 +278,7 @@
 					<section class='container'>
 						<section class="row">
 							<div class='my-3'>
-								<a href="{{path('nationSound_contenu_actualite_edit')}}" class='btn btn-success'>Ajouter</a>
+								<a href="{{path('nationSound_contenu_actualite_FAQ_edit')}}" class='btn btn-success'>Ajouter</a>
 							</div>
 							<section class='d-flex justify-content-around flex-wrap'>
 								{% for faq in FAQs %}
@@ -286,7 +291,7 @@
 												{{faq.answer}}</h5>
 											<hr>
 											<div class='align-self-end '>
-												<a href="{{path('nationSound_contenu_actualite_edit', {id : faq.id})}}" class="btn btn-success">Modifier</a>
+												<a href="{{path('nationSound_contenu_actualite_FAQ_edit', {id : faq.id})}}" class="btn btn-success">Modifier</a>
 												<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal{{faq.id}}">
 													Supprimer
 												</button>
@@ -332,37 +337,42 @@
 				{% endif %}
 			</section>
 		{% endif %}
-		<section class='container my-3 border rounded py-3'>
-			{% if page.pageSections is not empty%}
-				<h2 class='text-center fw-bold text-white my-2'>Autre section</h2>
-				{% for section in page.pageSections %}
-					<article class='border border-black rounded px-3 my-4'>
-						<div class='my-3'>
-							<a href="{{path('nationSound_contenu_edit_section', {name:pageDefaultName, id : section.id})}}" class='btn btn-success'>Modifier</a>
-							<a href="{{path('nationSound_contenu_edit_section_delete', {name:pageDefaultName, id : section.id})}}" class='btn btn-danger'>Supprimer</a>
-						</div>
-						<h3 class='text-center fw-bold text-white mt-2'>{{section.title}}</h3>
-						<p class=' p-3 fs-5 text-white fw-bold'>{{section.content}}</p>
-						{% if section.images is not empty %}
-							<section class='d-inline-flex flex-wrap justify-content-center mb-3'>
-								{% for image in section.images %}
-									<div class='m-3 d-flex flex-column  '>
-										<img src="{{asset('assets/uploads/figure/' ~ image.name) }}" alt="image.name" class='p-0 rounded' style="width:200px; height:400px">
-									</div>
-								{% endfor %}
-							</section>
-						{% endif %}
-					</article>
-				{% endfor %}
-			{% endif %}
-			<div class='my-3'>
-				<a href="{{path('nationSound_contenu_edit_section',{name:pageDefaultName})}}" class='btn btn-success'>Rediger</a>
-			</div>
-			<section>
-				<p class='text-white'>Ajouter une nouvelle section ? Clicker sur
-					<span class='text-primary'>Rediger</span>
-					pour commencer</p>
+
+		{# //section pour les section supplementaires #}
+		{% if page.pageSections is defined %}
+			<section class='container my-3 border rounded py-3'>
+				{% if page.pageSections is not empty%}
+					<h2 class='text-center fw-bold text-white my-2'>Autre section</h2>
+					{% for section in page.pageSections %}
+						<article class='border border-black rounded px-3 my-4'>
+							<div class='my-3'>
+								<a href="{{path('nationSound_contenu_edit_section', {name:pageDefaultName, id : section.id})}}" class='btn btn-success'>Modifier</a>
+								<a href="{{path('nationSound_contenu_edit_section_delete', {name:pageDefaultName, id : section.id})}}" class='btn btn-danger'>Supprimer</a>
+							</div>
+							<h3 class='text-center fw-bold text-white mt-2'>{{section.title}}</h3>
+							<p class=' p-3 fs-5 text-white fw-bold'>{{section.content}}</p>
+							{% if section.images is not empty %}
+								<section class='d-inline-flex flex-wrap justify-content-center mb-3'>
+									{% for image in section.images %}
+										<div class='m-3 d-flex flex-column  '>
+											<img src="{{asset('assets/uploads/figure/' ~ image.name) }}" alt="image.name" class='p-0 rounded' style="width:200px; height:400px">
+										</div>
+									{% endfor %}
+								</section>
+							{% endif %}
+						</article>
+					{% endfor %}
+				{% endif %}
+				<div class='my-3'>
+					<a href="{{path('nationSound_contenu_edit_section',{name:pageDefaultName})}}" class='btn btn-success'>Rediger</a>
+				</div>
+				<section>
+					<p class='text-white'>Ajouter une nouvelle section ? Clicker sur
+						<span class='text-primary'>Rediger</span>
+						pour commencer</p>
+				</section>
 			</section>
-		</section>
+		{% endif %}
+
 	</body>
 {% endblock %}
