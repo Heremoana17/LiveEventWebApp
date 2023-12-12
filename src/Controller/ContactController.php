@@ -32,8 +32,8 @@ class ContactController extends AbstractController
                 'motif' => $form->get('motif')->getData()
             ];
             $mail->send(
-                $form->get('email')->getData(),
-                '57brocoli@gmail.com',
+                'admin@pixelevent.site',
+                'admin@pixelevent.site',
                 'Message utilisateur',
                 'requete_utilisateur',
                 $context

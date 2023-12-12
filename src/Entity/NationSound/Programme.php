@@ -3,24 +3,35 @@
 namespace App\Entity\NationSound;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
 use App\Repository\ProgrammeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ProgrammeRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    operations:[
+        new Get(normalizationContext:['groups' => ['getforProg']]),
+        new GetCollection(normalizationContext:['groups' => ['getforProg']]),
+    ]
+)]
 class Programme
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['getforProg'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
+    #[Groups(['getforProg'])]
     private ?string $name = null;
 
     #[ORM\OneToMany(mappedBy: 'programme', targetEntity: Day::class)]
+    #[Groups(['getforProg'])]
     private Collection $day;
 
     public function __construct()

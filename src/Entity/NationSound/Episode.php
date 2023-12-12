@@ -3,33 +3,48 @@
 namespace App\Entity\NationSound;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
 use App\Repository\EpisodeRepository;
 use Doctrine\DBAL\Types\Types;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: EpisodeRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    operations:[
+        new Get(normalizationContext:['groups' => ['getforEpisode']]),
+        new GetCollection(normalizationContext:['groups' => ['getforEpisode']]),
+    ]
+)]
 class Episode
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['getforEpisode','getforDay','getforLieu','getforProg', 'getforArtiste'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
+    #[Groups(['getforEpisode','getforDay', 'getforLieu','getforProg', 'getforArtiste'])]
     private ?string $name = null;
 
     #[ORM\Column(type: Types::TIME_MUTABLE)]
+    #[Groups(['getforEpisode','getforDay', 'getforLieu','getforProg', 'getforArtiste'])]
     private ?\DateTimeInterface $hour = null;
 
+    #[ORM\ManyToOne(inversedBy: 'episodes')]
+    // #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['getforEpisode','getforDay', 'getforLieu','getforProg'])]
+    private ?Artiste $artiste = null;
+
     #[ORM\ManyToOne(inversedBy: 'episode')]
+    #[Groups(['getforEpisode', 'getforLieu','getforProg', 'getforArtiste'])]
     private ?Day $day = null;
 
     #[ORM\ManyToOne(inversedBy: 'episodes')]
+    #[Groups(['getforEpisode', 'getforLieu','getforDay','getforProg', 'getforArtiste'])]
     private ?Lieu $lieu = null;
-
-    #[ORM\ManyToOne(inversedBy: 'episodes')]
-    private ?Artiste $artiste = null;
 
     public function getId(): ?int
     {
@@ -60,6 +75,18 @@ class Episode
         return $this;
     }
 
+    public function getArtiste(): ?Artiste
+    {
+        return $this->artiste;
+    }
+
+    public function setArtiste(?Artiste $artiste): static
+    {
+        $this->artiste = $artiste;
+
+        return $this;
+    }
+
     public function getDay(): ?Day
     {
         return $this->day;
@@ -85,18 +112,6 @@ class Episode
     public function setLieu(?Lieu $lieu): static
     {
         $this->lieu = $lieu;
-
-        return $this;
-    }
-
-    public function getArtiste(): ?Artiste
-    {
-        return $this->artiste;
-    }
-
-    public function setArtiste(?Artiste $artiste): static
-    {
-        $this->artiste = $artiste;
 
         return $this;
     }

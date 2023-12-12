@@ -37,7 +37,7 @@ class RegistrationController extends AbstractController
             if ($isSub) {
                 $user->setIsSubscriber(true);
             }else{
-                $user->setIsSubscriber(true);
+                $user->setIsSubscriber(false);
             }
 
             $entityManager->persist($user);
@@ -58,7 +58,7 @@ class RegistrationController extends AbstractController
             $token = $jwt->generate($header, $payload, $this->getParameter('app.jwtsecret'));
 
             $mail->send(
-                'no-reply@monsite.fr',
+                'admin@pixelevent.site',
                 $user->getEmail(),
                 'Activation de votre compte sur le site Live evnet',
                 'register',
@@ -127,7 +127,7 @@ class RegistrationController extends AbstractController
         $token = $jwt->generate($header, $payload, $this->getParameter('app.jwtsecret'));
 
         $mail->send(
-            'no-reply@monsite.fr',
+            'admin@pixelevent.site',
             $user->getEmail(),
             'Activation de votre compte sur le site Live evnet',
             'register',

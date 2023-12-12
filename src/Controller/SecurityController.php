@@ -63,7 +63,7 @@ class SecurityController extends AbstractController
                 ];
                 //envoie du mail
                 $mail->send(
-                    'no-reply@liveevent.fr',
+                    'admin@pixelevent.site',
                     $user->getEmail(),
                     'Réinitialisation du mot de passe',
                     'passeword_reset',

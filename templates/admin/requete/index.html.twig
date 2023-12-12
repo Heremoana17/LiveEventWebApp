@@ -38,7 +38,7 @@
 				{% endfor %}
 				<p></p>
 			</div>
-			<div class=" d-flex justify-content-center">{{knp_pagination_render(paginations)}}</div>
+			<div class=" d-flex justify-content-center">{{knp_pagination_render(paginations, '_partials/_KnpPagination.html.twig')}}</div>
 		</section>
 	{% else %}
 		<article class='container py-4'>

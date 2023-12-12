@@ -6,7 +6,6 @@ use ApiPlatform\Metadata\ApiResource;
 use App\Repository\PageRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PageRepository::class)]
@@ -23,12 +22,6 @@ class Page
 
     #[ORM\OneToMany(mappedBy: 'page', targetEntity: BackgroundImage::class)]
     private Collection $backgroundImages;
-
-    #[ORM\Column(type: Types::TEXT, nullable: true)]
-    private ?string $header = null;
-
-    #[ORM\Column(length: 50)]
-    private ?string $slug = null;
 
     public function __construct()
     {
@@ -84,29 +77,5 @@ class Page
     public function __toString()
     {
         return $this -> name;
-    }
-
-    public function getHeader(): ?string
-    {
-        return $this->header;
-    }
-
-    public function setHeader(?string $header): static
-    {
-        $this->header = $header;
-
-        return $this;
-    }
-
-    public function getSlug(): ?string
-    {
-        return $this->slug;
-    }
-
-    public function setSlug(string $slug): static
-    {
-        $this->slug = $slug;
-
-        return $this;
     }
 }

@@ -3,37 +3,52 @@
 namespace App\Entity\NationSound;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
 use App\Repository\ArtisteRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ArtisteRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    operations:[
+        new Get(normalizationContext:['groups' => ['getforArtiste']]),
+        new GetCollection(normalizationContext:['groups' => ['getforArtiste']]),
+    ]
+)]
 class Artiste
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['getforArtiste', 'getforDay', 'getforLieu','getforProg', 'getforEpisode'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
+    #[Groups(['getforArtiste', 'getforDay', 'getforLieu','getforProg', 'getforEpisode'])]
     private ?string $name = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Groups(['getforArtiste', 'getforDay', 'getforLieu','getforProg', 'getforEpisode'])]
     private ?string $description = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['getforArtiste', 'getforDay', 'getforLieu', 'getforProg', 'getforEpisode'])]
     private ?string $musicLink = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['getforArtiste', 'getforDay', 'getforLieu', 'getforProg', 'getforEpisode'])]
     private ?string $featuredImage = null;
 
     #[ORM\OneToMany(mappedBy: 'artiste', targetEntity: Episode::class)]
+    #[Groups(['getforArtiste', 'getforDay', 'getforLieu', 'getforEpisode'])]
     private Collection $episodes;
 
     #[ORM\OneToMany(mappedBy: 'artiste', targetEntity: Link::class)]
+    #[Groups(['getforArtiste', 'getforDay', 'getforLieu', 'getforProg', 'getforEpisode'])]
     private Collection $links;
 
     public function __construct()

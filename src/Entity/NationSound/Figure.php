@@ -4,6 +4,7 @@ namespace App\Entity\NationSound;
 
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\FigureRepository;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: FigureRepository::class)]
@@ -16,10 +17,14 @@ class Figure
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['getforView'])]
     private ?string $name = null;
 
     #[ORM\OneToOne(mappedBy: 'headerImage', cascade: ['persist', 'remove'])]
     private ?View $view = null;
+    
+    #[ORM\ManyToOne(inversedBy: 'images')]
+    private ?PageSection $pageSection = null;
 
     public function getId(): ?int
     {
@@ -62,5 +67,17 @@ class Figure
     public function __toString()
     {
         return $this->name;
+    }
+    
+    public function getPageSection(): ?PageSection
+    {
+        return $this->pageSection;
+    }
+
+    public function setPageSection(?PageSection $pageSection): static
+    {
+        $this->pageSection = $pageSection;
+
+        return $this;
     }
 }

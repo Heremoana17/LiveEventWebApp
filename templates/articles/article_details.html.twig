@@ -18,7 +18,7 @@
 	<section class="container mt-4 px-4">
 		<div class="row">
 			<div class="col">
-				<h1 class='fw-bold'>{{article.title}}</h1>
+				<h1 class='fw-bold text-center'>{{article.title}}</h1>
 				<hr>
 				<section class='my-4 d-lg-flex border rounded py-4'>
 					<img src="{{asset('assets/uploads/articles/'~ article.featuredImage)}}" class='float-start mx-3' alt="ImageArticle" width='300'>
@@ -61,8 +61,14 @@
 		{% if article.comments %}
 			{% for comment in article.comments %}
 				<section class="p-2">
-					<p class='border rounded-top px-3 py-2 d-inline'>{{comment.author.firstname}}
-						{{comment.author.lastname}}</p>
+					<p class='border rounded-top px-3 py-2 d-inline'>
+						{% if comment.author is not empty %}
+							{{comment.author.firstname}}
+							{{comment.author.lastname}}
+						{% endif %}
+						{% if comment.authorMobile is not empty %}
+							{{comment.authorMobile}}
+						{% endif %}</p>
 					<p class='border rounded-bottom rounded-end px-3 mt-1 py-2 mb-0'>{{comment.content}}
 					</p>
 					<p class='px-3 pt-1 text-end'>le :

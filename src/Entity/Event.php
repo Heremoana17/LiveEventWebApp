@@ -10,6 +10,7 @@ use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: EventRepository::class)]
@@ -22,9 +23,11 @@ class Event
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['getforSponsor'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
+    #[Groups(['getforSponsor'])]
     private ?string $name = null;
 
     #[ORM\Column(type: Types::TEXT)]
@@ -60,7 +63,7 @@ class Event
 
     #[ORM\OneToMany(mappedBy: 'event', targetEntity: Billet::class)]
     private Collection $billets;
-
+    
     public function __construct()
     {
         $this->imageEvents = new ArrayCollection();
@@ -277,7 +280,7 @@ class Event
 
         return $this;
     }
-
+    
     /**
      * @return Collection<int, Billet>
      */

@@ -50,18 +50,20 @@ class Article
     private ?string $introduction = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Groups(['getforarticle'])]
     private ?string $content = null;
 
     #[ORM\ManyToOne(inversedBy: 'articles')]
+    #[Groups(['getforarticle'])]
     private ?User $author = null;
 
     #[ORM\ManyToOne(inversedBy: 'articles')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['categoryForArticle'])]
+    #[Groups(['categoryForArticle', 'getforarticle'])]
     private ?Category $categories = null;
 
     #[ORM\OneToMany(mappedBy: 'article', targetEntity: Image::class, orphanRemoval: true, cascade:['persist'])]
-    #[Groups(['imageForArticle'])]
+    #[Groups(['imageForArticle', 'getforarticle'])]
     private Collection $images;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -69,12 +71,14 @@ class Article
     private ?string $featuredImage = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['getforarticle'])]
     private ?string $video = null;
 
     #[ORM\ManyToOne(inversedBy: 'relatedArticles')]
     private ?Event $relatedEvent = null;
 
     #[ORM\OneToMany(mappedBy: 'relatedArticle', targetEntity: Comment::class, orphanRemoval: true)]
+    #[Groups(['getforarticle'])]
     private Collection $comments;
 
     public function __construct()

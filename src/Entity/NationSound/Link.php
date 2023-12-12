@@ -4,6 +4,7 @@ namespace App\Entity\NationSound;
 
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\LinkRepository;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: LinkRepository::class)]
@@ -13,14 +14,16 @@ class Link
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['getforDay'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
+    #[Groups(['getforDay', 'getforLieu'])]
     private ?string $link = null;
 
     #[ORM\ManyToOne(inversedBy: 'links')]
     private ?Artiste $artiste = null;
-
+    
     #[ORM\ManyToOne(inversedBy: 'links')]
     private ?Lieu $lieu = null;
 
@@ -40,7 +43,6 @@ class Link
 
         return $this;
     }
-
     public function getArtiste(): ?Artiste
     {
         return $this->artiste;
@@ -52,7 +54,7 @@ class Link
 
         return $this;
     }
-
+    
     public function getLieu(): ?Lieu
     {
         return $this->lieu;
@@ -64,10 +66,9 @@ class Link
 
         return $this;
     }
-
+    
     public function __toString()
     {
-        return $this->link;
+        return $this->name;
     }
-
 }

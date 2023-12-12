@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ImageSponsorRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 use ApiPlatform\Metadata\ApiResource;
 
 #[ORM\Entity(repositoryClass: ImageSponsorRepository::class)]
@@ -13,9 +14,11 @@ class ImageSponsor
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['getforSponsor'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['getforSponsor'])]
     private ?string $name = null;
 
     #[ORM\ManyToOne(inversedBy: 'imageSponsors')]

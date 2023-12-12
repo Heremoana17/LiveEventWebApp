@@ -14,8 +14,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: CommentRepository::class)]
 #[ApiResource(
-    // normalizationContext:['groups' => ['read:collection']], 
-    // order: ['createdAt' => 'DESC'],
+    // normalizationContext:['groups' => ['read:collection']],
     operations:[
         new Get(normalizationContext:['groups' => ['getforarticle']]),
         new GetCollection(normalizationContext:['groups' => ['getforcomment','authorForComment','articleForComment']]),
@@ -37,9 +36,13 @@ class Comment
     private ?string $content = null;
 
     #[ORM\ManyToOne(inversedBy: 'comments')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     #[Groups(['authorForComment'])]
     private ?User $author = null;
+    
+    #[ORM\Column(length: 50, nullable: true)]
+    #[Groups(['authorForComment'])]
+    private ?string $authorMobile = null;
 
     #[ORM\ManyToOne(inversedBy: 'comments')]
     #[ORM\JoinColumn(nullable: false)]
@@ -87,6 +90,18 @@ class Comment
     public function setRelatedArticle(?Article $relatedArticle): static
     {
         $this->relatedArticle = $relatedArticle;
+
+        return $this;
+    }
+    
+    public function getAuthorMobile(): ?string
+    {
+        return $this->authorMobile;
+    }
+
+    public function setAuthorMobile(?string $authorMobile): static
+    {
+        $this->authorMobile = $authorMobile;
 
         return $this;
     }

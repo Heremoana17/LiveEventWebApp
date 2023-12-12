@@ -35,6 +35,7 @@ class ArticleFormType extends AbstractType
             // ])
             ->add('categories', EntityType::class,[
                 'class' => Category::class,
+                'placeholder' =>'',
                 'group_by' => 'parent.name',
                 'query_builder' => function(CategoryRepository $cr)
                 {

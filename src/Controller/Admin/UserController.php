@@ -60,7 +60,6 @@ class UserController extends AbstractController
             }
             $manager->persist($user);
             $manager->flush();
-            
             if ($new) {
                 $this->addFlash('success', 'Nouveau compte creé');
             }else{

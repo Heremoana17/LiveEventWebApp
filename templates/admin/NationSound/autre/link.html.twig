@@ -28,8 +28,6 @@
 										{% elseif link.lieu %}
 											<p class="card-text introSection">{{link.lieu}}</p>
 										{% endif %}
-
-
 										<div class='align-self-end '>
 											<a href="{{path('nationSound_editLink', {id : link.id})}}" class="btn btn-success">Modifier</a>
 											<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal{{link.id}}">

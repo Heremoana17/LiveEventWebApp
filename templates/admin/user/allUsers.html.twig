@@ -6,7 +6,7 @@
 {% block body %}
 	<header class='container pt-5 pb-4 px-4 px-lg-0'>
 		<article class='row'>
-			<h1 class='fw-bold col ps-0'>Liste de tous les categories</h1>
+			<h1 class='fw-bold col ps-0'>Liste de tous les utilisateurs</h1>
 			<hr>
 		</article>
 		<a class='btn btn-primary row' href="{{path('app_adminEditUser')}}">Cree un nouveau utilisateur</a>
@@ -53,7 +53,7 @@
 					</article>
 				{% endfor %}
 			</section>
-			<div class="d-flex justify-content-center">{{knp_pagination_render(users)}}</div>
+			<div class="d-flex justify-content-center">{{knp_pagination_render(users, '_partials/_KnpPagination.html.twig')}}</div>
 		</section>
 	{% else %}
 		<article class='container py-4'>

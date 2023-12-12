@@ -3,34 +3,48 @@
 namespace App\Entity;
 
 use App\Repository\SponsorRepository;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 use ApiPlatform\Metadata\ApiResource;
 
 #[ORM\Entity(repositoryClass: SponsorRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    operations:[
+        new Get(normalizationContext:['groups' => ['getforSponsor']]),
+        new GetCollection(normalizationContext:['groups' => ['getforSponsor']]),
+    ]
+)]
 class Sponsor
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['getforSponsor'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
+    #[Groups(['getforSponsor'])]
     private ?string $name = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Groups(['getforSponsor'])]
     private ?string $description = null;
 
     #[ORM\OneToMany(mappedBy: 'sponsor', targetEntity: ImageSponsor::class, orphanRemoval: true, cascade:['persist'])]
+    #[Groups(['getforSponsor'])]
     private Collection $imageSponsors;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['getforSponsor'])]
     private ?string $logo = null;
 
     #[ORM\ManyToOne(inversedBy: 'sponsors')]
+    #[Groups(['getforSponsor'])]
     private ?Event $event = null;
 
     public function __construct()

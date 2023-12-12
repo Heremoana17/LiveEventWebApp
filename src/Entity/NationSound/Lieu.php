@@ -3,44 +3,61 @@
 namespace App\Entity\NationSound;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
 use App\Repository\LieuRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: LieuRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    operations:[
+        new Get(normalizationContext:['groups' => ['getforLieu']]),
+        new GetCollection(normalizationContext:['groups' => ['getforLieu']]),
+    ]
+)]
 class Lieu
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['getforDay', 'getforLieu','getforProg','getforEpisode'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
+    #[Groups(['getforDay', 'getforLieu', 'getforEpisode','getforProg','getforEpisode'])]
     private ?string $name = null;
 
     #[ORM\Column(length: 50, nullable: true)]
+    #[Groups(['getforLieu','getforProg'])]
     private ?string $category = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Groups(['getforLieu','getforProg'])]
     private ?string $description = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['getforLieu'])]
     private ?string $GPSPtLat = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['getforLieu'])]
     private ?string $GPSPtLng = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['getforDay', 'getforLieu','getforProg','getforEpisode'])]
     private ?string $featuredImage = null;
+    
+    #[ORM\OneToMany(mappedBy: 'lieu', targetEntity: Link::class)]
+    #[Groups(['getforDay', 'getforLieu'])]
+    private Collection $links;
 
     #[ORM\OneToMany(mappedBy: 'lieu', targetEntity: Episode::class)]
+    #[Groups(['getforDay','getforLieu'])]
     private Collection $episodes;
-
-    #[ORM\OneToMany(mappedBy: 'lieu', targetEntity: Link::class)]
-    private Collection $links;
 
     public function __construct()
     {
@@ -153,12 +170,7 @@ class Lieu
 
         return $this;
     }
-
-    public function __toString()
-    {
-        return $this->name;
-    }
-
+    
     /**
      * @return Collection<int, Link>
      */
@@ -190,6 +202,10 @@ class Lieu
     }
 
 
+    public function __toString()
+    {
+        return $this->name;
+    }
 
 
 
