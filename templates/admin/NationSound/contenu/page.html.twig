@@ -342,7 +342,7 @@
 		{% if page.pageSections is defined %}
 			<section class='container my-3 border rounded py-3'>
 				{% if page.pageSections is not empty%}
-					<h2 class='text-center fw-bold text-white my-2'>Autre section</h2>
+					<h2 class='text-center fw-bold text-white my-2'>Autres sections</h2>
 					{% for section in page.pageSections %}
 						<article class='border border-black rounded px-3 my-4'>
 							<div class='my-3'>
@@ -355,7 +355,7 @@
 								<section class='d-inline-flex flex-wrap justify-content-center mb-3'>
 									{% for image in section.images %}
 										<div class='m-3 d-flex flex-column  '>
-											<img src="{{asset('assets/uploads/figure/' ~ image.name) }}" alt="image.name" class='p-0 rounded' style="width:200px; height:400px">
+											<img src="{{asset('assets/uploads/figure/' ~ image.name) }}" alt="image.name" class='p-0 rounded' style="max-height:200px">
 										</div>
 									{% endfor %}
 								</section>

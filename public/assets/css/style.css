@@ -297,6 +297,9 @@ transform: scaleY(1.09);
     width: 80%;
   }
 }
+#ouvert{
+  background-color: #d3d3d3;
+}
 
 .modal-window {
   /* position: fixed; */
