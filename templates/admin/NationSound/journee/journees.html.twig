@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Journée
+{% endblock %}
+
+{% block body %}
+	<body id='homeNationSound'>
+		<header class='container pt-5 px-4 px-lg-0'>
+			<h1 class='text-white text-center title mb-4'>
+				Toutes les journees
+			</h1>
+			<hr>
+		</header>
+		<section class='container'>
+			<section class="row">
+				<div class='my-3'>
+					{% include '_partials/_dashboardNationSound.html.twig' %}
+					<a href="{{path('nationSound_editJour')}}" class='btn btn-success'>Ajouter une journée</a>
+				</div>
+				{% if days is defined %}
+					{% include '_partials/admin/NAtionSound/_dayProgramme.html.twig' %}
+				{% endif %}
+			</section>
+		</section>
+	</body>
+{% endblock %}

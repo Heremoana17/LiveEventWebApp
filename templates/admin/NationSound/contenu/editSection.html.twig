@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	Edition Section
+{% endblock %}
+
+{% block body %}
+	<body id='homeNationSound'>
+		<header class='container pt-5 px-4 px-lg-0'>
+			<h1 class='text-white text-center title test mb-4'>
+				Edition Section
+			</h1>
+			<hr>
+		</header>
+		<section class='container'>
+			<section class='my-3'>{% include '_partials/_dashboardNationSound.html.twig' %}</section>
+			<section class="row pt-4">
+				{{ form_start(form) }}
+				{{ form_row(form.title) }}
+				{{ form_row(form.content) }}
+				{{ form_row(form.images) }}
+				{% if section.images is not empty %}
+					<h4>Images :</h4>
+					<section class='d-inline-flex flex-wrap justify-content-center border rounded mb-3'>
+						{% for image in section.images %}
+							<div class='m-3 d-flex flex-column '>
+								<img src="{{asset('assets/uploads/figure/' ~ image.name) }}" alt="image.name" class='p-0 rounded-top' style="width:400px;">
+								<a href="{{path('nationSound_contenu_delete_section_image', {pagename: name, id: image.id})}}" data-delete data-token="{{ csrf_token('delete' ~ image.id) }}" class='rounded-bottom bg-danger text-decoration-none text-white p-1 text-center'>Supprimer</a>
+							</div>
+						{% endfor %}
+					</section>
+				{% endif %}
+				{{ form_end(form) }}
+			</section>
+		</section>
+	</body>
+{% endblock %}
+{% block javascripts %}
+	<script src='{{asset('assets/js/images.js')}}' defer></script>
+{% endblock %}

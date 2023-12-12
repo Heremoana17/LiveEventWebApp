@@ -1,0 +1,90 @@
+<div class="btn-group dropend">
+	<a href="{{path('nationSound_home')}}" class="btn btn-primary">Dashboard</a>
+	<button class="btn btn-primary dropdown-toggle dropdown-toggle-split" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample"></button>
+</div>
+<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+	<header class="offcanvas-header mt-3 pb-4 border-bottom">
+		<h5 class="offcanvas-title ms-5 h4 ps-2">Tableau de bord</h5>
+		<button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+	</header>
+	<div class="offcanvas-body">
+		<section class="accordion" id="accordionProgramme">
+			<article class="accordion-item border-0">
+				<h2 class="accordion-header">
+					<button class="accordion-button collapsed py-4" type="button" data-bs-toggle="collapse" data-bs-target="#collapseProg" aria-expanded="false" aria-controls="collapseProg">
+						<h4 class='my-0 ms-3 fw-bold'>Programme</h4>
+					</button>
+				</h2>
+				<div id="collapseProg" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+					<div class="accordion-body ms-2">
+						<a class="nav-link d-flex my-2 ms-2" href="{{path('nationSound_jours')}}">
+							<p class='ms-3 h5 fw-bold'>Journées</p>
+						</a>
+						<a class="nav-link d-flex my-2 ms-2" href="{{path('nationSound_episodes')}}">
+							<p class='ms-3 h5 fw-bold'>Episodes</p>
+						</a>
+						<a class="nav-link d-flex my-2 ms-2" href="{{path('nationSound_artistes')}}">
+							<p class='ms-3 h5 fw-bold'>Artistes</p>
+						</a>
+						<a class="nav-link d-flex my-2 ms-2" href="{{path('nationSound_scenes')}}">
+							<p class='ms-3 h5 fw-bold'>Scenes</p>
+						</a>
+					</div>
+				</div>
+			</article>
+		</section>
+		<section class="accordion" id="accordionContenu">
+			<article class="accordion-item border-0">
+				<h2 class="accordion-header">
+					<button class="accordion-button collapsed py-4" type="button" data-bs-toggle="collapse" data-bs-target="#collapseContenu" aria-expanded="false" aria-controls="collapseContenu">
+						<h4 class='my-0 ms-3 fw-bold'>Contenu</h4>
+					</button>
+				</h2>
+				<div id="collapseContenu" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+					<div class="accordion-body ms-2">
+						<a class="nav-link d-flex my-2 ms-2" href="{{path('nationSound_contenu_accueil')}}">
+							<p class='ms-3 h5 fw-bold'>Accueil</p>
+						</a>
+						<a class="nav-link d-flex my-2 ms-2" href="{{path('nationSound_contenu_billetterie')}}">
+							<p class='ms-3 h5 fw-bold'>Biletterie</p>
+						</a>
+						<a class="nav-link d-flex my-2 ms-2" href="{{path('nationSound_contenu_programme')}}">
+							<p class='ms-3 h5 fw-bold'>Programme</p>
+						</a>
+						<a class="nav-link d-flex my-2 ms-2" href="{{path('nationSound_contenu_actualite')}}">
+							<p class='ms-3 h5 fw-bold'>Actualite / FAQ</p>
+						</a>
+						<a class="nav-link d-flex my-2 ms-2" href="{{path('nationSound_contenu_sponsor')}}">
+							<p class='ms-3 h5 fw-bold'>Sponsor</p>
+						</a>
+						<a class="nav-link d-flex my-2 ms-2" href="{{path('nationSound_contenu_a-propos')}}">
+							<p class='ms-3 h5 fw-bold'>A propos</p>
+						</a>
+					</div>
+				</div>
+			</article>
+		</section>
+		<section class="accordion" id="accordionAutre">
+			<article class="accordion-item border-0">
+				<h2 class="accordion-header">
+					<button class="accordion-button collapsed py-4" type="button" data-bs-toggle="collapse" data-bs-target="#collapseAutre" aria-expanded="false" aria-controls="collapseAutre">
+						<h4 class='my-0 ms-3 fw-bold'>Autre</h4>
+					</button>
+				</h2>
+				<div id="collapseAutre" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+					<div class="accordion-body ms-2">
+						<a class="nav-link d-flex my-2 ms-2" href="{{path('nationSound_lieux')}}">
+							<p class='ms-3 h5 fw-bold'>Lieu</p>
+						</a>
+						<a class="nav-link d-flex my-2 ms-2" href="{{path('nationSound_links')}}">
+							<p class='ms-3 h5 fw-bold'>Liens</p>
+						</a>
+						<a class="nav-link d-flex my-2 ms-2" href="{{path('nationSound_jours')}}">
+							<p class='ms-3 h5 fw-bold'>Charte</p>
+						</a>
+					</div>
+				</div>
+			</article>
+		</section>
+	</div>
+</div>

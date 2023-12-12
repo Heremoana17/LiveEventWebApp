@@ -41,7 +41,7 @@ class RequeteController extends AbstractController
         ]);
     }
     #[Route('/reponse/{id}', name:'reponseRequete')]
-    public function reponseRequete(EntityRequest $requete, ReponseRequeteFormType $reponseRequeteFormType, Request $request, SendMailService $mail, EntityManagerInterface $em):Response
+    public function reponseRequete(EntityRequest $requete, Request $request, SendMailService $mail, EntityManagerInterface $em):Response
     {
         $reponse = $this->createForm(reponseRequeteFormType::class);
         $reponse->handleRequest($request);

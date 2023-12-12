@@ -1,7 +1,14 @@
 /***************************************************************** style commun */
+@font-face {
+	font-family: 'raph';
+	src: url('../css/font/RaphLanokFuture.ttf') format("truetype"),
+}
 p, a, h1, h2, h3, h4, span{
     font-family: 'Courier Prime ','Courier New', Courier, monospace;
 }
+
+
+
 #main{
   padding-top: 67px;
   min-height: 100vh;
@@ -272,8 +279,8 @@ transform: scaleY(1.09);
 
 /******************************************************************************* style pour la page administrateur */
 .bgImg {
-  filter: brightness(50%);
-  -webkit-filter: brightness(50%);
+  filter: brightness(65%);
+  -webkit-filter: brightness(65%);
   height: 100%;
   background-position: center;
   background-repeat: no-repeat;
@@ -289,6 +296,9 @@ transform: scaleY(1.09);
   .bgText {
     width: 80%;
   }
+}
+#ouvert{
+  background-color: #d3d3d3;
 }
 
 .modal-window {
@@ -342,6 +352,74 @@ transform: scaleY(1.09);
 /* Demo Styles */
 .modal-window div:not(:last-of-type) {
   margin-bottom: 15px;
+}
+
+
+/* style pour la page admin Nationsound */
+#homeNationSound {
+  background: linear-gradient(#f1793c, #6c24dd, #5dd29b);
+}
+.title{
+  font-family: 'raph';
+  font-size: 5em;
+}
+.sectionHomeNationSound{
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+#sectionJournee {
+  background-image: url(../image/logo.jpg)
+}
+#sectionEpisode {
+  background-image: url(../image/header2.jpg);
+}
+#sectionArtiste {
+  background-image: url(../image/music.jpg);
+}
+#sectionScene {
+  background-image: url(../image/jk.jpg);
+}
+#sectionLieux {
+  background-image: url(../image/event.jpg);
+}
+#sectionAccueil {
+  background-image: url(../image/paris.jpg);
+}
+#sectionBilletterie {
+  background-image: url(../image/ticket.jpg);
+}
+#sectionPageProgramme {
+  background-image: url(../image/header2.jpg);
+}
+#sectionActualite {
+  background-image: url(../image/audience-g7db68d50c_640.jpg);
+}
+#sectionSponsor {
+  background-image: url(../image/leaves_plant_green_136320_1024x768.jpg);
+}
+#sectionApropos {
+  background-image: url(../image/logo.jpg);
+}
+#sectionCharte {
+  background-image: url(../image/charte.jpg);
+}
+#sectionLiens {
+  background-image: url(../image/link.jpg);
+}
+
+/* style pour la page admin Nationsound Programme*/
+.imgCard{
+  height: 300px;
+}
+/* style pour la page description artiste*/
+.featuredimageArtiste{
+  height: 500px;
+}
+/* style pour le contenu des pages page*/
+.imgHeader{
+  height: 500px;
+  width: 100%;
 }
 
 /* style pour la page test */

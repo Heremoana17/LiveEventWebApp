@@ -14,6 +14,7 @@ class PictureService
         private SluggerInterface $slugger
     ){}
 
+    //Pour ajouter une image avec ses dimentions de base
     public function addFeaturedImage(UploadedFile $featuredImage, ?string $folder = '')
     {
         $originalFileName = pathinfo($featuredImage->getClientOriginalName(),PATHINFO_FILENAME);
@@ -26,6 +27,7 @@ class PictureService
         return $newFileName;
     }
 
+    //Pour ajouter une image de diaporama, les images sont recadré
     public function addImages(UploadedFile $picture, ?string $folder = '', ?int $width = 1024, ?int $height = 576)
     {
         //on donne un nouveau nom à l'image
@@ -122,6 +124,17 @@ class PictureService
         if ($image) {
             $nomImage = $this->params->get('images_directory') . $folder;
             $min = $nomImage . '/' . $image->getName();
+            if (file_exists($min)) {
+                unlink($min);
+            }
+        }
+    }
+    // supprime une image qui n'est pas une entité simplement dans le dossier
+    public function deleteSimpleImage($image, ?string $folder = '')
+    {
+        if ($image) {
+            $nomImage = $this->params->get('images_directory') . $folder;
+            $min = $nomImage . '/' . $image;
             if (file_exists($min)) {
                 unlink($min);
             }

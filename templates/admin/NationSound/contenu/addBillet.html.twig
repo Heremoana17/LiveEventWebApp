@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	Edition Billet
+{% endblock %}
+
+{% block body %}
+	<body id='homeNationSound'>
+		<header class='container pt-5 px-4 px-lg-0'>
+			<h1 class='text-white text-center title test mb-4'>
+				Edition Billet
+			</h1>
+			<hr>
+		</header>
+		<section class='container'>
+			<section class='my-3'>{% include '_partials/_dashboardNationSound.html.twig' %}</section>
+			<section class="row pt-4">
+				{{ form_start(form) }}
+				{{ form_row(form.name) }}
+				{{ form_row(form.featuredImage)}}
+
+				{% if new is same as(false) %}
+					<h2>featuredImage :</h2>
+					{% if billet.featuredImage is empty %}
+						<p>Il n'y a aucune image pour ce billet</p>
+					{% else %}
+						<section class='mb-3'>
+							<div class='m-3 '>
+								<img src="{{asset('assets/uploads/billet/' ~ billet.featuredImage)}}" alt="image.name" width="150" class='p-0'>
+							</div>
+						</section>
+					{% endif %}
+				{% endif %}
+				{% if event is empty %}
+					{{ form_row(form.event) }}
+				{% else %}
+					<section class='d-none'>
+						{{ form_row(form.event) }}
+					</section>
+				{% endif %}
+				{{ form_row(form.description) }}
+				{{ form_row(form.price) }}
+				{{ form_end(form) }}
+			</section>
+		</section>
+	</body>
+{% endblock %}

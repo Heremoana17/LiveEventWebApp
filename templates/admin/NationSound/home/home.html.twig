@@ -1,0 +1,125 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{% endblock %}
+
+{% block body %}
+	<body id='homeNationSound'>
+		<header class='container pt-5 pb-4 px-4 px-lg-0'>
+			<h1 class='text-white text-center title'>
+				Nation Sound
+			</h1>
+		</header>
+		<section class='container'>
+			<section class="row border rounded my-3" id='dossierProgramme'>
+				<h2 class='text-center fw-bold text-white py-3 m-0'>Programme</h2>
+				<section class='d-flex justify-content-evenly flex-wrap'>
+					<article class='border rounded col-5 m-4 back'>
+						<section class='bgImg rounded py-4 sectionHomeNationSound' id='sectionJournee'></section>
+						<section class='bgText py-4'>
+							<h2 class='text-white fw-bolder text-center'>Jour</h2>
+						</section>
+						<div class='d-flex align-items-center front'>
+							<a href="{{path('nationSound_jours')}}" class='btn btn-primary text-decoration-none text-white my-1 mx-auto px-4'>Tous les journée</a>
+							<a href="{{path('nationSound_editJour')}}" class='btn btn-success text-decoration-none text-white my-1 mx-auto px-4'>Ajouter une journée</a>
+						</div>
+					</article>
+					<article class='border rounded col-5 m-4 back'>
+						<section class='bgImg rounded py-4 sectionHomeNationSound' id='sectionEpisode'></section>
+						<section class='bgText py-4'>
+							<h2 class='text-white fw-bolder text-center '>Episode</h2>
+						</section>
+						<div class='d-flex align-items-center front'>
+							<a href="{{path('nationSound_episodes')}}" class='btn btn-primary text-decoration-none text-white my-1 mx-auto px-4'>Tous les episodes</a>
+							<a href="{{path('nationSound_editEpisode')}}" class='btn btn-success text-decoration-none text-white my-1 mx-auto px-4'>Ajouter un episode</a>
+						</div>
+					</article>
+					<article class='border rounded col-5 m-4 back'>
+						<section class='bgImg rounded py-4 sectionHomeNationSound' id='sectionArtiste'></section>
+						<section class='bgText py-4'>
+							<h2 class='text-white fw-bolder text-center '>Artiste</h2>
+						</section>
+						<div class='d-flex align-items-center front'>
+							<a href="{{path('nationSound_artistes')}}" class='btn btn-primary text-decoration-none text-white my-1 mx-auto px-4'>Liste des artistes</a>
+							<a href="{{path('nationSound_addArtiste')}}" class='btn btn-success text-decoration-none text-white my-1 mx-auto px-4'>Ajouter un artiste</a>
+						</div>
+					</article>
+					<article class='border rounded col-5 m-4 back'>
+						<section class='bgImg rounded py-4 sectionHomeNationSound' id='sectionScene'></section>
+						<section class='bgText py-4'>
+							<h2 class='text-white fw-bolder text-center '>Scene</h2>
+						</section>
+						<div class='d-flex align-items-center front'>
+							<a href="{{path('nationSound_scenes')}}" class='btn btn-primary text-decoration-none text-white my-1 mx-auto px-4'>Toute les scenes</a>
+							<a href="{{path('nationSound_addScene')}}" class='btn btn-success text-decoration-none text-white my-1 mx-auto px-4'>Ajouter une scene</a>
+						</div>
+					</article>
+
+				</section>
+			</section>
+			<section class='row border rounded my-3' id='dossierContenu'>
+				<h2 class='text-center fw-bold text-white py-3 m-0'>Contenu</h2>
+				<section class='d-flex justify-content-evenly flex-wrap'>
+					<a href="{{path('nationSound_contenu_accueil')}}" class='border rounded col-5 m-4 back text-decoration-none'>
+						<section class='bgImg rounded py-4 sectionHomeNationSound' id='sectionAccueil'></section>
+						<section class='bgText py-4'>
+							<h2 class='text-white fw-bolder text-center '>Accueil</h2>
+						</section>
+					</a>
+					<a href="{{path('nationSound_contenu_billetterie')}}" class='border rounded col-5 m-4 back text-decoration-none'>
+						<section class='bgImg rounded py-4 sectionHomeNationSound' id='sectionBilletterie'></section>
+						<section class='bgText py-4'>
+							<h2 class='text-white fw-bolder text-center '>Billetterie</h2>
+						</section>
+					</a>
+					<a href="{{path('nationSound_contenu_programme')}}" class='border rounded col-5 m-4 back text-decoration-none'>
+						<section class='bgImg rounded py-4 sectionHomeNationSound' id='sectionPageProgramme'></section>
+						<section class='bgText py-4'>
+							<h2 class='text-white fw-bolder text-center '>Programme</h2>
+						</section>
+					</a>
+					<a href="{{path('nationSound_contenu_actualite')}}" class='border rounded col-5 m-4 back text-decoration-none'>
+						<section class='bgImg rounded py-4 sectionHomeNationSound' id='sectionActualite'></section>
+						<section class='bgText py-4'>
+							<h2 class='text-white fw-bolder text-center '>Acutualite / FAQ</h2>
+						</section>
+					</a>
+					<a href="{{path('nationSound_contenu_sponsor')}}" class='border rounded col-5 m-4 back text-decoration-none'>
+						<section class='bgImg rounded py-4 sectionHomeNationSound' id='sectionSponsor'></section>
+						<section class='bgText py-4'>
+							<h2 class='text-white fw-bolder text-center '>Sponsor</h2>
+						</section>
+					</a>
+					<a href="{{path('nationSound_contenu_a-propos')}}" class='border rounded col-5 m-4 back text-decoration-none'>
+						<section class='bgImg rounded py-4 sectionHomeNationSound' id='sectionApropos'></section>
+						<section class='bgText py-4'>
+							<h2 class='text-white fw-bolder text-center '>A propos</h2>
+						</section>
+					</a>
+				</section>
+			</section>
+			<section class='row border rounded my-3' id='dossierContenu'>
+				<h2 class='text-center fw-bold text-white py-3 m-0'>Autre</h2>
+				<section class='d-flex justify-content-evenly flex-wrap'>
+					<a href="{{path('nationSound_lieux')}}" class='border rounded col-5 m-4 back text-decoration-none'>
+						<section class='bgImg rounded py-4 sectionHomeNationSound' id='sectionLieux'></section>
+						<section class='bgText py-4'>
+							<h2 class='text-white fw-bolder text-center '>Lieux</h2>
+						</section>
+					</a>
+					<a href="{{path('nationSound_links')}}" class='border rounded col-5 m-4 back text-decoration-none'>
+						<section class='bgImg rounded py-4 sectionHomeNationSound' id='sectionLiens'></section>
+						<section class='bgText py-4'>
+							<h2 class='text-white fw-bolder text-center'>Liens</h2>
+						</section>
+					</a>
+					<a href="{{path('nationSound_charte')}}" class='border rounded col-5 m-4 back text-decoration-none'>
+						<section class='bgImg rounded py-4 sectionHomeNationSound' id='sectionCharte'></section>
+						<section class='bgText py-4'>
+							<h2 class='text-white fw-bolder text-center '>Charte</h2>
+						</section>
+					</a>
+				</section>
+			</section>
+		</section>
+	</body>
+{% endblock %}

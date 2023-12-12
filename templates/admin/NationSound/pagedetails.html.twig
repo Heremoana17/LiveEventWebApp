@@ -1,0 +1,69 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{data.name}}
+{% endblock %}
+
+{% block body %}
+	<body id='homeNationSound'>
+		<header class='container pt-5 px-4 px-lg-0'>
+			<h1 class='text-white text-center title mb-4'>
+				Details de
+				{{data.name}}
+			</h1>
+			<hr>
+		</header>
+		<section class='container'>
+			<section class='my-3'>{% include '_partials/_dashboardNationSound.html.twig' %}</section>
+			<section class="row pt-4">
+				<article class='d-flex'>
+					<div class='col-4 px-3 sectionHomeNationSound featuredimageArtiste' style="background-image:url('{{asset(folder ~ file)}}')"></div>
+					<div class='col-8 px-3'>
+						<h2 class='h1 text-white fw-bold'>{{data.name}}</h2>
+						<hr>
+						<p class='text-white'>
+							<span class='h4 fw-bold'>Description :
+							</span>
+							{{data.description}}</p>
+						{% if data.price is defined %}
+							<p class='text-white'>
+								<span class='h4 fw-bold'>Prix :
+								</span>
+								{{data.price}}
+								euros</p>
+						{% endif %}
+						{% if data.GPSPtLat is defined and data.GPSPtLng is defined %}
+							<p class='text-white'>
+								<span class='h4 fw-bold'>Point gps :
+								</span><br>
+								Latitude :
+								{{data.GPSPtLat}}
+								<br>
+								Longitude :
+								{{data.GPSPtLat}}</p>
+
+						{% endif %}
+						{% if data.links is defined%}
+							{% if data.category is defined %}
+								{% if data.category is same as("Hotel") or data.category is same as("Bars") %}
+									<p class='text-white'>
+										<span class='h4 fw-bold'>Lien vers un site externe:
+										</span>
+										{% for link in data.links %}
+											{% if link %}
+												{{link}}
+											{% elseif link is empty %}
+												<p>il n'y a aucun lien</p>
+											{% endif %}
+										{% endfor %}
+									</p>
+								{% endif %}
+							{% endif %}
+						{% endif %}
+
+					</div>
+				</div>
+			</section>
+		</section>
+	</body>
+{% endblock %}

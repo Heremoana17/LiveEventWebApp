@@ -3,8 +3,10 @@
 namespace App\Form;
 
 use App\Entity\Category;
+use App\Entity\City;
 use App\Entity\Event;
 use App\Repository\CategoryRepository;
+use Doctrine\ORM\Mapping\Entity;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -45,6 +47,13 @@ class EventFormType extends AbstractType
                 'multiple' => false,
                 'mapped' => false,
                 'required' => false
+            ])
+            ->add('city', EntityType::class, [
+                'class' => City::class,
+                'placeholder' => ' ',
+                'expanded' => false,
+                'multiple' => false,
+                'required' => true
             ])
             ->add('images', FileType::class,[
                 'label' => false,

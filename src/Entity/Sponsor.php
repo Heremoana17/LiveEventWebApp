@@ -30,6 +30,9 @@ class Sponsor
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $logo = null;
 
+    #[ORM\ManyToOne(inversedBy: 'sponsors')]
+    private ?Event $event = null;
+
     public function __construct()
     {
         $this->imageSponsors = new ArrayCollection();
@@ -106,4 +109,20 @@ class Sponsor
         return $this;
     }
 
+    public function getEvent(): ?Event
+    {
+        return $this->event;
+    }
+
+    public function setEvent(?Event $event): static
+    {
+        $this->event = $event;
+
+        return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->name;
+    }
 }
