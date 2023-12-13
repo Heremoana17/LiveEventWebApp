@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\NationSound\PageSection;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -27,6 +28,13 @@ class PageSectionType extends AbstractType
                 'mapped' => false,
                 'required' => false,
                 'multiple' => true
+            ])
+            ->add('display', ChoiceType::class, [
+                'choices'  => [
+                    'Maybe' => null,
+                    'Yes' => true,
+                    'No' => false,
+                ]
             ])
             ->add('Valider', SubmitType::class)
         ;

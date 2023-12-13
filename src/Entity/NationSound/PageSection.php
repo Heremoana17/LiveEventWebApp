@@ -36,6 +36,9 @@ class PageSection
     #[Groups(['getforView'])]
     private Collection $images;
 
+    #[ORM\Column(length: 50)]
+    private ?string $display = null;
+
     public function __construct()
     {
         $this->images = new ArrayCollection();
@@ -108,6 +111,18 @@ class PageSection
                 $image->setPageSection(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getDisplay(): ?string
+    {
+        return $this->display;
+    }
+
+    public function setDisplay(string $display): static
+    {
+        $this->display = $display;
 
         return $this;
     }
